@@ -345,7 +345,7 @@ int main()
     for ( int i = 0; i < 16; i++ ) {
         ledMatrix_setPixel(i, i, 1);
         ledMatrix_setPixel(i, 32-1-i , 2);
-   }
+    }
 
     printf("Starting the program\n");
     while(1) {
