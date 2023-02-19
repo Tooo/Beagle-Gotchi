@@ -7,7 +7,8 @@
 typedef struct {
     void ** func; // Pointer to list of functions in menu set
     char ** menuNames; // Name of the menu options in the set
-    int numOptions; 
+    int numOptions;
+    int currentHighlighted; 
 } MenuOptions;
 
 typedef struct{
@@ -21,7 +22,7 @@ typedef struct{
 void select_menu_option(MenuOptions options, int selection);
 
 // Take the Menu set and print it to the screen
-void print_menu_options(MenuOptionNode menuNode, int highlighted);
+void print_menu_options(MenuOptionNode menuNode);
 
 
 #endif
