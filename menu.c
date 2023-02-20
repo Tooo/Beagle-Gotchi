@@ -9,9 +9,9 @@
 
 static void tc_get_cols_rows(int *cols, int *rows);
 
-void print_menu_options(MenuOptionNode menuNode)
+void print_menu_options(MenuOptionNode *menuNode)
 {
-    MenuOptions * menuOptions = menuNode.options;
+    MenuOptions * menuOptions = menuNode->options;
     // Clear screen
     printf("\033c");
 
@@ -33,6 +33,33 @@ void print_menu_options(MenuOptionNode menuNode)
         else {
             printf("  %-10s  ", menuOptions->menuNames[i]);
         }
+    }
+    fflush(stdout);
+}
+
+void move_highlighted (MenuOptions * options, int direction)
+{
+    switch (direction) {
+        case 0:/// Up
+            if (options->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
+                options->currentHighlighted = options->currentHighlighted - MAX_OPTIONS_PER_ROW;
+            }
+            break;
+        case 1: // Down
+            if (options->currentHighlighted + MAX_OPTIONS_PER_ROW < options->numOptions) {
+                options->currentHighlighted = options->currentHighlighted + MAX_OPTIONS_PER_ROW;
+            }
+            break;
+        case 2: // Left
+            if (options->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
+                options->currentHighlighted = options->currentHighlighted - 1;
+            }
+            break;
+        case 3:
+            if ((options->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
+                options->currentHighlighted = options->currentHighlighted + 1;
+            }
+            break;
     }
 }
 

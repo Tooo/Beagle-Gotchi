@@ -22,7 +22,10 @@ typedef struct{
 void select_menu_option(MenuOptions options, int selection);
 
 // Take the Menu set and print it to the screen
-void print_menu_options(MenuOptionNode menuNode);
+void print_menu_options(MenuOptionNode *menuNode);
 
+// Change the currentHighlighted in a direction 
+// 0: up, 1, down, left: 2, right: 3
+void move_highlighted (MenuOptions *options, int direction);
 
 #endif
