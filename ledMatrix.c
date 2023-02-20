@@ -68,23 +68,24 @@ void setupPins() {
     // !Upper led
     bool didExport;
     didExport = exportGpio(RED1_PIN);
-    didExport = didExport || exportGpio(GREEN1_PIN);
-    didExport = didExport || exportGpio(BLUE1_PIN);
+    // NOTE: `|` doesn't short circuit, which is what we want
+    didExport = didExport | exportGpio(GREEN1_PIN);
+    didExport = didExport | exportGpio(BLUE1_PIN);
 
     // Lower led
-    didExport = didExport || exportGpio(RED2_PIN);
-    didExport = didExport || exportGpio(GREEN2_PIN);
-    didExport = didExport || exportGpio(BLUE2_PIN);
+    didExport = didExport | exportGpio(RED2_PIN);
+    didExport = didExport | exportGpio(GREEN2_PIN);
+    didExport = didExport | exportGpio(BLUE2_PIN);
 
     // Timing
-    didExport = didExport || exportGpio(CLK_PIN);
-    didExport = didExport || exportGpio(LATCH_PIN);
-    didExport = didExport || exportGpio(OE_PIN);
+    didExport = didExport | exportGpio(CLK_PIN);
+    didExport = didExport | exportGpio(LATCH_PIN);
+    didExport = didExport | exportGpio(OE_PIN);
 
     // Row Select
-    didExport = didExport || exportGpio(A_PIN);
-    didExport = didExport || exportGpio(B_PIN);
-    didExport = didExport || exportGpio(C_PIN);
+    didExport = didExport | exportGpio(A_PIN);
+    didExport = didExport | exportGpio(B_PIN);
+    didExport = didExport | exportGpio(C_PIN);
 
     if (didExport) {
         struct timespec reqDelay = {4, 0};

@@ -2,9 +2,11 @@
 
 ### setup
 - use a guide from here https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt433/links to figure out where to plug in the cables
-- run `make test_ledMatrix`
+- run `make test_ledMatrix2`
 
 ### notes
 - The ledMatrix test file is broken in how it exports things
-- Sometimes (but only sometimes??) plugging the led display in stopped my bbg from booting. I guess just be careful...
+- If the led matrix not attached to power, but attached to the bbg, it will stop the bbg from booting. **You must plug in the led matrix before booting the bbg** (I suspect this is some form of short circuiting. Not good!)
 - The display will flicker. In order to remove this (from context switches in linux), we need to drive the gpio from the PRU. (TODO: later)
+- NOTE: don't run `test_ledMatrix`, it sucks
+- 

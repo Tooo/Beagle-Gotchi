@@ -117,8 +117,10 @@ bool exportGpio(int pinNum) {
     char fileNameBuf[256];
     sprintf(fileNameBuf, GPIO_PATH "gpio%d", pinNum);
     if (access(fileNameBuf, F_OK) == 0) {
+        printf("%s exists\n", fileNameBuf);
         return false;
     } else {
+        printf("%s doesn't exist\n", fileNameBuf);
         // Export the gpio pins
         FILE *gpioExP = fopen(GPIO_PATH "export", "w");
         if (gpioExP == NULL) {

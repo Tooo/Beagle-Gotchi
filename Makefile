@@ -9,7 +9,7 @@ CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 CFILES = main.c shutdown.c
 LIBS = -pthread
 
-all: beagle_gotchi test_ledMatrix ledMatrixTest2
+all: beagle_gotchi test_ledMatrix test_ledMatrix2
 
 beagle_gotchi:
 	$(CC_C) $(CFLAGS) $(LIBS) $(CFILES) -o $(OUTDIR)/$(OUTFILE)
@@ -17,8 +17,8 @@ beagle_gotchi:
 test_ledMatrix:
 	$(CC_C) $(CFLAGS) -pthread -lpthread tests/test_ledMatrix.c -o $(OUTDIR)/test_ledMatrix
 
-ledMatrixTest2:
-	$(CC_C) $(CFLAGS) -pthread -lpthread utils.c ledMatrix.c tests/ledMatrixTest2.c -o $(OUTDIR)/ledMatrixTest2
+test_ledMatrix2:
+	$(CC_C) $(CFLAGS) -pthread -lpthread utils.c ledMatrix.c tests/test_ledMatrix2.c -o $(OUTDIR)/test_ledMatrix2
 
 clean:
 	rm $(OUTDIR)/$(OUTFILE)
