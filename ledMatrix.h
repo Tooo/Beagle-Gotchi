@@ -1,5 +1,5 @@
 // ledMatrix.h
-// Provices common graphics functions for interfacing with the 16x32 RGB led matrix panel 
+// Provides common graphics functions for interfacing with the 16x32 RGB led matrix panel 
 // This module is *heavily* inspired from the file `test_ledMatrix.c` from one of the guides
 // (but has been improved to use a background polling thread + other small changes)
 
