@@ -1,5 +1,7 @@
 // stateSaver.h
 // Save the states of modules
+#ifndef STATE_SAVER_H
+#define STATE_SAVER_H
 #include <string.h>
 
 /*
@@ -11,3 +13,5 @@
  */
 void StateSaver_loadModule(char* fileName, void* module, size_t size);
 void StateSaver_unloadModule(char* fileName, void* module, size_t size);
+
+#endif
