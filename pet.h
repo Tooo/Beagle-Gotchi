@@ -6,10 +6,17 @@
 
 #define PET_NAME_MAX 30
 
+void Pet_startPet();
+void Pet_stopPet();
+
+void Pet_createPet(char* name);
+void Pet_loadPet(char* name);
+void Pet_unloadPet();
+
 void Pet_getName(char* buffer);
 void Pet_setName(char* name);
 
-unsigned int Pet_getAge();
+int Pet_getAge();
 
 typedef enum {
     MOOD_VERY_UNHAPPY,
@@ -44,7 +51,7 @@ typedef enum {
 PetHunger Pet_getHunger();
 void Pet_addHunger(int value);
 
-unsigned int Pet_getWeight();
-void Pet_addWeight();
+int Pet_getWeight();
+void Pet_addWeight(int value);
 
 #endif
