@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <string.h>
 
 #include "pet.h"
 #include "utils.h"
@@ -30,15 +31,15 @@ void Pet_createPet(char* name)
     pet.weight = 10;
 }
 
-void Pet_loadPet(char* name)
-{
+// void Pet_loadPet(char* name)
+// {
 
-}
+// }
 
-void Pet_unloadPet()
-{
+// void Pet_unloadPet()
+// {
 
-}
+// }
 
 void Pet_getName(char* buffer)
 {
@@ -124,7 +125,9 @@ void Pet_stopPet()
 
 static void* petThreadFunction(void* arg)
 {
+    (void)arg;
     while (!stopping) {
         sleepForMs(1000);
     }
+    return NULL;
 }
