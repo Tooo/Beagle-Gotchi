@@ -14,12 +14,13 @@ typedef struct {
     int hunger;
     int weight;
 } pet_t;
+static pet_t pet;
+
+#define PET_SLEEP_MS 1000
 
 static void* petThreadFunction(void* arg);
 static pthread_t petThread;
 static bool stopping;
-
-static pet_t pet;
 
 void Pet_createPet(char* name)
 {
@@ -127,7 +128,17 @@ static void* petThreadFunction(void* arg)
 {
     (void)arg;
     while (!stopping) {
-        sleepForMs(1000);
+        if (pet.hunger > 0) {
+            pet.hunger--;
+        }
+
+        if (pet.mood > 0) {
+            pet.mood--;
+        }
+
+        pet.age++;
+        
+        sleepForMs(PET_SLEEP_MS);
     }
     return NULL;
 }
