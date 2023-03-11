@@ -1,5 +1,5 @@
 // menu.h
-// Module to handle the menu 
+// Module to handle the menu structures
 #ifndef _MENU_H_
 #define _MENU_H_
 
@@ -19,13 +19,16 @@ typedef struct{
 
 
 // Select the given option in the menu
-void select_menu_option(MenuOptions options, int selection);
+void selectMenuOption(MenuOptions options, int selection);
 
 // Take the Menu set and print it to the screen
-void print_menu_options(MenuOptionNode *menuNode);
+void printMenuOptions();
 
 // Change the currentHighlighted in a direction 
 // 0: up, 1, down, left: 2, right: 3
-void move_highlighted (MenuOptions *options, int direction);
+void moveHighlighted(int direction);
+
+// Creates all menu options structures, call this before any other functions
+void Menu_init();
 
 #endif

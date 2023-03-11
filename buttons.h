@@ -4,8 +4,8 @@
 #define _BUTTONS_H_
 
 // Initialize and cleanup buttons (in a thread)
-void *init_buttons(void*);
-void cleanup_buttons(void);
+void Buttons_init(void);
+void Buttons_cleanup(void);
 
 
 
