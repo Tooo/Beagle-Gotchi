@@ -20,12 +20,14 @@ static void print3(void)
 {
     printf("test3\n");
 }
-static void print4(void)
+static void print4(void) 
 {
     printf("test4\n");
 }
 
-// Create menu node
+MenuOptionNode * curMenuNode;
+
+// Create main menu node
 MenuOptionNode mainMenu;
 
 MenuOptions mainMenuOptions;
@@ -48,17 +50,19 @@ void printMenuOptions()
     tc_get_cols_rows(&xScreen, &yScreen);
     tc_move_cursor(xScreen/2, yScreen/2);
 
+    MenuOptions * currentMenuOptions = curMenuNode->options;
+
     // Print each menu option
-    for (int i=0; i<mainMenuOptions.numOptions; i++) {
+    for (int i=0; i<currentMenuOptions->numOptions; i++) {
         if (i > 0 && i % MAX_OPTIONS_PER_ROW == 0) {
             // Go to the next line
             tc_move_cursor(xScreen/2, (yScreen/2) + (i/MAX_OPTIONS_PER_ROW));
         }
-        if (i == mainMenuOptions.currentHighlighted) {
-            printf("[ %-10s ]", mainMenuOptions.menuNames[i]);
+        if (i == currentMenuOptions->currentHighlighted) {
+            printf("[ %-10s ]", currentMenuOptions->menuNames[i]);
         }
         else {
-            printf("  %-10s  ", mainMenuOptions.menuNames[i]);
+            printf("  %-10s  ", currentMenuOptions->menuNames[i]);
         }
     }
     fflush(stdout);
@@ -66,25 +70,26 @@ void printMenuOptions()
 
 void moveHighlighted (int direction)
 {
+    MenuOptions * currentMenuOptions = curMenuNode->options;
     switch (direction) {
         case 0:/// Up
-            if (mainMenuOptions.currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
-                mainMenuOptions.currentHighlighted = mainMenuOptions.currentHighlighted - MAX_OPTIONS_PER_ROW;
+            if (currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
+                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW;
             }
             break;
         case 1: // Down
-            if (mainMenuOptions.currentHighlighted + MAX_OPTIONS_PER_ROW < mainMenuOptions.numOptions) {
-                mainMenuOptions.currentHighlighted = mainMenuOptions.currentHighlighted + MAX_OPTIONS_PER_ROW;
+            if (currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW < currentMenuOptions->numOptions) {
+                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW;
             }
             break;
         case 2: // Left
-            if (mainMenuOptions.currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
-                mainMenuOptions.currentHighlighted = mainMenuOptions.currentHighlighted - 1;
+            if (currentMenuOptions->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
+                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted - 1;
             }
             break;
         case 3:
-            if ((mainMenuOptions.currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
-                mainMenuOptions.currentHighlighted = mainMenuOptions.currentHighlighted + 1;
+            if ((currentMenuOptions->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
+                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted + 1;
             }
             break;
     }
@@ -92,6 +97,7 @@ void moveHighlighted (int direction)
 
 void Menu_init()
 {
+    // Init the main menu
     mainMenuOptions.func = mainMenuFunctions;
     mainMenuOptions.menuNames = mainMenuNames;
     mainMenuOptions.numOptions = 4;
@@ -99,6 +105,9 @@ void Menu_init()
 
     mainMenu.options = &mainMenuOptions;
     mainMenu.numKids = 0;
+
+    // Set the current menu as the mainMenu
+    curMenuNode = &mainMenu;
 
     printMenuOptions();
     // Create menu thread to keep printing
