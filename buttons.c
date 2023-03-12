@@ -13,10 +13,12 @@
 #define JSDN_FILEPATH "/sys/class/gpio/gpio46/value"
 #define JSLFT_FILEPATH "/sys/class/gpio/gpio65/value"
 #define JSRT_FILEPATH "/sys/class/gpio/gpio47/value"
+#define JSPB_FILEPATH "/sys/class/gpio/gpio27/value"
 #define JSUP_CONFIG_GPIO_COMMAND "config-pin p8.14 gpio"
 #define JSDN_CONFIG_GPIO_COMMAND "config-pin p8.16 gpio"
 #define JSLFT_CONFIG_GPIO_COMMAND "config-pin p8.18 gpio"
 #define JSRT_CONFIG_GPIO_COMMAND "config-pin p8.15 gpio"
+#define JSPB_CONFIG_GPIO_COMMAND "config-pin p8.17 gpio"
 
 int buttonsFlag; // Set to 0 when done
 pthread_t buttons_thread;
@@ -28,11 +30,12 @@ static void *Buttons_thread()
     runCommand(JSDN_CONFIG_GPIO_COMMAND);
     runCommand(JSLFT_CONFIG_GPIO_COMMAND);
     runCommand(JSRT_CONFIG_GPIO_COMMAND);
+    runCommand(JSPB_CONFIG_GPIO_COMMAND);
 
     while(buttonsFlag) {
         // Check for any gpio values
-        char allGpioValues[4][30] = {JSUP_FILEPATH, JSDN_FILEPATH, JSLFT_FILEPATH, JSRT_FILEPATH};
-        for (int i=0; i<4; i++){
+        char allGpioValues[5][30] = {JSUP_FILEPATH, JSDN_FILEPATH, JSLFT_FILEPATH, JSRT_FILEPATH, JSPB_FILEPATH};
+        for (int i=0; i<5; i++){
             if (!readIntFromFile(allGpioValues[i])) {
                 // Process
                 if (strcmp(allGpioValues[i],JSUP_FILEPATH) == 0) {
@@ -46,6 +49,9 @@ static void *Buttons_thread()
                 }
                 else if (strcmp(allGpioValues[i],JSRT_FILEPATH) == 0) {
                     moveHighlighted(3);
+                }
+                else if (strcmp(allGpioValues[i],JSPB_FILEPATH) == 0) {
+                    selectMenuOption();
                 }
                 printMenuOptions();
 

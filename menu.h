@@ -5,7 +5,7 @@
 
 // inspired by https://blog.mozilla.org/nnethercote/2012/03/07/n-ary-trees-in-c/
 typedef struct {
-    void ** func; // Pointer to list of functions in menu set
+    void (**func)(void); // Pointer to list of functions in menu set
     char ** menuNames; // Name of the menu options in the set
     int numOptions;
     int currentHighlighted; 
@@ -18,8 +18,8 @@ typedef struct{
 } MenuOptionNode;
 
 
-// Select the given option in the menu
-void selectMenuOption(MenuOptions options, int selection);
+// Selects the current highlighted menu item
+void selectMenuOption();
 
 // Take the Menu set and print it to the screen
 void printMenuOptions();

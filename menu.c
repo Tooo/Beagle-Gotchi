@@ -6,24 +6,7 @@
 
 #define tc_move_cursor(X,Y) printf("\033[%d;%df", Y, X)
 #define MAX_OPTIONS_PER_ROW 2
-
-// Test functions for menu 
-static void print1(void)
-{
-    printf("test1\n");
-}
-static void print2(void)
-{
-    printf("test2\n");
-}
-static void print3(void)
-{
-    printf("test3\n");
-}
-static void print4(void) 
-{
-    printf("test4\n");
-}
+#define MAX_NUM_MENU_FUNCTIONS 4
 
 MenuOptionNode * curMenuNode;
 
@@ -32,12 +15,42 @@ MenuOptionNode mainMenu;
 
 MenuOptions mainMenuOptions;
 
+// Test functions for menu 
+static void print1(void)
+{
+    MenuOptions * currentMenuOptions = curMenuNode->options;
+    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked1";
+}
+static void print2(void)
+{
+    MenuOptions * currentMenuOptions = curMenuNode->options;
+    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked2";
+}
+static void print3(void)
+{
+    MenuOptions * currentMenuOptions = curMenuNode->options;
+    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked3";
+}
+static void print4(void) 
+{
+    MenuOptions * currentMenuOptions = curMenuNode->options;
+    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked4";
+}
+
+
 // Our functions and menu names
-void * mainMenuFunctions[] = {&print1, &print2, &print3, &print4};
+// void * mainMenuFunctions[] = {&print1, &print2, &print3, &print4};
 char * mainMenuNames[] = {"print1", "p2", "print3", "print4"};
 
 // Gets the terminal window size in columns and rows
 static void tc_get_cols_rows(int *cols, int *rows);
+
+void selectMenuOption() 
+{
+    MenuOptions * currentMenuOptions = curMenuNode->options;
+
+    currentMenuOptions->func[currentMenuOptions->currentHighlighted]();
+}
 
 void printMenuOptions()
 {
@@ -98,7 +111,13 @@ void moveHighlighted (int direction)
 void Menu_init()
 {
     // Init the main menu
-    mainMenuOptions.func = mainMenuFunctions;
+    // mainMenuOptions.func = *mainMenuFunctions;
+    mainMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
+    mainMenuOptions.func[0] = &print1;
+    mainMenuOptions.func[1] = &print2;
+    mainMenuOptions.func[2] = &print3;
+    mainMenuOptions.func[3] = &print4;
+
     mainMenuOptions.menuNames = mainMenuNames;
     mainMenuOptions.numOptions = 4;
     mainMenuOptions.currentHighlighted = 0;
