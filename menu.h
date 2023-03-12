@@ -27,13 +27,15 @@ void printMenuOptions();
 // 0: up, 1, down, left: 2, right: 3
 void moveHighlighted(int direction);
 
+// Reverts back to the main menu
+void setBackToMainMenu();
+
 // Creates all menu options structures, call this before any other functions
 void Menu_init();
 
 // Free Menu Items
 void Menu_cleanup();
 
-// Reverts back to the main menu
-void setBackToMainMenu();
+
 
 #endif

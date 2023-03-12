@@ -4,21 +4,23 @@
 #include <sys/ioctl.h>
 #include "menu.h"
 
-#define tc_move_cursor(X,Y) printf("\033[%d;%df", Y, X)
 #define MAX_OPTIONS_PER_ROW 2
 #define MAX_NUM_MENU_FUNCTIONS 4
 
+// The current menu printed
 MenuOptionNode * curMenuNode;
 
-// Create main menu node
+// Main menu node
 MenuOptionNode mainMenu;
 MenuOptions mainMenuOptions;
-
 // Sub menu
 MenuOptionNode subMenuNode;
 MenuOptions subMenuOptions;
 
-void setBackToMainMenu();
+// Our functions and menu names
+char * mainMenuNames[] = {"print1", "p2", "print3", "print4"};
+
+char * subMenuNames[] = {"SubMenuOp1", "Back"};
 
 // Test functions for menu 
 static void print1(void)
@@ -47,14 +49,21 @@ static void print5(void)
     currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked5";
 }
 
-
-// Our functions and menu names
-char * mainMenuNames[] = {"print1", "p2", "print3", "print4"};
-
-char * subMenuNames[] = {"SubMenuOp1", "Back"};
-
 // Gets the terminal window size in columns and rows
-static void tc_get_cols_rows(int *cols, int *rows);
+static void tc_get_cols_rows(int *cols, int *rows)
+{
+    struct winsize size; 
+    ioctl(1, TIOCGWINSZ, &size);
+    *cols = size.ws_col;
+    *rows = size.ws_row;
+}
+
+// Moves the cursor to x and y in the terminal
+static void tc_move_cursor(int x, int y)
+{
+    printf("\033[%d;%df", y, x);
+}
+
 
 void selectMenuOption() 
 {
@@ -119,6 +128,11 @@ void moveHighlighted (int direction)
     }
 }
 
+void setBackToMainMenu()
+{
+    curMenuNode = &mainMenu;
+}
+
 void Menu_init()
 {
     // Init the main menu
@@ -162,17 +176,4 @@ void Menu_cleanup()
     free(menuPtr);
     menuPtr = subMenuOptions.func;
     free(menuPtr);
-}
-
-void setBackToMainMenu()
-{
-    curMenuNode = &mainMenu;
-}
-
-static void tc_get_cols_rows(int *cols, int *rows)
-{
-    struct winsize size; 
-    ioctl(1, TIOCGWINSZ, &size);
-    *cols = size.ws_col;
-    *rows = size.ws_row;
 }
