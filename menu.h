@@ -14,7 +14,6 @@ typedef struct {
 typedef struct{
     MenuOptions *options; 
     int numKids; 
-    struct MenuOptionNode ** kids;
 } MenuOptionNode;
 
 
@@ -30,5 +29,11 @@ void moveHighlighted(int direction);
 
 // Creates all menu options structures, call this before any other functions
 void Menu_init();
+
+// Free Menu Items
+void Menu_cleanup();
+
+// Reverts back to the main menu
+void setBackToMainMenu();
 
 #endif

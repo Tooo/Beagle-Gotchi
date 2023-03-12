@@ -12,8 +12,13 @@ MenuOptionNode * curMenuNode;
 
 // Create main menu node
 MenuOptionNode mainMenu;
-
 MenuOptions mainMenuOptions;
+
+// Sub menu
+MenuOptionNode subMenuNode;
+MenuOptions subMenuOptions;
+
+void setBackToMainMenu();
 
 // Test functions for menu 
 static void print1(void)
@@ -31,16 +36,22 @@ static void print3(void)
     MenuOptions * currentMenuOptions = curMenuNode->options;
     currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked3";
 }
-static void print4(void) 
+static void print4(void) // Test function for deeper menu
+{
+    curMenuNode = &subMenuNode;
+}
+
+static void print5(void)
 {
     MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked4";
+    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked5";
 }
 
 
 // Our functions and menu names
-// void * mainMenuFunctions[] = {&print1, &print2, &print3, &print4};
 char * mainMenuNames[] = {"print1", "p2", "print3", "print4"};
+
+char * subMenuNames[] = {"SubMenuOp1", "Back"};
 
 // Gets the terminal window size in columns and rows
 static void tc_get_cols_rows(int *cols, int *rows);
@@ -111,7 +122,6 @@ void moveHighlighted (int direction)
 void Menu_init()
 {
     // Init the main menu
-    // mainMenuOptions.func = *mainMenuFunctions;
     mainMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
     mainMenuOptions.func[0] = &print1;
     mainMenuOptions.func[1] = &print2;
@@ -128,8 +138,35 @@ void Menu_init()
     // Set the current menu as the mainMenu
     curMenuNode = &mainMenu;
 
+    // Create Submenu
+    subMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
+    subMenuOptions.func[0] = &print5;
+    subMenuOptions.func[1] = &setBackToMainMenu;
+
+    subMenuOptions.menuNames = subMenuNames;
+    subMenuOptions.numOptions = 2;
+    subMenuOptions.currentHighlighted = 0;
+
+    subMenuNode.options = &subMenuOptions;
+    subMenuNode.numKids = 0;
+
+    // Set the current menu as the mainMenu
+    curMenuNode = &mainMenu;
+
     printMenuOptions();
-    // Create menu thread to keep printing
+}
+
+void Menu_cleanup()
+{
+    void (**menuPtr)(void) = mainMenuOptions.func;
+    free(menuPtr);
+    menuPtr = subMenuOptions.func;
+    free(menuPtr);
+}
+
+void setBackToMainMenu()
+{
+    curMenuNode = &mainMenu;
 }
 
 static void tc_get_cols_rows(int *cols, int *rows)
