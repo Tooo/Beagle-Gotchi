@@ -75,6 +75,11 @@ PetMood Pet_getMood()
     return pet.mood / 200;
 }
 
+int Pet_getMoodNum()
+{
+    return pet.mood;
+}
+
 void Pet_addMood(int value)
 {
     pet.mood += value;
@@ -90,6 +95,11 @@ PetFriendship Pet_getFriendship()
     return pet.friendship / 200;
 }
 
+int Pet_getFriendshipNum()
+{
+    return pet.friendship;
+}
+
 void Pet_addFriendship(int value)
 {
     pet.friendship += value;
@@ -103,6 +113,11 @@ void Pet_addFriendship(int value)
 PetHunger Pet_getHunger()
 {
     return pet.hunger / 200;
+}
+
+int Pet_getHungerNum()
+{
+    return pet.hunger;
 }
 
 void Pet_addHunger(int value)

@@ -35,6 +35,7 @@ typedef enum {
 } PetMood;
 
 PetMood Pet_getMood();
+int Pet_getMoodNum();
 void Pet_addMood(int value);
 
 // Friendship Enum and Function
@@ -47,6 +48,7 @@ typedef enum {
 } PetFriendship;
 
 PetFriendship Pet_getFriendship();
+int Pet_getFriendshipNum();
 void Pet_addFriendship(int value);
 
 // Hunger Enum and Functions
@@ -59,6 +61,7 @@ typedef enum {
 } PetHunger;
 
 PetHunger Pet_getHunger();
+int Pet_getHungerNum();
 void Pet_addHunger(int value);
 
 // Weight Functions
