@@ -8,8 +8,8 @@
 #define PET_NAME_MAX 30
 
 // Start/stop Pet Thread
-void Pet_startPet();
-void Pet_stopPet();
+void Pet_init();
+void Pet_cleanup();
 
 // Create New Pet
 void Pet_createPet(char* name);

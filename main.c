@@ -1,6 +1,7 @@
 // main.c
 // Main Thread of Beagle Gotchi
 #include "shutdown.h"
+#include "pet.h"
 
 // Initialize/cleanup the module's data structures.
 static void main_init(void);
@@ -16,10 +17,10 @@ int main(void)
 
 static void main_init(void)
 {
-
+    Pet_init();
 }
 
 static void main_cleanup(void)
 {
-
+    Pet_cleanup();
 }

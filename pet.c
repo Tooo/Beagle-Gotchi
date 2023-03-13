@@ -14,6 +14,7 @@ typedef struct {
     int hunger;
     int weight;
 } pet_t;
+
 static pet_t pet;
 
 #define PET_SLEEP_MS 1000
@@ -30,6 +31,18 @@ void Pet_createPet(char* name)
     pet.friendship = 0;
     pet.hunger = 500;
     pet.weight = 10;
+}
+
+void Pet_init()
+{
+    pthread_create(&petThread, NULL, petThreadFunction, NULL);
+    stopping = false;
+}
+
+void Pet_cleanup()
+{
+    pthread_join(petThread, NULL);
+    stopping = true;
 }
 
 // void Pet_loadPet(char* name)
@@ -110,18 +123,6 @@ int Pet_getWeight()
 void Pet_addWeight(int value)
 {
     pet.weight += value;
-}
-
-void Pet_startPet()
-{
-    pthread_create(&petThread, NULL, petThreadFunction, NULL);
-    stopping = false;
-}
-
-void Pet_stopPet()
-{
-    pthread_join(petThread, NULL);
-    stopping = true;
 }
 
 static void* petThreadFunction(void* arg)
