@@ -3,6 +3,9 @@
 
 #include "pet.h"
 #include "utils.h"
+#include "terminal.h"
+#include "stateSaver.h"
+#include "shutdown.h"
 
 typedef struct {
     char name[PET_NAME_MAX];
@@ -16,6 +19,8 @@ typedef struct {
 } pet_t;
 
 static pet_t pet;
+
+static char* petFileHeader = "pet_%s";
 
 #define PET_SLEEP_MS 1000
 
@@ -35,25 +40,46 @@ void Pet_createPet(char* name)
 
 void Pet_init()
 {
+    char name[PET_NAME_MAX];
+    Terminal_inputPetName(name);
+
+    char fileName[FILENAME_MAX];
+    snprintf(fileName, FILENAME_MAX, petFileHeader, name);
+
+    if (StateSaver_stateExist(fileName)) {
+        Terminal_printLoadedPetMsg(name);
+        Pet_loadPet(name);
+    } else {
+        Terminal_printNewPetMsg(name);
+        Pet_createPet(name);
+    }
+
     pthread_create(&petThread, NULL, petThreadFunction, NULL);
     stopping = false;
 }
 
 void Pet_cleanup()
 {
-    pthread_join(petThread, NULL);
     stopping = true;
+    pthread_join(petThread, NULL);
+    Pet_unloadPet();
 }
 
-// void Pet_loadPet(char* name)
-// {
+void Pet_loadPet(char* name)
+{
+    char fileName[PET_NAME_MAX];
+    snprintf(fileName, PET_NAME_MAX, petFileHeader, name);
 
-// }
+    StateSaver_loadModule(fileName, &pet, sizeof(pet));
+}
 
-// void Pet_unloadPet()
-// {
+void Pet_unloadPet()
+{
+    char fileName[FILENAME_MAX];
+    snprintf(fileName, PET_NAME_MAX, petFileHeader, pet.name);
 
-// }
+    StateSaver_unloadModule(fileName, &pet, sizeof(pet));
+}
 
 void Pet_getName(char* buffer)
 {
@@ -143,7 +169,8 @@ void Pet_addWeight(int value)
 static void* petThreadFunction(void* arg)
 {
     (void)arg;
-    while (!stopping) {
+    for (int i = 0; i < 5; i++) {
+    // while (!stopping) {
         if (pet.hunger > 0) {
             pet.hunger--;
         }
@@ -153,8 +180,8 @@ static void* petThreadFunction(void* arg)
         }
 
         pet.age++;
-        
         sleepForMs(PET_SLEEP_MS);
     }
+    Shutdown_trigger();
     return NULL;
 }

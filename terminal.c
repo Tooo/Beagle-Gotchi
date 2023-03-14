@@ -11,12 +11,12 @@ void Terminal_inputPetName(char* name)
 
 void Terminal_printNewPetMsg(char* name)
 {
-    printf("Creating new Pet named: %s", name);
+    printf("Creating new Pet named: %s\n", name);
 }
 
 void Terminal_printLoadedPetMsg(char* name)
 {
-    printf("Loading Existing Pet named: %s", name);
+    printf("Loading existing Pet named: %s\n", name);
 }
 
 void Terminal_printPet()

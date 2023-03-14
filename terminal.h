@@ -5,9 +5,9 @@
 
 void Terminal_inputPetName(char* name);
 
-void Terminal_printNewPetMsg();
+void Terminal_printNewPetMsg(char* name);
 
-void Terminal_printLoadedPetMsg();
+void Terminal_printLoadedPetMsg(char* name);
 
 void Terminal_printPet();
 
