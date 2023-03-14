@@ -20,6 +20,9 @@ typedef struct {
 
 static pet_t pet;
 
+#define PET_STAT_MAX 1000
+#define PET_STAT_METER 5
+
 static char* petFileHeader = "pet_%s";
 
 #define PET_SLEEP_MS 1000
@@ -59,9 +62,9 @@ void Pet_createPet(char* name)
 {
     strncpy(pet.name, name, PET_NAME_MAX);
     pet.age = 0;
-    pet.mood = 500;
+    pet.mood = PET_STAT_MAX/2;
     pet.friendship = 0;
-    pet.hunger = 500;
+    pet.hunger = PET_STAT_MAX/2;
     pet.weight = 10;
 }
 
@@ -98,7 +101,7 @@ int Pet_getAge()
 
 PetMood Pet_getMood()
 {
-    return pet.mood / 200;
+    return pet.mood / (PET_STAT_MAX/PET_STAT_METER);
 }
 
 int Pet_getMoodNum()
@@ -111,8 +114,8 @@ void Pet_addMood(int value)
     pet.mood += value;
     if (pet.mood < 0) {
         pet.mood = 0;
-    }   else if (pet.mood > 1000) {
-        pet.mood = 1000;
+    }   else if (pet.mood > PET_STAT_MAX) {
+        pet.mood = PET_STAT_MAX;
     }
 }
 
@@ -131,14 +134,14 @@ void Pet_addFriendship(int value)
     pet.friendship += value;
     if (pet.friendship < 0) {
         pet.friendship = 0;
-    }   else if (pet.friendship > 1000) {
-        pet.friendship = 1000;
+    }   else if (pet.friendship > PET_STAT_MAX) {
+        pet.friendship = PET_STAT_MAX;
     }
 }
 
 PetHunger Pet_getHunger()
 {
-    return pet.hunger / 200;
+    return pet.hunger / (PET_STAT_MAX/PET_STAT_METER);
 }
 
 int Pet_getHungerNum()
@@ -151,8 +154,8 @@ void Pet_addHunger(int value)
     pet.hunger += value;
     if (pet.hunger < 0) {
         pet.hunger = 0;
-    }   else if (pet.hunger > 1000) {
-        pet.hunger = 1000;
+    }   else if (pet.hunger > PET_STAT_MAX) {
+        pet.hunger = PET_STAT_MAX;
     }
 }
 
