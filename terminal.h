@@ -13,4 +13,6 @@ void Terminal_printPet();
 
 void Terminal_printPetStats();
 
+void Terminal_printAdvancedPetStats();
+
 #endif

@@ -28,7 +28,9 @@ static void* petScreenThreadFunction(void* arg)
     (void)arg;
     for (int i = 0; i < 10; i++) {
         Terminal_printPet();
+        printf("\n");
         Terminal_printPetStats();
+        Terminal_printAdvancedPetStats();
         sleepForMs(PET_SCREEN_SLEEP_MS);
     }
     Shutdown_trigger();
