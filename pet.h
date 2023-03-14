@@ -25,13 +25,24 @@ void Pet_setName(char* name);
 // Age Function
 int Pet_getAge();
 
+typedef enum {
+    Stage_EGG,         // 0-9
+    Stage_BABY,        // 10-49
+    Stage_CHILD,       // 50-100
+    Stage_TEEN,        // 100-199
+    Stage_ADULT,       // 200-
+    STAGE_COUNT
+} PetStage;
+PetStage Pet_getStage();
+
 // Mood Enum and Function
 typedef enum {
     MOOD_VERY_UNHAPPY,  // 0-199
     MOOD_UNHAPPY,       // 200-399
     MOOD_NEUTRAL,       // 400-599
     MOOD_HAPPY,         // 600-799
-    MOOD_VERY_HAPPY     // 800-1000
+    MOOD_VERY_HAPPY,    // 800-1000
+    MOOD_COUNT
 } PetMood;
 
 PetMood Pet_getMood();
@@ -44,7 +55,8 @@ typedef enum {
     FRIEND_BUDDY,         // 200-399
     FRIEND_FRIEND,        // 400-599
     FRIEND_GOOD_FRIEND,   // 600-799
-    FRIEND_BEST_FRIEND    // 800-1000
+    FRIEND_BEST_FRIEND,   // 800-1000
+    FRIEND_COUNT
 } PetFriendship;
 
 PetFriendship Pet_getFriendship();
@@ -57,7 +69,8 @@ typedef enum {
     HUNGER_HUNGRY,        // 200-399
     HUNGER_NEUTRAL,       // 400-599
     HUNGER_FULL,          // 600-799
-    HUNGER_OVER_FULL      // 800-1000
+    HUNGER_OVER_FULL,     // 800-1000
+    HUNGER_COUNT
 } PetHunger;
 
 PetHunger Pet_getHunger();

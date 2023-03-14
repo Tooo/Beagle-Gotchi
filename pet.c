@@ -21,7 +21,8 @@ typedef struct {
 static pet_t pet;
 
 #define PET_STAT_MAX 1000
-#define PET_STAT_METER 5
+
+static int stageRange[STAGE_COUNT-1] = {10, 50, 100, 200};
 
 static char* petFileHeader = "pet_%s";
 
@@ -99,9 +100,21 @@ int Pet_getAge()
     return pet.age;
 }
 
+PetStage Pet_getStage()
+{
+    int stage = 0;
+    for (int i = 0; i < STAGE_COUNT-1; i++) {
+        if (pet.age < stageRange[i]) {
+            return stage;
+        }
+        stage++;
+    }
+    return stage;
+}
+
 PetMood Pet_getMood()
 {
-    return pet.mood / (PET_STAT_MAX/PET_STAT_METER);
+    return pet.mood / (PET_STAT_MAX/MOOD_COUNT);
 }
 
 int Pet_getMoodNum()
@@ -121,7 +134,7 @@ void Pet_addMood(int value)
 
 PetFriendship Pet_getFriendship()
 {
-    return pet.friendship / 200;
+    return pet.friendship / (PET_STAT_MAX/FRIEND_COUNT);
 }
 
 int Pet_getFriendshipNum()
@@ -141,7 +154,7 @@ void Pet_addFriendship(int value)
 
 PetHunger Pet_getHunger()
 {
-    return pet.hunger / (PET_STAT_MAX/PET_STAT_METER);
+    return pet.hunger / (PET_STAT_MAX/HUNGER_COUNT);
 }
 
 int Pet_getHungerNum()
