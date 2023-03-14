@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "stateSaver.h"
 
@@ -42,4 +43,11 @@ void StateSaver_unloadModule(char* fileName, void* module, size_t size)
 
     fclose(pFile);
     return;
+}
+
+bool StateSaver_stateExist(char* fileName)
+{
+    char filePath[PATH_BUFFER_LENGTH];
+    snprintf(filePath, PATH_BUFFER_LENGTH, folderPath, fileName);
+    return access(filePath, F_OK) == 0;
 }
