@@ -28,16 +28,6 @@ static void* petThreadFunction(void* arg);
 static pthread_t petThread;
 static bool stopping;
 
-void Pet_createPet(char* name)
-{
-    strncpy(pet.name, name, PET_NAME_MAX);
-    pet.age = 0;
-    pet.mood = 500;
-    pet.friendship = 0;
-    pet.hunger = 500;
-    pet.weight = 10;
-}
-
 void Pet_init()
 {
     char name[PET_NAME_MAX];
@@ -63,6 +53,16 @@ void Pet_cleanup()
     stopping = true;
     pthread_join(petThread, NULL);
     Pet_unloadPet();
+}
+
+void Pet_createPet(char* name)
+{
+    strncpy(pet.name, name, PET_NAME_MAX);
+    pet.age = 0;
+    pet.mood = 500;
+    pet.friendship = 0;
+    pet.hunger = 500;
+    pet.weight = 10;
 }
 
 void Pet_loadPet(char* name)
@@ -169,8 +169,7 @@ void Pet_addWeight(int value)
 static void* petThreadFunction(void* arg)
 {
     (void)arg;
-    for (int i = 0; i < 5; i++) {
-    // while (!stopping) {
+    while (!stopping) {
         if (pet.hunger > 0) {
             pet.hunger--;
         }
@@ -182,6 +181,5 @@ static void* petThreadFunction(void* arg)
         pet.age++;
         sleepForMs(PET_SLEEP_MS);
     }
-    Shutdown_trigger();
     return NULL;
 }
