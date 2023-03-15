@@ -2,7 +2,9 @@
 // Save the states of modules
 #ifndef STATE_SAVER_H
 #define STATE_SAVER_H
+
 #include <string.h>
+#include <stdbool.h>
 
 /*
  * Load and unload modules from file
@@ -13,5 +15,9 @@
  */
 void StateSaver_loadModule(char* fileName, void* module, size_t size);
 void StateSaver_unloadModule(char* fileName, void* module, size_t size);
+
+// Check if state file exist
+// Return true if it does exist
+bool StateSaver_stateExist(char* fileName);
 
 #endif
