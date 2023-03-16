@@ -11,7 +11,7 @@ CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 CFILES = main.c shutdown.c menu.c buttons.c utils.c stateSaver.c pet.c terminal.c petScreen.c
 LIBS = -pthread
 
-all: beagle_gotchi test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver
+all: beagle_gotchi test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver
 
 beagle_gotchi:
 	cd $(OUTDIR) && mkdir -p beagle-gotchi-states
@@ -22,6 +22,9 @@ test_ledMatrix:
 
 test_ledMatrix2:
 	$(CC_C) $(CFLAGS) -pthread -lpthread utils.c ledMatrix.c tests/test_ledMatrix2.c -o $(OUTDIR)/test_ledMatrix2
+
+test_ledAnimation:
+	$(CC_C) $(CFLAGS) -pthread -lpthread utils.c ledMatrix.c tests/test_ledAnimation.c -o $(OUTDIR)/test_ledAnimation
 
 test_stateSaver:
 	$(CC_C) $(CFLAGS) -pthread -lpthread stateSaver.c tests/test_stateSaver.c -o $(OUTDIR)/test_stateSaver

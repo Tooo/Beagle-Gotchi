@@ -55,6 +55,7 @@ const int BLUE   = 4;
 const int PURPLE = 5;
 const int CYAN   = 6;
 const int WHITE  = 7;
+const int TRANSPARENT = 8;
 
 pthread_t screenRefreshLoopThreadID = -1;
 atomic_bool stopScreenRefreshLoop = false;
@@ -244,6 +245,39 @@ void setBottomColour(int colour) {
 void ledMatrix_clearScreen(int colour) {
     memset(screen, colour, sizeof(screen));
 }
+
+// NOTE: don't make any of the values go out of bounds. thanks!
+void ledMatrix_drawImage(int* colorData, int width, int height, int xoff, int yoff) {
+    int i = 0;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            if (colorData[i] != TRANSPARENT)
+                screen[x+xoff][y+yoff] = colorData[i];
+            
+            i += 1;
+        }
+    }
+}
+
+void ledMatrix_drawImageHFlipped(int* colorData, int width, int height, int xoff, int yoff) {
+    int i = 0;
+    for (int y = 0; y < height; y++) {
+        for (int x = width-1; x >= 0; x--) {
+            if (colorData[i] != TRANSPARENT)
+                screen[x+xoff][y+yoff] = colorData[i];
+            
+            i += 1;
+        }
+    }
+}
+
+void ledMatrix_drawHLine(int color, int xpoint, int ypoint, int xlength) {
+    if (color == TRANSPARENT) return;
+    for (int x = 0; x < xlength; x++) {
+        screen[xpoint+x][ypoint] = color;
+    }
+}
+
 
 // Set the pixel at x,y with colour
 // NOTE: x is the short side, y is the tall side

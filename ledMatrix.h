@@ -17,6 +17,9 @@ extern const int CYAN;
 extern const int WHITE;
 
 void ledMatrix_clearScreen(int colour);
+void ledMatrix_drawImage(int* colorData, int width, int height, int xoff, int yoff);
+void ledMatrix_drawImageHFlipped(int* colorData, int width, int height, int xoff, int yoff);
+void ledMatrix_drawHLine(int color, int xpoint, int ypoint, int xlength);
 void ledMatrix_setPixel(int x, int y, int colour);
 void ledMatrix_refresh();
 
