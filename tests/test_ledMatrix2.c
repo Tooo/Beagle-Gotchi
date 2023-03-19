@@ -41,7 +41,7 @@ int main() {
         for (int j = 0; j < 8; j++) {
             for (int i = 0; i < 16; i++) {
                 int t = (frame%16) < 8 ? frame%8 : 8-(frame%8);
-                ledMatrix_setPixel(i, i+j+t, j);
+                ledMatrix_setPixel(j, i, i+j+t);
             }
         }
 

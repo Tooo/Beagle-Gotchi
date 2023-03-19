@@ -278,10 +278,25 @@ void ledMatrix_drawHLine(int color, int xpoint, int ypoint, int xlength) {
     }
 }
 
+void ledMatrix_drawVLine(int color, int xpoint, int ypoint, int ylength) {
+    if (color == TRANSPARENT) return;
+    for (int y = 0; y < ylength; y++) {
+        screen[xpoint][ypoint+y] = color;
+    }
+}
+
+void ledMatrix_drawRect(int color, int xpoint, int ypoint, int xlength, int ylength) {
+    if (color == TRANSPARENT) return;
+    for (int y = 0; y < ylength; y++) {
+        for (int x = 0; x < xlength; x++) {
+            screen[xpoint+x][ypoint+y] = color;
+        }
+    }
+}
 
 // Set the pixel at x,y with colour
 // NOTE: x is the short side, y is the tall side
-void ledMatrix_setPixel(int x, int y, int colour) {
+void ledMatrix_setPixel(int colour, int x, int y) {
     screen[y][x] = colour;
 }
 
@@ -351,4 +366,41 @@ void ledMatrix_cleanup() {
     setGpioDirection(A_PIN,      "in");
     setGpioDirection(B_PIN,      "in");
     setGpioDirection(C_PIN,      "in");
+}
+
+// fills outstr with the level data. Make sure outstr is large enough to fit it! (size must be >= 17 * 32 + 1)
+void ledMatrix_toString(char* outstr, bool visibility_mode) {
+    int i = 0;
+    for (int y = 0; y < 16; y++) {
+        for (int x = 0; x < 32; x++) {
+            if (visibility_mode) {
+                if (screen[x][y] == RED) {
+                    outstr[i] = 'R';
+                } else if (screen[x][y] == GREEN) {
+                    outstr[i] = 'G';
+                } else if (screen[x][y] == BLUE) {
+                    outstr[i] = 'B';
+                } else if (screen[x][y] == BLACK) {
+                    outstr[i] = ' ';
+                } else if (screen[x][y] == WHITE) {
+                    outstr[i] = '#';
+                } else if (screen[x][y] == YELLOW) {
+                    outstr[i] = 'Y';
+                } else if (screen[x][y] == PURPLE) {
+                    outstr[i] = 'P';
+                } else if (screen[x][y] == CYAN) {
+                    outstr[i] = 'C';
+                } else {
+                    outstr[i] = '?';
+                }
+            } else {
+                outstr[i] = '0'+screen[x][y];
+            }
+            i += 1;
+        }
+
+        outstr[i] = '\n';
+        i += 1;
+    } 
+    outstr[i] = '\0';
 }

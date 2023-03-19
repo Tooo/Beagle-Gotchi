@@ -119,8 +119,18 @@ int main() {
         ledMatrix_clearScreen(BLACK);
 
         // draw ground
-        ledMatrix_drawHLine(GREEN, 0, 14, 31);
-        ledMatrix_drawHLine(GREEN, 0, 15, 31);
+        ledMatrix_drawHLine(GREEN, 0, 14, 32);
+        ledMatrix_drawHLine(GREEN, 0, 15, 32);
+
+        ledMatrix_drawRect(YELLOW, 0, 0, 5, 5);
+
+        ledMatrix_drawVLine(YELLOW, 0, 6, 2);
+        ledMatrix_drawVLine(YELLOW, 2, 6, 2);
+        ledMatrix_drawVLine(YELLOW, 4, 6, 2);
+
+        ledMatrix_drawHLine(YELLOW, 6, 0, 2);
+        ledMatrix_drawHLine(YELLOW, 6, 2, 2);
+        ledMatrix_drawHLine(YELLOW, 6, 4, 2);
 
         // main animation
         if (frame < 12) {
@@ -242,6 +252,10 @@ int main() {
         }
 
         printf("frame: %d\n", frame);
+
+        char buffer[550];
+        ledMatrix_toString(buffer, true);
+        printf("%s\n", buffer);
 
         sleepForMs(80);
     }
