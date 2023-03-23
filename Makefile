@@ -30,6 +30,9 @@ WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
 test_waterSensor:
 	$(CC_C) $(CFLAGS) $(WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
 
+test_menu:
+	$(CC_C) $(CFLAGS) -pthread -lpthread tests/test_menu.c -o $(OUTDIR)/test_menu
+
 clean:
 	rm $(OUTDIR)/$(OUTFILE)
 
