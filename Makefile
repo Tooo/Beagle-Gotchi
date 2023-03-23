@@ -13,7 +13,7 @@ LIBS = -pthread
 
 all: beagle_gotchi test
 
-test: test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu
+test: test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick
 
 beagle_gotchi:
 	cd $(OUTDIR) && mkdir -p beagle-gotchi-states
@@ -38,6 +38,10 @@ test_waterSensor:
 TEST_MENU_FILES = utils.c buttons.c menu.c tests/test_menu.c
 test_menu:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu
+
+TEST_JOYSTICK_FILES = utils.c joystick.c tests/test_joystick.c
+test_joystick:
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_JOYSTICK_FILES) -o $(OUTDIR)/test_joystick
 
 clean:
 	rm $(OUTDIR)/$(OUTFILE)
