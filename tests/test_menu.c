@@ -1,9 +1,9 @@
 // main.c
 // Main Thread of Beagle gotchi
 #include <stdio.h>
-#include "shutdown.h"
-#include "menu.h"
-#include "buttons.h"
+#include "../shutdown.h"
+#include "../menu.h"
+#include "../buttons.h"
 
 // Initialize/cleanup the module's data structures.
 
