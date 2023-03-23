@@ -19,21 +19,25 @@ beagle_gotchi:
 	cd $(OUTDIR) && mkdir -p beagle-gotchi-states
 	$(CC_C) $(CFLAGS) $(LIBS) $(CFILES) -o $(OUTDIR)/$(OUTFILE)
 
+TEST_LED_MATRIX_FILES = tests/test_ledMatrix.c
 test_ledMatrix:
-	$(CC_C) $(CFLAGS) -pthread -lpthread tests/test_ledMatrix.c -o $(OUTDIR)/test_ledMatrix
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_LED_MATRIX_FILES) -o $(OUTDIR)/test_ledMatrix
 
+TEST_LED_MATRIX2_FILES = utils.c ledMatrix.c tests/test_ledMatrix2.c
 test_ledMatrix2:
-	$(CC_C) $(CFLAGS) -pthread -lpthread utils.c ledMatrix.c tests/test_ledMatrix2.c -o $(OUTDIR)/test_ledMatrix2
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_LED_MATRIX2_FILES) -o $(OUTDIR)/test_ledMatrix2
 
+TEST_STATE_SAVER_FILES = stateSaver.c tests/test_stateSaver.c
 test_stateSaver:
-	$(CC_C) $(CFLAGS) -pthread -lpthread stateSaver.c tests/test_stateSaver.c -o $(OUTDIR)/test_stateSaver
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_STATE_SAVER_FILES) -o $(OUTDIR)/test_stateSaver
 
-WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
+TEST_WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
 test_waterSensor:
-	$(CC_C) $(CFLAGS) $(WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
+	$(CC_C) $(CFLAGS) $(TEST_WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
 
+TEST_MENU_FILES = utils.c buttons.c menu.c tests/test_menu.c
 test_menu:
-	$(CC_C) $(CFLAGS) -pthread -lpthread utils.c buttons.c menu.c tests/test_menu.c -o $(OUTDIR)/test_menu
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu
 
 clean:
 	rm $(OUTDIR)/$(OUTFILE)
