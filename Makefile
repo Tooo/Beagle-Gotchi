@@ -8,7 +8,7 @@ CROSS_COMPILE = arm-linux-gnueabihf-
 CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
-CFILES = main.c shutdown.c menu.c buttons.c utils.c stateSaver.c pet.c terminal.c petScreen.c
+CFILES = main.c shutdown.c menu.c buttons.c utils.c stateSaver.c pet.c terminal.c petScreen.c petInteract.c
 LIBS = -pthread
 
 all: beagle_gotchi test
