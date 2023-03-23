@@ -22,7 +22,7 @@ static void main_init(void)
     PetScreen_init();
 }
 
-int main_cleanup(void)
+static void main_cleanup(void)
 {
     PetScreen_cleanup();
     Pet_cleanup();
