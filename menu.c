@@ -18,9 +18,9 @@ MenuOptionNode subMenuNode;
 MenuOptions subMenuOptions;
 
 // Our functions and menu names
-char * mainMenuNames[] = {"print1", "p2", "print3", "print4"};
+char * mainMenuNames[] = {"Interact", "Games", "Status", "Feed"};
 
-char * subMenuNames[] = {"SubMenuOp1", "Back"};
+char * subMenuNames[] = {"Food", "Back"};
 
 // Test functions for menu 
 static void print1(void)
