@@ -18,17 +18,17 @@ typedef struct{
 
 
 // Selects the current highlighted menu item
-void selectMenuOption();
+void Menu_selectOption();
 
 // Take the Menu set and print it to the screen
-void printMenuOptions();
+void Menu_printOptions();
 
 // Change the currentHighlighted in a direction 
 // 0: up, 1, down, left: 2, right: 3
-void moveHighlighted(int direction);
+void Menu_moveHighlighted(int direction);
 
 // Reverts back to the main menu
-void setBackToMainMenu();
+void Menu_setBackToMainMenu();
 
 // Creates all menu options structures, call this before any other functions
 void Menu_init();

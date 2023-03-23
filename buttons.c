@@ -39,21 +39,21 @@ static void *Buttons_thread()
             if (!readIntFromFile(allGpioValues[i])) {
                 // Process
                 if (strcmp(allGpioValues[i],JSUP_FILEPATH) == 0) {
-                    moveHighlighted(0);
+                    Menu_moveHighlighted(0);
                 }
                 else if (strcmp(allGpioValues[i],JSDN_FILEPATH) == 0) {
-                    moveHighlighted(1);
+                    Menu_moveHighlighted(1);
                 }
                 else if (strcmp(allGpioValues[i],JSLFT_FILEPATH) == 0) {
-                    moveHighlighted(2);
+                    Menu_moveHighlighted(2);
                 }
                 else if (strcmp(allGpioValues[i],JSRT_FILEPATH) == 0) {
-                    moveHighlighted(3);
+                    Menu_moveHighlighted(3);
                 }
                 else if (strcmp(allGpioValues[i],JSPB_FILEPATH) == 0) {
-                    selectMenuOption();
+                    Menu_selectOption();
                 }
-                printMenuOptions();
+                Menu_printOptions();
 
                 // Wait for the gpio value to reset before checking for another input
                 while(!readIntFromFile(allGpioValues[i])) {
