@@ -43,8 +43,8 @@ void Display_init(void)
     runCommand("config-pin P9_18 i2c");
     runCommand("config-pin P9_17 i2c");
 
-    for (int i=0; i < 2; i++) {
-        setGpioValue(gpioDigits[i], "out");
+    for (int i = 0; i < 2; i++) {
+        setGpioDirection(gpioDigits[i], "out");
     }
 
     i2cFileDesc = initI2cBus(I2CDRV_LINUX_BUS1, I2C_DEVICE_ADDRESS);
@@ -52,13 +52,13 @@ void Display_init(void)
     writeI2cReg(i2cFileDesc, REG_DIRA, 0x00);
     writeI2cReg(i2cFileDesc, REG_DIRB, 0x00);
 
-    stopping = true;
+    stopping = false;
     pthread_create(&displayThread, NULL, &Display_threadFunction, NULL);
 }
 
 void Display_cleanup(void)
 {
-    stopping = false;
+    stopping = true;
     pthread_join(displayThread, NULL);
     Display_setGpioValueAll("0");
     close(i2cFileDesc);
@@ -85,13 +85,17 @@ static void Display_setDigitHardware(int digit)
         digit = 99;
     }
 
+    if (digit < 0) {
+        digit = 0;
+    }
+
     int leftNum = digit / 10;
     int rightNum = digit - (leftNum * 10);
     int digitArray[] = {leftNum, rightNum};
 
     for (int i = 0; i < 2; i++)
     {
-        setGpioValue(gpioDigits[i], "0");
+        Display_setGpioValueAll("0");
         
         int digitValue = digitArray[i];
         writeI2cReg(i2cFileDesc, REG_OUTA, bottomPattern[digitValue]);
@@ -107,7 +111,7 @@ static void Display_setDigitHardware(int digit)
 
 static void Display_setGpioValueAll(char* value)
 {
-    for (int i=0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         setGpioValue(gpioDigits[i], value);
     }
 }
