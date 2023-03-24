@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "ledDisplay.h"
+#include "digitDisplay.h"
 #include "utils.h"
 
 // I2C bus and address
@@ -16,10 +16,10 @@
 #define REG_OUTA 0x14
 #define REG_OUTB 0x15
 
-// GPIO values for LED Display
+// GPIO values for LED Digit Display
 static int gpioDigits[2] = {61, 44};
 
-// Top and Bottom values for LED Display Patterns
+// Top and Bottom values for LED Digit Display Patterns
 static unsigned char topPattern[10] = {0x86, 0x12, 0x0E, 0x06, 0x8A, 0x8C, 0x8C, 0x14, 0x8E, 0x8E};
 static unsigned char bottomPattern[10] = {0xA1, 0x80, 0x31, 0xB0, 0x90, 0xB0, 0xB1, 0x04, 0xB1, 0x90};
 
@@ -27,18 +27,18 @@ static unsigned char bottomPattern[10] = {0xA1, 0x80, 0x31, 0xB0, 0x90, 0xB0, 0x
 static int i2cFileDesc;
 
 // File setup functions
-static void Display_setDigitHardware(int digit);
-static void Display_setGpioValueAll(char* value);
+static void DigitDisplay_setDigitHardware(int digit);
+static void DigitDisplay_setGpioValueAll(char* value);
 
 // Display thread
 static pthread_t displayThread;
-static void* Display_threadFunction(void* arg);
+static void* DigitDisplay_threadFunction(void* arg);
 static bool stopping;
 
 // Displaying digit
 static int displayDigit;
 
-void Display_init(void)
+void DigitDisplay_init(void)
 {
     runCommand("config-pin P9_18 i2c");
     runCommand("config-pin P9_17 i2c");
@@ -53,33 +53,33 @@ void Display_init(void)
     writeI2cReg(i2cFileDesc, REG_DIRB, 0x00);
 
     stopping = false;
-    pthread_create(&displayThread, NULL, &Display_threadFunction, NULL);
+    pthread_create(&displayThread, NULL, &DigitDisplay_threadFunction, NULL);
 }
 
-void Display_cleanup(void)
+void DigitDisplay_cleanup(void)
 {
     stopping = true;
     pthread_join(displayThread, NULL);
-    Display_setGpioValueAll("0");
+    DigitDisplay_setGpioValueAll("0");
     close(i2cFileDesc);
 }
 
-void Display_setDigit(int digit)
+void DigitDisplay_setDigit(int digit)
 {
     displayDigit = digit;
 }
 
 
-static void* Display_threadFunction(void* arg)
+static void* DigitDisplay_threadFunction(void* arg)
 {
     (void)arg;
     while(!stopping) {
-        Display_setDigitHardware(displayDigit);
+        DigitDisplay_setDigitHardware(displayDigit);
     }
     return NULL;
 }
 
-static void Display_setDigitHardware(int digit)
+static void DigitDisplay_setDigitHardware(int digit)
 {
     if (digit > 99) {
         digit = 99;
@@ -95,7 +95,7 @@ static void Display_setDigitHardware(int digit)
 
     for (int i = 0; i < 2; i++)
     {
-        Display_setGpioValueAll("0");
+        DigitDisplay_setGpioValueAll("0");
         
         int digitValue = digitArray[i];
         writeI2cReg(i2cFileDesc, REG_OUTA, bottomPattern[digitValue]);
@@ -105,11 +105,11 @@ static void Display_setDigitHardware(int digit)
 
         sleepForMs(5);
     }
-    Display_setGpioValueAll("0");
+    DigitDisplay_setGpioValueAll("0");
 }
 
 
-static void Display_setGpioValueAll(char* value)
+static void DigitDisplay_setGpioValueAll(char* value)
 {
     for (int i = 0; i < 2; i++) {
         setGpioValue(gpioDigits[i], value);

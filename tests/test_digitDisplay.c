@@ -1,17 +1,17 @@
 #include <stdio.h>
 
 #include "../utils.h"
-#include "../ledDisplay.h"
+#include "../digitDisplay.h"
 
 
 int main(void)
 {
-    Display_init();
+    DigitDisplay_init();
 
     for (int i = 0; i < 100; i++) {
-        Display_setDigit(i);
+        DigitDisplay_setDigit(i);
         sleepForMs(100);
     }
     
-    Display_cleanup();
+    DigitDisplay_cleanup();
 }
