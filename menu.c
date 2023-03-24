@@ -107,22 +107,22 @@ void Menu_moveHighlighted (int direction)
     switch (direction) {
         case 0:/// Up
             if (currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW;
+                currentMenuOptions->currentHighlighted -= MAX_OPTIONS_PER_ROW;
             }
             break;
         case 1: // Down
             if (currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW < currentMenuOptions->numOptions) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW;
+                currentMenuOptions->currentHighlighted += MAX_OPTIONS_PER_ROW;
             }
             break;
         case 2: // Left
             if (currentMenuOptions->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted - 1;
+                currentMenuOptions->currentHighlighted -= 1;
             }
             break;
         case 3:
             if ((currentMenuOptions->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted + 1;
+                currentMenuOptions->currentHighlighted += 1;
             }
             break;
     }
