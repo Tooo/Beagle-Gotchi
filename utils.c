@@ -6,6 +6,11 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <linux/i2c.h>
+#include <linux/i2c-dev.h>
 
 // ------------------------------- //
 // globals:
@@ -15,7 +20,8 @@
 // ------------------------------- //
 // provided utils:
 
-long long getTimeInMs(void) {
+long long getTimeInMs(void) 
+{
     struct timespec spec;
     // if you have an error here, assign "cStandard": "gnu99", in `.vscode/c_cpp_properties.json`
     clock_gettime(CLOCK_REALTIME, &spec);
@@ -25,7 +31,8 @@ long long getTimeInMs(void) {
     return milliSeconds;
 }
 
-void sleepForMs(long long delayInMs) {
+void sleepForMs(long long delayInMs) 
+{
     const long long NS_PER_MS = 1000 * 1000;
     const long long NS_PER_SECOND = 1000000000;
     long long delayNs = delayInMs * NS_PER_MS;
@@ -35,7 +42,8 @@ void sleepForMs(long long delayInMs) {
     nanosleep(&reqDelay, (struct timespec *) NULL);
 }
 
-void runCommandExtra(const char* command, bool suppressError) {
+void runCommandExtra(const char* command, bool suppressError) 
+{
     // Execute the shell command (output into pipe)
     FILE *pipe = popen(command, "r");
     // Ignore output of the command; but consume it
@@ -67,7 +75,8 @@ void runCommand(const char* command) {
 // ------------------------------- //
 // custom utils:
 
-int readIntFromFile(const char* path) {
+int readIntFromFile(const char* path) 
+{
     FILE* fp = fopen(path, "r");
     if (fp == NULL) { printf("Error reading file %s\n", path); exit(-1); }
 
@@ -81,7 +90,8 @@ int readIntFromFile(const char* path) {
     return atoi(fileBuf);  
 }
 
-void writeIntToFilePointer(FILE* fp, int val) {
+void writeIntToFilePointer(FILE* fp, int val) 
+{
     const int MAX_LINE_LEN = 20; // fits 9,223,372,036,854,775,807
     // NOTE: could make this array static if its only used by 1 thread
     char valStrBuf[MAX_LINE_LEN]; 
@@ -89,7 +99,8 @@ void writeIntToFilePointer(FILE* fp, int val) {
     fwrite(valStrBuf, 1, strlen(valStrBuf), fp);
 }
 
-void writeIntToFile(const char* path, int val) {
+void writeIntToFile(const char* path, int val) 
+{
     FILE* fp = fopen(path, "w");
     if (fp == NULL) { printf("Error writing file %s\n", path); exit(-1); }
 
@@ -98,7 +109,8 @@ void writeIntToFile(const char* path, int val) {
     fclose(fp);
 }
 
-void silentTryWriteIntToFile(const char* path, int val) {
+void silentTryWriteIntToFile(const char* path, int val)
+{
     FILE* fp = fopen(path, "w");
     if (fp != NULL) {
         writeIntToFilePointer(fp, val);
@@ -108,12 +120,14 @@ void silentTryWriteIntToFile(const char* path, int val) {
 
 // helpful oneliner derived from: 
 // https://stackoverflow.com/questions/4770985/how-to-check-if-a-string-starts-with-another-string-in-c
-bool startswith(const char* prefix, const char* str) {
+bool startswith(const char* prefix, const char* str) 
+{
     return strncmp(prefix, str, strlen(prefix)) == 0;
 }
 
 // returns true if the pin was changed, and false if otherwise
-bool exportGpio(int pinNum) {
+bool exportGpio(int pinNum)
+{
     char fileNameBuf[256];
     sprintf(fileNameBuf, GPIO_PATH "gpio%d", pinNum);
     if (access(fileNameBuf, F_OK) == 0) {
@@ -135,12 +149,89 @@ bool exportGpio(int pinNum) {
     }
 }
 
-void setGpioDirection(int pinNum, const char* direction) {
-    // Change the direction into out
+void setGpioDirection(int pinNum, const char* direction)
+{
+    // Change the direction gpio file
     char fileNameBuffer[256];
     sprintf(fileNameBuffer, GPIO_PATH "gpio%d/direction", pinNum);
         
     FILE *gpioDirP = fopen(fileNameBuffer, "w");
     fprintf(gpioDirP, direction);
     fclose(gpioDirP);
+}
+
+void setGpioValue(int pinNum, const char* value) 
+{
+    // Change the value gpio file
+    char fileNameBuffer[256];
+    sprintf(fileNameBuffer, GPIO_PATH "gpio%d/value", pinNum);
+        
+    FILE *gpioValP = fopen(fileNameBuffer, "w");
+    fprintf(gpioValP, value);
+    fclose(gpioValP);
+}
+
+int initI2cBus(char* bus, int address)
+{
+	int i2cFileDesc = open(bus, O_RDWR);
+	if (i2cFileDesc < 0) {
+		printf("I2C DRV: Unable to open bus for read/write (%s)\n", bus);
+		perror("Error is:");
+		exit(-1);
+	}
+
+	int result = ioctl(i2cFileDesc, I2C_SLAVE, address);
+	if (result < 0) {
+		perror("Unable to set I2C device to slave address.");
+		exit(-1);
+	}
+	return i2cFileDesc;
+}
+
+void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value)
+{
+	unsigned char buff[2];
+	buff[0] = regAddr;
+	buff[1] = value;
+	int res = write(i2cFileDesc, buff, 2);
+	if (res != 2) {
+		perror("Unable to write i2c register");
+		exit(-1);
+	}
+}
+
+unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr)
+{
+	// To read a register, must first write the address
+	int res = write(i2cFileDesc, &regAddr, sizeof(regAddr));
+	if (res != sizeof(regAddr)) {
+		perror("Unable to write i2c register.");
+		exit(-1);
+	}
+
+	// Now read the value and return it
+	char value = 0;
+	res = read(i2cFileDesc, &value, sizeof(value));
+	if (res != sizeof(value)) {
+		perror("Unable to read i2c register");
+		exit(-1);
+	}
+	return value;
+}
+
+void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char* buffer, int size)
+{
+	// To read a register, must first write the address
+	int res = write(i2cFileDesc, &startAddr, sizeof(startAddr));
+	if (res != sizeof(startAddr)) {
+		perror("Unable to write i2c register.");
+		exit(-1);
+	}
+
+	// Now read the value and return it
+	res = read(i2cFileDesc, buffer, sizeof(*buffer)*size);
+	if (res != (int)sizeof(*buffer)*size) {
+		perror("Unable to read i2c register");
+		exit(-1);
+	}
 }

@@ -65,14 +65,14 @@ static void tc_move_cursor(int x, int y)
 }
 
 
-void selectMenuOption() 
+void Menu_selectOption() 
 {
     MenuOptions * currentMenuOptions = curMenuNode->options;
 
     currentMenuOptions->func[currentMenuOptions->currentHighlighted]();
 }
 
-void printMenuOptions()
+void Menu_printOptions()
 {
     // Clear screen
     printf("\033c");
@@ -101,34 +101,34 @@ void printMenuOptions()
     fflush(stdout);
 }
 
-void moveHighlighted (int direction)
+void Menu_moveHighlighted (int direction)
 {
     MenuOptions * currentMenuOptions = curMenuNode->options;
     switch (direction) {
         case 0:/// Up
             if (currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW;
+                currentMenuOptions->currentHighlighted -= MAX_OPTIONS_PER_ROW;
             }
             break;
         case 1: // Down
             if (currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW < currentMenuOptions->numOptions) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW;
+                currentMenuOptions->currentHighlighted += MAX_OPTIONS_PER_ROW;
             }
             break;
         case 2: // Left
             if (currentMenuOptions->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted - 1;
+                currentMenuOptions->currentHighlighted -= 1;
             }
             break;
         case 3:
             if ((currentMenuOptions->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted = currentMenuOptions->currentHighlighted + 1;
+                currentMenuOptions->currentHighlighted += 1;
             }
             break;
     }
 }
 
-void setBackToMainMenu()
+void Menu_setBackToMainMenu()
 {
     curMenuNode = &mainMenu;
 }
@@ -155,7 +155,7 @@ void Menu_init()
     // Create Submenu
     subMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
     subMenuOptions.func[0] = &print5;
-    subMenuOptions.func[1] = &setBackToMainMenu;
+    subMenuOptions.func[1] = &Menu_setBackToMainMenu;
 
     subMenuOptions.menuNames = subMenuNames;
     subMenuOptions.numOptions = 2;
@@ -167,7 +167,7 @@ void Menu_init()
     // Set the current menu as the mainMenu
     curMenuNode = &mainMenu;
 
-    printMenuOptions();
+    Menu_printOptions();
 }
 
 void Menu_cleanup()

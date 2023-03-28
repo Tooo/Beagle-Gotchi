@@ -8,12 +8,13 @@ CROSS_COMPILE = arm-linux-gnueabihf-
 CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
-CFILES = main.c shutdown.c menu.c buttons.c utils.c stateSaver.c pet.c terminal.c petScreen.c
+CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petScreen.c petInteract.c joystick.c digitDisplay.c
 LIBS = -pthread
 
 all: beagle_gotchi test
 
-test: test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu
+TESTS = test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay
+test: $(TESTS)
 
 beagle_gotchi:
 	cd $(OUTDIR) && mkdir -p beagle-gotchi-states
@@ -35,10 +36,18 @@ TEST_WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
 test_waterSensor:
 	$(CC_C) $(CFLAGS) $(TEST_WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
 
-TEST_MENU_FILES = utils.c buttons.c menu.c tests/test_menu.c
+TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c tests/test_menu.c
 test_menu:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu
 
-clean:
-	rm $(OUTDIR)/$(OUTFILE)
+TEST_JOYSTICK_FILES = utils.c joystick.c tests/test_joystick.c
+test_joystick:
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_JOYSTICK_FILES) -o $(OUTDIR)/test_joystick
 
+TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
+test_digitDisplay:
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
+
+clean:
+	rm -f $(OUTDIR)/$(OUTFILE)
+	cd $(OUTDIR) && rm -f $(TESTS)

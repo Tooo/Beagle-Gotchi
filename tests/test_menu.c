@@ -3,16 +3,18 @@
 #include <stdio.h>
 #include "../shutdown.h"
 #include "../menu.h"
-#include "../buttons.h"
+#include "../menuReader.h"
 
 // Initialize/cleanup the module's data structures.
 
 int main(void)
 {
     Menu_init();
-    Buttons_init();
+    MenuReader_init();
+
     getchar();
-    Buttons_cleanup();
+
+    MenuReader_cleanup();
     Menu_cleanup();
 
     return 0;
