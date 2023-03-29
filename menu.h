@@ -15,6 +15,9 @@ typedef struct {
     int currentHighlighted; 
 } MenuOptions;
 
+// Insert menu options before initing
+void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions);
+
 // Creates all menu options structures, call this before any other functions
 void Menu_init();
 

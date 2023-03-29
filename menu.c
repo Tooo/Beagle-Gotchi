@@ -11,45 +11,6 @@ static MenuOptions* curMenu;
 static MenuOptions menuOptions[MAX_MENU_COUNT];
 static int menuCount = 0;
 
-// Test functions for menu 
-static void print1(void)
-{
-    Menu_clickedPrint();
-}
-static void print2(void)
-{
-    Menu_clickedPrint();
-}
-static void print3(void)
-{
-    Menu_clickedPrint();
-}
-static void print4(void) // Test function for deeper menu
-{
-    Menu_changeMenu(1);
-}
-
-static void print5(void)
-{
-    Menu_clickedPrint();
-}
-
-static void print6(void)
-{
-    Menu_clickedPrint();
-}
-
-static void print7(void)
-{
-    Menu_changeMenu(0);
-}
-
-static char *mainMenuNames[] = {"Interact", "Games", "Status", "Feed", "Quit"};
-static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print1, &print2, &print3, &print4, &print5};
-
-static char *subMenuNames[] = {"Meal", "Back"};
-static void (*subFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print6, &print7};
-
 void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions)
 {
     if (menuCount > MAX_MENU_COUNT ) {
@@ -65,11 +26,6 @@ void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptio
 
 void Menu_init()
 {
-    // Init the main menu
-    MenuOptions_insert(mainMenuNames, mainFuncs, 5);
-    MenuOptions_insert(subMenuNames, subFuncs, 2);
-
-    // Set the current menu as the mainMenu
     curMenu = &menuOptions[0];
     Menu_printOptions();
 }
