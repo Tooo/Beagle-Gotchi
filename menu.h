@@ -3,19 +3,16 @@
 #ifndef _MENU_H_
 #define _MENU_H_
 
+#define MAX_OPTIONS_PER_ROW 2
+#define MAX_NUM_MENU_FUNCTIONS 4
+
 // inspired by https://blog.mozilla.org/nnethercote/2012/03/07/n-ary-trees-in-c/
 typedef struct {
-    void (**func)(void); // Pointer to list of functions in menu set
-    char ** menuNames; // Name of the menu options in the set
+    void (*func[MAX_NUM_MENU_FUNCTIONS])(void); // Pointer to list of functions in menu set
+    char **menuNames; // Name of the menu options in the set
     int numOptions;
     int currentHighlighted; 
 } MenuOptions;
-
-typedef struct{
-    MenuOptions *options; 
-    int numKids; 
-} MenuOptionNode;
-
 
 // Creates all menu options structures, call this before any other functions
 void Menu_init();

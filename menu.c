@@ -4,19 +4,14 @@
 #include <sys/ioctl.h>
 #include "menu.h"
 
-#define MAX_OPTIONS_PER_ROW 2
-#define MAX_NUM_MENU_FUNCTIONS 4
-
 // The current menu printed
-static MenuOptionNode * curMenuNode;
+static MenuOptions* curMenu;
 
 // Main menu node
-static MenuOptionNode mainMenu;
-static MenuOptions mainMenuOptions;
+static MenuOptions mainMenu;
 
 // Sub menu
-static MenuOptionNode subMenuNode;
-static MenuOptions subMenuOptions;
+static MenuOptions subMenu;
 
 // Our functions and menu names
 static char * mainMenuNames[] = {"Interact", "Games", "Status", "Feed"};
@@ -26,70 +21,55 @@ static char * subMenuNames[] = {"Food", "Back"};
 // Test functions for menu 
 static void print1(void)
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked1";
+    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked1";
 }
 static void print2(void)
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked2";
+    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked2";
 }
 static void print3(void)
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked3";
+    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked3";
 }
 static void print4(void) // Test function for deeper menu
 {
-    curMenuNode = &subMenuNode;
+    curMenu = &subMenu;
 }
 
 static void print5(void)
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked5";
+    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked5";
 }
 
 void Menu_init()
 {
     // Init the main menu
-    mainMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
-    mainMenuOptions.func[0] = &print1;
-    mainMenuOptions.func[1] = &print2;
-    mainMenuOptions.func[2] = &print3;
-    mainMenuOptions.func[3] = &print4;
+    mainMenu.func[0] = &print1;
+    mainMenu.func[1] = &print2;
+    mainMenu.func[2] = &print3;
+    mainMenu.func[3] = &print4;
 
-    mainMenuOptions.menuNames = mainMenuNames;
-    mainMenuOptions.numOptions = 4;
-    mainMenuOptions.currentHighlighted = 0;
-
-    mainMenu.options = &mainMenuOptions;
-    mainMenu.numKids = 0;
+    mainMenu.menuNames = mainMenuNames;
+    mainMenu.numOptions = 4;
+    mainMenu.currentHighlighted = 0;
 
     // Set the current menu as the mainMenu
-    curMenuNode = &mainMenu;
+    curMenu = &mainMenu;
 
     // Create Submenu
-    subMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
-    subMenuOptions.func[0] = &print5;
-    subMenuOptions.func[1] = &Menu_setBackToMainMenu;
+    subMenu.func[0] = &print5;
+    subMenu.func[1] = &Menu_setBackToMainMenu;
 
-    subMenuOptions.menuNames = subMenuNames;
-    subMenuOptions.numOptions = 2;
-    subMenuOptions.currentHighlighted = 0;
-
-    subMenuNode.options = &subMenuOptions;
-    subMenuNode.numKids = 0;
+    subMenu.menuNames = subMenuNames;
+    subMenu.numOptions = 2;
+    subMenu.currentHighlighted = 0;
 
     Menu_printOptions();
 }
 
 void Menu_cleanup()
 {
-    void (**menuPtr)(void) = mainMenuOptions.func;
-    free(menuPtr);
-    menuPtr = subMenuOptions.func;
-    free(menuPtr);
+    // nothing
 }
 
 
@@ -111,9 +91,7 @@ static void tc_move_cursor(int x, int y)
 
 void Menu_selectOption() 
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-
-    currentMenuOptions->func[currentMenuOptions->currentHighlighted]();
+    curMenu->func[curMenu->currentHighlighted]();
 }
 
 void Menu_printOptions()
@@ -127,19 +105,17 @@ void Menu_printOptions()
     tc_get_cols_rows(&xScreen, &yScreen);
     tc_move_cursor(xScreen/2, yScreen/2);
 
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-
     // Print each menu option
-    for (int i=0; i<currentMenuOptions->numOptions; i++) {
+    for (int i=0; i<curMenu->numOptions; i++) {
         if (i > 0 && i % MAX_OPTIONS_PER_ROW == 0) {
             // Go to the next line
             tc_move_cursor(xScreen/2, (yScreen/2) + (i/MAX_OPTIONS_PER_ROW));
         }
-        if (i == currentMenuOptions->currentHighlighted) {
-            printf("[ %-10s ]", currentMenuOptions->menuNames[i]);
+        if (i == curMenu->currentHighlighted) {
+            printf("[ %-10s ]", curMenu->menuNames[i]);
         }
         else {
-            printf("  %-10s  ", currentMenuOptions->menuNames[i]);
+            printf("  %-10s  ", curMenu->menuNames[i]);
         }
     }
     fflush(stdout);
@@ -147,26 +123,25 @@ void Menu_printOptions()
 
 void Menu_moveHighlighted (int direction)
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
     switch (direction) {
         case 0:/// Up
-            if (currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
-                currentMenuOptions->currentHighlighted -= MAX_OPTIONS_PER_ROW;
+            if (curMenu->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
+                curMenu->currentHighlighted -= MAX_OPTIONS_PER_ROW;
             }
             break;
         case 1: // Down
-            if (currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW < currentMenuOptions->numOptions) {
-                currentMenuOptions->currentHighlighted += MAX_OPTIONS_PER_ROW;
+            if (curMenu->currentHighlighted + MAX_OPTIONS_PER_ROW < curMenu->numOptions) {
+                curMenu->currentHighlighted += MAX_OPTIONS_PER_ROW;
             }
             break;
         case 2: // Left
-            if (currentMenuOptions->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted -= 1;
+            if (curMenu->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
+                curMenu->currentHighlighted -= 1;
             }
             break;
         case 3:
-            if ((currentMenuOptions->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted += 1;
+            if ((curMenu->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
+                curMenu->currentHighlighted += 1;
             }
             break;
     }
@@ -174,5 +149,5 @@ void Menu_moveHighlighted (int direction)
 
 void Menu_setBackToMainMenu()
 {
-    curMenuNode = &mainMenu;
+    curMenu = &mainMenu;
 }
