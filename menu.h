@@ -17,6 +17,12 @@ typedef struct{
 } MenuOptionNode;
 
 
+// Creates all menu options structures, call this before any other functions
+void Menu_init();
+
+// Free Menu Items
+void Menu_cleanup();
+
 // Selects the current highlighted menu item
 void Menu_selectOption();
 
@@ -29,13 +35,5 @@ void Menu_moveHighlighted(int direction);
 
 // Reverts back to the main menu
 void Menu_setBackToMainMenu();
-
-// Creates all menu options structures, call this before any other functions
-void Menu_init();
-
-// Free Menu Items
-void Menu_cleanup();
-
-
 
 #endif
