@@ -39,6 +39,7 @@ void Menu_cleanup()
         menuOptions[i].currentHighlighted = 0;
     }
     menuCount = 0;
+    printf("\n");
 }
 
 // Gets the terminal window size in columns and rows

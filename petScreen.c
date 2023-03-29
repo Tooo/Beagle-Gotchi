@@ -12,8 +12,8 @@ static bool stopping;
 
 void PetScreen_init()
 {
-    pthread_create(&petScreenThread, NULL, petScreenThreadFunction, NULL);
     stopping = false;
+    pthread_create(&petScreenThread, NULL, petScreenThreadFunction, NULL);
 }
 
 void PetScreen_cleanup()
