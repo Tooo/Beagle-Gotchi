@@ -45,40 +45,27 @@ static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print1, &print2, &print3
 static char *subMenuNames[] = {"Meal", "Back"};
 static void (*subFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print6, &Menu_setBackToMainMenu};
 
-// void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions)
-// {
-//     if (menuCount < MAX_MENU_COUNT ) {
-//         return;
-//     }
+void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions)
+{
+    if (menuCount > MAX_MENU_COUNT ) {
+        return;
+    }
 
-//     menuOptions[menuCount].func = functions;
-//     menuOptions[menuCount].menuNames = menuNames;
-//     menuOptions[menuCount].numOptions = numOptions;
-//     menuOptions[menuCount].currentHighlighted = 0;
-//     menuCount++;
-// }
+    menuOptions[menuCount].func = functions;
+    menuOptions[menuCount].menuNames = menuNames;
+    menuOptions[menuCount].numOptions = numOptions;
+    menuOptions[menuCount].currentHighlighted = 0;
+    menuCount++;
+}
 
 void Menu_init()
 {
     // Init the main menu
-    //MenuOptions_insert(mainMenuNames, mainFuncs, 5);
-    menuOptions[menuCount].func = mainFuncs;
-    menuOptions[menuCount].menuNames = mainMenuNames;
-    menuOptions[menuCount].numOptions = 5;
-    menuOptions[menuCount].currentHighlighted = 0;
-
-    menuCount++;
+    MenuOptions_insert(mainMenuNames, mainFuncs, 5);
+    MenuOptions_insert(subMenuNames, subFuncs, 2);
 
     // Set the current menu as the mainMenu
     curMenu = &menuOptions[0];
-
-    // Create Submenu
-    //MenuOptions_insert(subMenuNames, subFuncs, 2);
-    menuOptions[menuCount].func = subFuncs;
-    menuOptions[menuCount].menuNames = subMenuNames;
-    menuOptions[menuCount].numOptions = 2;
-    menuOptions[menuCount].currentHighlighted = 0;
-
     Menu_printOptions();
 }
 
