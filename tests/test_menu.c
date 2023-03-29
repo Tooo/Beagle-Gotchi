@@ -3,8 +3,6 @@
 #include "../menu.h"
 #include "../menuReader.h"
 
-// Initialize/cleanup the module's data structures.
-
 // Test functions for menu 
 static void print1(void)
 {
@@ -18,7 +16,9 @@ static void print3(void)
 {
     Menu_clickedPrint();
 }
-static void print4(void) // Test function for deeper menu
+
+// Test function for deeper menu
+static void print4(void) 
 {
     Menu_changeMenu(1);
 }
@@ -38,6 +38,7 @@ static void print7(void)
     Menu_changeMenu(0);
 }
 
+// Menu Names and Functions
 static char *mainMenuNames[] = {"Interact", "Games", "Status", "Feed", "Quit"};
 static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print1, &print2, &print3, &print4, &print5};
 
@@ -56,6 +57,5 @@ int main(void)
 
     MenuReader_cleanup();
     Menu_cleanup();
-
     return 0;
 }
