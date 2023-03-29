@@ -2,7 +2,6 @@
 #include <stdbool.h>
 
 #include "petScreen.h"
-#include "shutdown.h"
 #include "terminal.h"
 #include "utils.h"
 
@@ -26,13 +25,12 @@ void PetScreen_cleanup()
 static void* petScreenThreadFunction(void* arg)
 {
     (void)arg;
-    for (int i = 0; i < 10; i++) {
+    while (!stopping) {
         Terminal_printPet();
         printf("\n");
         Terminal_printPetStats();
         Terminal_printAdvancedPetStats();
         sleepForMs(PET_SCREEN_SLEEP_MS);
     }
-    Shutdown_trigger();
     return NULL;
 }

@@ -1,5 +1,3 @@
-// main.c
-// Main Thread of Beagle gotchi
 #include <stdio.h>
 #include "../shutdown.h"
 #include "../menu.h"
