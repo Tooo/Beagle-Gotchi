@@ -14,36 +14,41 @@ static int menuCount = 0;
 // Test functions for menu 
 static void print1(void)
 {
-    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked1";
+    Menu_clickedPrint();
 }
 static void print2(void)
 {
-    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked2";
+    Menu_clickedPrint();
 }
 static void print3(void)
 {
-    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked3";
+    Menu_clickedPrint();
 }
 static void print4(void) // Test function for deeper menu
 {
-    curMenu = &menuOptions[1];
+    Menu_changeMenu(1);
 }
 
 static void print5(void)
 {
-    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked5";
+    Menu_clickedPrint();
 }
 
 static void print6(void)
 {
-    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked5";
+    Menu_clickedPrint();
+}
+
+static void print7(void)
+{
+    Menu_changeMenu(0);
 }
 
 static char *mainMenuNames[] = {"Interact", "Games", "Status", "Feed", "Quit"};
 static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print1, &print2, &print3, &print4, &print5};
 
 static char *subMenuNames[] = {"Meal", "Back"};
-static void (*subFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print6, &Menu_setBackToMainMenu};
+static void (*subFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print6, &print7};
 
 void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions)
 {
@@ -149,7 +154,15 @@ void Menu_moveHighlighted (int direction)
     }
 }
 
-void Menu_setBackToMainMenu()
+void Menu_changeMenu(int menuNum)
 {
-    curMenu = &menuOptions[0];
+    if (menuNum > menuCount ) {
+        return;
+    }
+    curMenu = &menuOptions[menuNum];
+}
+
+void Menu_clickedPrint()
+{
+    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked";
 }

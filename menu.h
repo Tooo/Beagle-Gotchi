@@ -32,6 +32,8 @@ void Menu_printOptions();
 void Menu_moveHighlighted(int direction);
 
 // Reverts back to the main menu
-void Menu_setBackToMainMenu();
+void Menu_changeMenu(int menuNum);
+
+void Menu_clickedPrint();
 
 #endif
