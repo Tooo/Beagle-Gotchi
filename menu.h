@@ -4,11 +4,12 @@
 #define _MENU_H_
 
 #define MAX_OPTIONS_PER_ROW 2
-#define MAX_NUM_MENU_FUNCTIONS 4
+#define MAX_MENU_FUNC_COUNT 6
+#define MAX_MENU_COUNT 6
 
 // inspired by https://blog.mozilla.org/nnethercote/2012/03/07/n-ary-trees-in-c/
 typedef struct {
-    void (*func[MAX_NUM_MENU_FUNCTIONS])(void); // Pointer to list of functions in menu set
+    void (**func)(void); // Pointer to list of functions in menu set
     char **menuNames; // Name of the menu options in the set
     int numOptions;
     int currentHighlighted; 

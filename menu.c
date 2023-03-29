@@ -7,16 +7,9 @@
 // The current menu printed
 static MenuOptions* curMenu;
 
-// Main menu node
-static MenuOptions mainMenu;
-
-// Sub menu
-static MenuOptions subMenu;
-
 // Our functions and menu names
-static char * mainMenuNames[] = {"Interact", "Games", "Status", "Feed"};
-
-static char * subMenuNames[] = {"Food", "Back"};
+static MenuOptions menuOptions[MAX_MENU_COUNT];
+static int menuCount = 0;
 
 // Test functions for menu 
 static void print1(void)
@@ -33,7 +26,7 @@ static void print3(void)
 }
 static void print4(void) // Test function for deeper menu
 {
-    curMenu = &subMenu;
+    curMenu = &menuOptions[1];
 }
 
 static void print5(void)
@@ -41,28 +34,50 @@ static void print5(void)
     curMenu->menuNames[curMenu->currentHighlighted] = "Clicked5";
 }
 
+static void print6(void)
+{
+    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked5";
+}
+
+static char *mainMenuNames[] = {"Interact", "Games", "Status", "Feed", "Quit"};
+static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print1, &print2, &print3, &print4, &print5};
+
+static char *subMenuNames[] = {"Meal", "Back"};
+static void (*subFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print6, &Menu_setBackToMainMenu};
+
+// void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions)
+// {
+//     if (menuCount < MAX_MENU_COUNT ) {
+//         return;
+//     }
+
+//     menuOptions[menuCount].func = functions;
+//     menuOptions[menuCount].menuNames = menuNames;
+//     menuOptions[menuCount].numOptions = numOptions;
+//     menuOptions[menuCount].currentHighlighted = 0;
+//     menuCount++;
+// }
+
 void Menu_init()
 {
     // Init the main menu
-    mainMenu.func[0] = &print1;
-    mainMenu.func[1] = &print2;
-    mainMenu.func[2] = &print3;
-    mainMenu.func[3] = &print4;
+    //MenuOptions_insert(mainMenuNames, mainFuncs, 5);
+    menuOptions[menuCount].func = mainFuncs;
+    menuOptions[menuCount].menuNames = mainMenuNames;
+    menuOptions[menuCount].numOptions = 5;
+    menuOptions[menuCount].currentHighlighted = 0;
 
-    mainMenu.menuNames = mainMenuNames;
-    mainMenu.numOptions = 4;
-    mainMenu.currentHighlighted = 0;
+    menuCount++;
 
     // Set the current menu as the mainMenu
-    curMenu = &mainMenu;
+    curMenu = &menuOptions[0];
 
     // Create Submenu
-    subMenu.func[0] = &print5;
-    subMenu.func[1] = &Menu_setBackToMainMenu;
-
-    subMenu.menuNames = subMenuNames;
-    subMenu.numOptions = 2;
-    subMenu.currentHighlighted = 0;
+    //MenuOptions_insert(subMenuNames, subFuncs, 2);
+    menuOptions[menuCount].func = subFuncs;
+    menuOptions[menuCount].menuNames = subMenuNames;
+    menuOptions[menuCount].numOptions = 2;
+    menuOptions[menuCount].currentHighlighted = 0;
 
     Menu_printOptions();
 }
@@ -71,7 +86,6 @@ void Menu_cleanup()
 {
     // nothing
 }
-
 
 // Gets the terminal window size in columns and rows
 static void tc_get_cols_rows(int *cols, int *rows)
@@ -140,7 +154,8 @@ void Menu_moveHighlighted (int direction)
             }
             break;
         case 3:
-            if ((curMenu->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
+            if ((curMenu->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0 
+                && (curMenu->currentHighlighted + 1) < curMenu->numOptions) {
                 curMenu->currentHighlighted += 1;
             }
             break;
@@ -149,5 +164,5 @@ void Menu_moveHighlighted (int direction)
 
 void Menu_setBackToMainMenu()
 {
-    curMenu = &mainMenu;
+    curMenu = &menuOptions[0];
 }
