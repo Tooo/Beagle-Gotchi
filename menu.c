@@ -32,7 +32,13 @@ void Menu_init()
 
 void Menu_cleanup()
 {
-    // nothing
+    for (int i = 0; i < MAX_MENU_COUNT; i++) {
+        menuOptions[i].func = NULL;
+        menuOptions[i].menuNames = NULL;
+        menuOptions[i].numOptions = 0;
+        menuOptions[i].currentHighlighted = 0;
+    }
+    menuCount = 0;
 }
 
 // Gets the terminal window size in columns and rows
