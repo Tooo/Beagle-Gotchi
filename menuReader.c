@@ -24,8 +24,8 @@ void MenuReader_init(void)
 
 void MenuReader_cleanup(void)
 {
-    pthread_join(menuReaderThread, NULL);
     stopping = true;
+    pthread_join(menuReaderThread, NULL);
 }
 
 void* menuReaderThreadFunction(void* arg)
