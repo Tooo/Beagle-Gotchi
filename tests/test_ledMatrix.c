@@ -236,17 +236,17 @@ static void ledMatrix_setRow(int rowNum)
 }
 
 /**
- *  ledMatrix_setColourTop
- *  Set the colour of the top part of the LED
+ *  ledMatrix_setColorTop
+ *  Set the color of the top part of the LED
  *  @params:
- *      int colour: colour to be set
+ *      int color: color to be set
  */
-static void ledMatrix_setColourTop(int colour)
+static void ledMatrix_setColorTop(int color)
 {
     int arr[3] = {0, 0, 0};
-    ledMatrix_bitsFromInt(arr, colour);
+    ledMatrix_bitsFromInt(arr, color);
 
-    // Write on the colour pins
+    // Write on the color pins
     char red1_val[2];
     sprintf(red1_val, "%d", arr[0]);
     lseek(fileDesc_red1, 0, SEEK_SET);
@@ -266,17 +266,17 @@ static void ledMatrix_setColourTop(int colour)
 }
 
 /**
- *  ledMatrix_setColourBottom
- *  Set the colour of the bottom part of the LED
+ *  ledMatrix_setColorBottom
+ *  Set the color of the bottom part of the LED
  *  @params:
- *      int colour: colour to be set
+ *      int color: color to be set
  */
-static void ledMatrix_setColourBottom(int colour)
+static void ledMatrix_setColorBottom(int color)
 {
     int arr[3] = {0,0,0};
-    ledMatrix_bitsFromInt(arr, colour);
+    ledMatrix_bitsFromInt(arr, color);
 
-    // Write on the colour pins
+    // Write on the color pins
     char red2_val[2];
     sprintf(red2_val, "%d", arr[0]);
     lseek(fileDesc_red2, 0, SEEK_SET);
@@ -296,7 +296,7 @@ static void ledMatrix_setColourBottom(int colour)
 }
 /**
  *  ledMatrix_refresh
- *  Fill the LED Matrix with the respective pixel colour
+ *  Fill the LED Matrix with the respective pixel color
  */
 static void ledMatrix_refresh(void)
 {
@@ -305,8 +305,8 @@ static void ledMatrix_refresh(void)
         write(fileDesc_oe, "1", 1); 
         ledMatrix_setRow(rowNum);
         for ( int colNum = 0; colNum < 32;  colNum++) {
-            ledMatrix_setColourTop(screen[colNum][rowNum]);
-            ledMatrix_setColourBottom(screen[colNum][rowNum+8]);
+            ledMatrix_setColorTop(screen[colNum][rowNum]);
+            ledMatrix_setColorBottom(screen[colNum][rowNum+8]);
             ledMatrix_clock();
         }
         ledMatrix_latch();
@@ -320,15 +320,15 @@ static void ledMatrix_refresh(void)
 
 /**
  *  ledMatrix_setPixel
- *  Set the pixel selected on LED MAtrix with the colour selected
+ *  Set the pixel selected on LED MAtrix with the color selected
  *  @params:
  *      int x: x-axis
  *      int y: y-axis
- *      int colour: colour selected
+ *      int color: color selected
  */
-static void ledMatrix_setPixel(int x, int y, int colour)
+static void ledMatrix_setPixel(int x, int y, int color)
 {
-    screen[y][x] = colour;
+    screen[y][x] = color;
 
     return;
 }

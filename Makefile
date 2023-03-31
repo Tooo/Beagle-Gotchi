@@ -13,7 +13,7 @@ LIBS = -pthread
 
 all: beagle_gotchi test
 
-TESTS = test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen
+TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen
 test: $(TESTS)
 
 beagle_gotchi:
@@ -27,6 +27,10 @@ test_ledMatrix:
 TEST_LED_MATRIX2_FILES = utils.c ledMatrix.c tests/test_ledMatrix2.c
 test_ledMatrix2:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_LED_MATRIX2_FILES) -o $(OUTDIR)/test_ledMatrix2
+
+TEST_LED_ANIMATION_FILES = utils.c ledMatrix.c tests/test_ledAnimation.c 
+test_ledAnimation:
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_LED_ANIMATION_FILES) -o $(OUTDIR)/test_ledAnimation
 
 TEST_STATE_SAVER_FILES = stateSaver.c tests/test_stateSaver.c
 test_stateSaver:
