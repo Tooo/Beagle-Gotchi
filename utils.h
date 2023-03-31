@@ -36,5 +36,11 @@ bool startswith(const char* prefix, const char* str);
 
 bool exportGpio(int pinNum);
 void setGpioDirection(int pinNum, const char* direction);
+void setGpioValue(int pinNum, const char* value);
+
+int initI2cBus(char* bus, int address);
+void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value);
+unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr);
+void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char* buffer, int size);
 
 #endif
