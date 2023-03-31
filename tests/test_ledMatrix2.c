@@ -22,10 +22,9 @@
 
 int main() {
     ledMatrix_setup();
-    ledMatrix_enable();
 
     for (int frame = 0; frame < 25 * 10; frame++) {
-        ledMatrix_clearScreen(BLACK);
+        ledMatrix_fillScreen(BLACK);
 
         //ledMatrix_setPixel((frame / 32) % 16, frame % 32, (frame) % 8);
         //for (int head = 0; head < 120; head++) {
@@ -48,7 +47,6 @@ int main() {
         sleepForMs(40);
     }
 
-    ledMatrix_disable();
     ledMatrix_cleanup();
     return 1;
 }

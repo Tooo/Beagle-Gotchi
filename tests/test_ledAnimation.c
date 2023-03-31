@@ -1,5 +1,5 @@
 // test_ledAnimation.c
-// This file tests reading from files & playing an animations using ledMatrix.h
+// This file tests reading from files & playing an animation using ledMatrix.h
 
 #include "../ledMatrix.h"
 
@@ -101,7 +101,6 @@ int dogframetail2[15 * 9] = {
 
 int main() {
     ledMatrix_setup();
-    ledMatrix_enable();
 
     // state variables
     int xpos = 1;
@@ -115,8 +114,7 @@ int main() {
     int hx2 = 19;
 
     for (int frame = 0; frame < 25 * 10; frame++) {
-        // fill screen with cyan
-        ledMatrix_clearScreen(BLACK);
+        ledMatrix_fillScreen(BLACK);
 
         // draw ground
         ledMatrix_drawHLine(GREEN, 0, 14, 32);
@@ -133,6 +131,7 @@ int main() {
         ledMatrix_drawHLine(YELLOW, 6, 4, 2);
 
         // main animation
+
         if (frame < 12) {
             // drawn animal
             if (frame % 3 == 0)
@@ -251,16 +250,18 @@ int main() {
                 ledMatrix_drawImage(dogframe1, 15, 9, xpos, ypos);
         }
 
-        printf("frame: %d\n", frame);
+        // NOTE: printing a frame causes a flicker in the display
+        if (frame % 8 == 0) {
+            printf("frame: %d\n", frame);
 
-        char buffer[550];
-        ledMatrix_toString(buffer, true);
-        printf("%s\n", buffer);
+            char buffer[550];
+            ledMatrix_toString(buffer, true);
+            printf("%s\n", buffer);
+        }
 
         sleepForMs(80);
     }
 
-    ledMatrix_disable();
     ledMatrix_cleanup();
     return 1;
 }

@@ -43,7 +43,7 @@ static int fileDesc_a;
 static int fileDesc_b;
 static int fileDesc_c;
 
-#define SCREEN_REFRESH_DELAY_IN_US 50
+#define SCREEN_REFRESH_DELAY_IN_US 500
 
 static int screen[32][16];
 
@@ -194,10 +194,10 @@ void selectRow(int rowNum) {
     write(fileDesc_c, c_val, 1);
 }
 
-// Set the colour of the top part of the LED
-void setTopColour(int colour) {
+// Set the color of the top part of the LED
+void setTopColor(int color) {
     int arr[3] = {0, 0, 0};
-    to3Bits(colour, arr);
+    to3Bits(color, arr);
 
     // TODO: make this a lil generic
     // Write on the colour pins
@@ -217,10 +217,10 @@ void setTopColour(int colour) {
     write(fileDesc_blue1, blue1_val, 1);    
 }
 
-// Set the colour of the bottom part of the LED
-void setBottomColour(int colour) {
+// Set the color of the bottom part of the LED
+void setBottomColor(int color) {
     int arr[3] = {0,0,0};
-    to3Bits(colour, arr);
+    to3Bits(color, arr);
 
     // Write on the colour pins
     char tmpval[2];
@@ -242,8 +242,8 @@ void setBottomColour(int colour) {
 // ---------------------------------- //
 // public
 
-void ledMatrix_clearScreen(int colour) {
-    memset(screen, colour, sizeof(screen));
+void ledMatrix_fillScreen(int color) {
+    memset(screen, color, sizeof(screen));
 }
 
 // NOTE: don't make any of the values go out of bounds. thanks!
@@ -296,8 +296,8 @@ void ledMatrix_drawRect(int color, int xpoint, int ypoint, int xlength, int ylen
 
 // Set the pixel at x,y with colour
 // NOTE: x is the short side, y is the tall side
-void ledMatrix_setPixel(int colour, int x, int y) {
-    screen[y][x] = colour;
+void ledMatrix_setPixel(int color, int x, int y) {
+    screen[y][x] = color;
 }
 
 // display `screen` to the LED Matrixs' pixels 
@@ -308,8 +308,8 @@ void ledMatrix_refresh() {
 
         selectRow(rowNum);
         for (int colNum = 0; colNum < 32; colNum++) {
-            setTopColour(screen[colNum][rowNum]);
-            setBottomColour(screen[colNum][rowNum+8]);
+            setTopColor(screen[colNum][rowNum]);
+            setBottomColor(screen[colNum][rowNum+8]);
             cycleClock();
         }
 
@@ -324,12 +324,13 @@ void ledMatrix_refresh() {
     }
 }
 
-void ledMatrix_setup() {
-    setupPins();
-}
 void ledMatrix_enable() {
     memset(screen, 0, sizeof(screen));
     pthread_create(&screenRefreshLoopThreadID, NULL, screenRefreshLoop, NULL);
+}
+void ledMatrix_setup() {
+    setupPins();
+    ledMatrix_enable();
 }
 void ledMatrix_disable() {
     memset(screen, 0, sizeof(screen));
@@ -338,7 +339,8 @@ void ledMatrix_disable() {
     pthread_join(screenRefreshLoopThreadID, NULL);
 }
 void ledMatrix_cleanup() {
-    // TODO: maybe cleanup should just be in disable?
+    ledMatrix_disable();
+
     // cleanup pin file descriptors
     close(fileDesc_red1);
     close(fileDesc_green1);
