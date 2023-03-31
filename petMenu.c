@@ -30,17 +30,20 @@ static void returnToMain(void)
 
 static void moodOption(void)
 {
-    DigitDisplay_setDigit(1);
+    int mood = Pet_getMoodNum();
+    DigitDisplay_setDigit(mood/10);
 }
 
 static void friendshipOption(void)
 {
-    DigitDisplay_setDigit(2);
+    int friendship = Pet_getFriendshipNum();
+    DigitDisplay_setDigit(friendship/10);
 }
 
 static void hungerOption(void)
 {
-    DigitDisplay_setDigit(3);
+    int hunger = Pet_getHungerNum();
+    DigitDisplay_setDigit(hunger/10);
 }
 
 static void statusMenu(void)
