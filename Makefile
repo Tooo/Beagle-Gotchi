@@ -11,7 +11,12 @@ CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petScreen.c petInteract.c joystick.c digitDisplay.c
 LIBS = -pthread
 
-all: beagle_gotchi test
+PROJECT_NAME=beagle-gotchi
+SERVER_DIR=webserver
+DEPLOY_PATH= $(OUTDIR)/$(PROJECT_NAME)-copy
+
+
+all: beagle_gotchi test deploy node_install
 
 TESTS = test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay
 test: $(TESTS)
@@ -47,6 +52,13 @@ test_joystick:
 TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
+
+test_website: node
+
+node:
+	mkdir -p $(DEPLOY_PATH)
+	cp -R $(SERVER_DIR)/* $(DEPLOY_PATH)
+	cd $(DEPLOY_PATH) && npm install
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)
