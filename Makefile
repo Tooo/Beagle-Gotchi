@@ -13,7 +13,7 @@ LIBS = -pthread
 
 all: beagle_gotchi test
 
-TESTS = test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen
+TESTS = test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led
 test: $(TESTS)
 
 beagle_gotchi:
@@ -51,6 +51,10 @@ test_digitDisplay:
 TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c
 test_petScreen:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen
+
+TEST_LED_FILES = utils.c led.c tests/test_led.c
+test_led:
+	$(CC_C) $(CFLAGS) $(TEST_LED_FILES) -o $(OUTDIR)/test_led
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)
