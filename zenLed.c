@@ -8,7 +8,6 @@ static char* periodFile = "/dev/bone/pwm/%s/period";
 static char* enableFile = "/dev/bone/pwm/%s/enable";
 static char* dutyCycleFile = "/dev/bone/pwm/%s/duty_cycle";
 
-//static const int TIMER_WAIT_TIME_MS = 300;
 static const int ZEN_LED_PERIOD_TIME = 100000;
 
 static char* zenLedValue[ZEN_LED_COUNT] = {"1/b", "2/a", "1/a"};
@@ -18,8 +17,6 @@ void ZenLed_init(void)
     runCommand("config-pin P9_14 pwm");
     runCommand("config-pin P9_16 pwm");
     runCommand("config-pin P8_19 pwm");
-
-    // sleepForMs(TIMER_WAIT_TIME_MS);
 
     for (int i = 0; i < ZEN_LED_COUNT; i++) {
         char command[MAX_BUFFER_SIZE];

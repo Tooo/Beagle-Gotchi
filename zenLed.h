@@ -1,5 +1,5 @@
-// led.h
-// Module to manage the Beaglebone leds
+// zenLed.h
+// Module to manage the Zencape leds
 #ifndef LED_H_
 #define LED_H_
 
@@ -14,7 +14,7 @@ typedef enum {
 void ZenLed_init(void);
 void ZenLed_cleanup(void);
 
-// Turn on/off leds
+// Turn on/off zen leds
 void ZenLed_turnOn(ZenLedId ledId);
 void ZenLed_turnOff(ZenLedId ledId);
 void ZenLed_turnOffAll(void);
