@@ -128,7 +128,7 @@ bool startswith(const char* prefix, const char* str)
 // returns true if the pin was changed, and false if otherwise
 bool exportGpio(int pinNum)
 {
-    char fileNameBuf[256];
+    char fileNameBuf[MAX_BUFFER_SIZE];
     sprintf(fileNameBuf, GPIO_PATH "gpio%d", pinNum);
     if (access(fileNameBuf, F_OK) == 0) {
         printf("%s exists\n", fileNameBuf);
@@ -152,7 +152,7 @@ bool exportGpio(int pinNum)
 void setGpioDirection(int pinNum, const char* direction)
 {
     // Change the direction gpio file
-    char fileNameBuffer[256];
+    char fileNameBuffer[MAX_BUFFER_SIZE];
     sprintf(fileNameBuffer, GPIO_PATH "gpio%d/direction", pinNum);
         
     FILE *gpioDirP = fopen(fileNameBuffer, "w");
@@ -163,7 +163,7 @@ void setGpioDirection(int pinNum, const char* direction)
 void setGpioValue(int pinNum, const char* value) 
 {
     // Change the value gpio file
-    char fileNameBuffer[256];
+    char fileNameBuffer[MAX_BUFFER_SIZE];
     sprintf(fileNameBuffer, GPIO_PATH "gpio%d/value", pinNum);
         
     FILE *gpioValP = fopen(fileNameBuffer, "w");

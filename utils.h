@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define MAX_BUFFER_SIZE 256
+
 // ------------------------------- //
 // provided utils:
 
