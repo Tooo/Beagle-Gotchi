@@ -14,7 +14,7 @@ LIBS = -pthread
 
 all: beagle_gotchi test
 
-TESTS = test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led
+TESTS = test_ledMatrix test_ledMatrix2 test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed
 test: $(TESTS)
 
 beagle_gotchi:
@@ -56,6 +56,10 @@ test_petScreen:
 TEST_LED_FILES = utils.c led.c tests/test_led.c
 test_led:
 	$(CC_C) $(CFLAGS) $(TEST_LED_FILES) -o $(OUTDIR)/test_led
+
+TEST_ZEN_LED_FILES = utils.c zenLed.c tests/test_zenLed.c
+test_zenLed:
+	$(CC_C) $(CFLAGS) $(TEST_ZEN_LED_FILES) -o $(OUTDIR)/test_zenLed
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)

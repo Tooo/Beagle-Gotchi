@@ -8,7 +8,7 @@ int main(void)
 {
     Led_init();
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < LED_COUNT; i++) {
         Led_turnOn(i);
         sleepForMs(500);
         Led_turnOff(i);
