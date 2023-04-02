@@ -34,6 +34,8 @@ int readIntFromFile(const char* path);
 void writeIntToFilePointer(FILE* fp, int val);
 void writeIntToFile(const char* path, int val);
 void silentTryWriteIntToFile(const char* path, int val);
+void writeBufferToFile(const char* path, const char* buffer);
+
 bool startswith(const char* prefix, const char* str);
 
 bool exportGpio(int pinNum);

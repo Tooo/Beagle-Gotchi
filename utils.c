@@ -118,6 +118,23 @@ void silentTryWriteIntToFile(const char* path, int val)
     }
 }
 
+void writeBufferToFile(const char* path, const char* buffer)
+{
+    FILE *pFile = fopen(path, "w");
+    if (pFile == NULL) {
+        printf("ERROR: Unable to open %s.\n", path);
+        exit(1);
+    }
+
+    int charWritten = fprintf(pFile, buffer);
+    if (charWritten <= 0) {
+        printf("ERROR: Cannot write %s.\n", path);
+        exit(1);
+    }
+
+    fclose(pFile);
+}
+
 // helpful oneliner derived from: 
 // https://stackoverflow.com/questions/4770985/how-to-check-if-a-string-starts-with-another-string-in-c
 bool startswith(const char* prefix, const char* str) 
