@@ -13,15 +13,14 @@ static const int TIMER_WAIT_TIME_MS = 300;
 
 void Led_init(void)
 {
+    Led_turnOffAll();
     // Set LED triggers to None
     Led_unflashAll();
 }
 
 void Led_cleanup(void)
 {
-    for (int i = 0; i < LED_COUNT; i++) {
-        Led_turnOff(i);
-    } 
+    Led_turnOffAll();
 }
 
 void Led_turnOn(LedId ledId)
@@ -36,6 +35,13 @@ void Led_turnOff(LedId ledId)
     char command[MAX_BUFFER_SIZE];
     snprintf(command, MAX_BUFFER_SIZE, brightnessFile, ledId);
     writeIntToFile(command, 0);   
+}
+
+void Led_turnOffAll(void)
+{
+    for (int i = 0; i < LED_COUNT; i++) {
+        Led_turnOff(i);
+    } 
 }
 
 void Led_flashAll(int hz)
