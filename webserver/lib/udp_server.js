@@ -17,20 +17,19 @@ exports.listen = function(server) {
 	});
 };
 
+
 function handleCommand(socket) {
 	// Pased string of comamnd to relay
-	socket.on('daUdpCommand', function(data) {
-		console.log('daUdpCommand command: ' + data);
-
+	socket.on('udpOut', (data, callback) => {
 		// Info for connecting to the local process via UDP
 		var PORT = 12345;
-		var HOST = '127.0.0.1';
+		var HOST = '192.168.7.2';
 		var buffer = new Buffer(data);
 
 		var client = dgram.createSocket('udp4');
 		client.send(buffer, 0, buffer.length, PORT, HOST, function(err, bytes) {
 			if (err) 
-				throw err;
+			throw err;
 			console.log('UDP message sent to ' + HOST +':'+ PORT);
 		});
 
@@ -40,13 +39,13 @@ function handleCommand(socket) {
 		});
 		// Handle an incoming message over the UDP from the local application.
 		client.on('message', function (message, remote) {
+			// Client server working set UI flag to true
+			callback(true);
 			console.log("UDP Client: message Rx" + remote.address + ':' + remote.port +' - ' + message);
 
 			var reply = message.toString('utf8')
-			socket.emit('commandReply', reply);
-
+			socket.emit('udpMsg', reply);
 			client.close();
-
 		});
 		client.on("UDP Client: close", function() {
 			console.log("closed");
@@ -55,4 +54,7 @@ function handleCommand(socket) {
 			console.log("error: ",err);
 		});
 	});
+	socket.on('nodeUp', (callback) => {
+		callback(true);
+	})
 };

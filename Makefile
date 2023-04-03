@@ -53,7 +53,9 @@ TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
 
+TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c
 test_website: node
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_WEBSITE_FILES) -o $(OUTDIR)/test_website
 
 node:
 	mkdir -p $(DEPLOY_PATH)
