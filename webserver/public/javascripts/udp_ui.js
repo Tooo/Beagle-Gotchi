@@ -102,6 +102,11 @@ var adultStage =[
 
 var petStages = [eggStage, babyStage, childStage, teenStage, adultStage];
 
+// Menu Buttons
+var mainMenu = [];
+var feedMenu = [];
+var interactMenu = [];
+
 
 $(document).ready(function() {
 	// Get all the values for the web page
@@ -177,58 +182,55 @@ function setPetScreen(pixels) {
 function setMenuItems(menuBtns) {
     let n = menuBtns.length;
     let menuForm = document.getElementById('menuContainer');
+    menuForm.innerHTML ='';
     for (let i=0; i < n; i++) {
         menuForm.appendChild(menuBtns[i]);
     }
 }
 
-var testScreen = 
-[
-    [' ', ' ', ' ', '1', '1', '1', ' ', ' ', ' ', ' ', '1', '1', '1', ' ', ' ', ' '],
-    [' ', ' ', '1', '1', '1', '1', '1', ' ', ' ', '1', '1', '1', '1', '1', ' ', ' '],
-    [' ', ' ', '1', '1', '1', '1', '1', ' ', ' ', '1', '1', '1', '1', '1', ' ', ' '],
-    [' ', ' ', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', ' ', ' '],
-    [' ', ' ', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', ' ', ' '],
-    [' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' '],
-    [' ', '1', ' ', '1', '1', '1', ' ', ' ', ' ', '1', '1', '1', ' ', ' ', '1', ' '],
-    [' ', '1', ' ', '1', '1', ' ', '1', ' ', ' ', '1', '1', ' ', '1', ' ', '1', ' '],
-    [' ', '1', ' ', '1', '1', ' ', '1', ' ', ' ', '1', '1', ' ', '1', ' ', '1', ' '],
-    [' ', '1', ' ', '1', '1', '1', ' ', ' ', ' ', '1', '1', '1', ' ', ' ', '1', ' '],
-    [' ', ' ', '1', ' ', ' ', ' ', ' ', '1', '1', ' ', ' ', ' ', ' ', '1', ' ', ' '],
-    [' ', ' ', ' ', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' ', ' ', ' ', '1', ' ', ' ', ' ', ' '],
-    [' ', ' ', ' ', '1', ' ', '1', ' ', ' ', ' ', ' ', '1', ' ', '1', ' ', ' ', ' '],
-    [' ', ' ', ' ', '1', '1', '1', ' ', ' ', ' ', ' ', '1', '1', '1', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' ', '1', ' ', '1', '1', ' ', '1', ' ', ' ', ' ', ' ', ' '],
-];
+function initMenus() {
+    // Main menu
+    var interactButton = document.createElement('button');
+    var feedButton = document.createElement('button');
 
-function testSetMenus() {
-    let interactButton = document.createElement('button');
-    let feedButton = document.createElement('button');
-    let gamesButton = document.createElement('button');
-    let backButton = document.createElement('button');
+    // TODO: Interact menu 
+
+    // Feed menu
+    var backButton = document.createElement('button');
+    var waterButton = document.createElement('button');
+    var foodButton = document.createElement('button');
+
+    backButton.innerHTML = 'Back';
+    waterButton.innerHTML = 'Water';
+    foodButton.innerHTML = 'Food';
 
     interactButton.innerHTML = 'Interact';
     feedButton.innerHTML = 'Feed';
-    gamesButton.innerHTML = 'Games';
-    backButton.innerHTML = 'Back';
 
     interactButton.addEventListener('click', () => {
-        console.log("interact");
+        console.log("Interact")
     });
     feedButton.addEventListener('click', () => {
-        console.log("Feed");
+        setMenuItems(feedMenu);
     });
-    gamesButton.addEventListener('click', () => {
-        console.log("Games");
+    foodButton.addEventListener('click', () => {
+        sendCommandViaUDP("feed food");
+    });
+    waterButton.addEventListener('click', () => {
+        sendCommandViaUDP("feed water");
     });
     backButton.addEventListener('click', () => {
-        console.log("Back");
+        setMenuItems(mainMenu);
     });
 
-    let buttonList = [interactButton, feedButton, gamesButton, backButton];
-    setMenuItems(buttonList);
+    mainMenu.push(interactButton);
+    mainMenu.push(feedButton);
+
+    feedMenu.push(waterButton);
+    feedMenu.push(foodButton);
+    feedMenu.push(backButton);
+
+    setMenuItems(mainMenu);
 }
 
-// setPetScreen(testScreen);
-testSetMenus();
+initMenus();

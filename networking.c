@@ -127,6 +127,21 @@ static void send_dgram(int sockDescriptor, struct sockaddr_in sinRemote, char* m
 // 	free(msg);
 // }
 
+static void udp_feed_command(int sockDescriptor, struct sockaddr_in sinRemote, char* feed) {
+	// Confirm feed
+	char * reply = "feedSuccess";
+	if (strncmp(feed, "food", strlen("food")) == 0) {
+		printf("Feed food command.\n");
+	}
+	else if (strncmp(feed, "water", strlen("water")) == 0) {
+		printf("Feed water command.\n");
+	}
+	else {
+		printf("Invalid feed command from udp\n");
+	}
+	send_dgram(sockDescriptor, sinRemote, reply);
+}
+
 static void udp_get_pet_screen_command(int sockDescriptor, struct sockaddr_in sinRemote)
 {
 	// TODO: Get the current pet screen
@@ -182,6 +197,12 @@ static void *udp_listen_thread()
 		// TODO: Commands
 		if (strncmp(messageRx, "get-pet-screen", strlen("get-pet-screen")) == 0) {
 			udp_get_pet_screen_command(socketDescriptor, sinRemote);
+		}
+		else if (strncmp(messageRx, "feed", strlen("feed")) == 0) {
+			char feedString[6];
+			memcpy(feedString, &messageRx[5], 5);
+
+			udp_feed_command(socketDescriptor, sinRemote, feedString);
 		}
 		else {
 			printf("INVALID COMMAND\n");
