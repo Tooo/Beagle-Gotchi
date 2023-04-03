@@ -1,7 +1,7 @@
 // zenLed.h
 // Module to manage the Zencape leds
-#ifndef LED_H_
-#define LED_H_
+#ifndef ZEN_LED_H_
+#define ZEN_LED_H_
 
 typedef enum {
     ZEN_LED_RED = 0,

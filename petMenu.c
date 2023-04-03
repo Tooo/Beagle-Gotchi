@@ -6,6 +6,7 @@
 #include "petInteract.h"
 #include "shutdown.h"
 #include "digitDisplay.h"
+#include "zenLed.h"
 
 typedef enum {
     PET_MENU_MAIN = 0,
@@ -51,24 +52,28 @@ static void returnToMain(void)
 static void moodOption(void)
 {
     int mood = Pet_getMoodNum();
+    ZenLed_turnOn(ZEN_LED_BLUE);
     DigitDisplay_setDigit(mood/10);
 }
 
 static void friendshipOption(void)
 {
     int friendship = Pet_getFriendshipNum();
+    ZenLed_turnOn(ZEN_LED_RED);
     DigitDisplay_setDigit(friendship/10);
 }
 
 static void hungerOption(void)
 {
     int hunger = Pet_getHungerNum();
+    ZenLed_turnOn(ZEN_LED_GREEN);
     DigitDisplay_setDigit(hunger/10);
 }
 
 
 static void returnToMainDigit(void)
 {
+    ZenLed_turnOffAll();
     DigitDisplay_cleanup();
     Menu_changeMenu(0);
 }
