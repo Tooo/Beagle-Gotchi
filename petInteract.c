@@ -19,3 +19,8 @@ void PetInteract_pet(void)
 {
     Pet_addMood(50);
 }
+
+void PetInteract_slap(void)
+{
+    Pet_addMood(-50);
+}

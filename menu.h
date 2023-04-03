@@ -19,16 +19,16 @@ typedef struct {
 void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions);
 
 // Creates all menu options structures, call this before any other functions
-void Menu_init();
+void Menu_init(void);
 
 // Free Menu Items
-void Menu_cleanup();
+void Menu_cleanup(void);
 
 // Selects the current highlighted menu item
-void Menu_selectOption();
+void Menu_selectOption(void);
 
 // Take the Menu set and print it to the screen
-void Menu_printOptions();
+void Menu_printOptions(void);
 
 // Change the currentHighlighted in a direction 
 // 0: up, 1, down, left: 2, right: 3
@@ -37,6 +37,8 @@ void Menu_moveHighlighted(int direction);
 // Reverts back to the main menu
 void Menu_changeMenu(int menuNum);
 
-void Menu_clickedPrint();
+void Menu_clickedPrint(void);
+
+int Menu_getCurrentHiglighted(void);
 
 #endif

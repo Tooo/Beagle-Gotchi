@@ -24,13 +24,13 @@ void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptio
     menuCount++;
 }
 
-void Menu_init()
+void Menu_init(void)
 {
     curMenu = &menuOptions[0];
     Menu_printOptions();
 }
 
-void Menu_cleanup()
+void Menu_cleanup(void)
 {
     for (int i = 0; i < MAX_MENU_COUNT; i++) {
         menuOptions[i].func = NULL;
@@ -58,12 +58,12 @@ static void tc_move_cursor(int x, int y)
 }
 
 
-void Menu_selectOption() 
+void Menu_selectOption(void) 
 {
     curMenu->func[curMenu->currentHighlighted]();
 }
 
-void Menu_printOptions()
+void Menu_printOptions(void)
 {
     // Clear screen
     printf("\033c");
@@ -125,7 +125,12 @@ void Menu_changeMenu(int menuNum)
     curMenu = &menuOptions[menuNum];
 }
 
-void Menu_clickedPrint()
+void Menu_clickedPrint(void)
 {
     curMenu->menuNames[curMenu->currentHighlighted] = "Clicked";
+}
+
+int Menu_getCurrentHiglighted(void)
+{
+    return curMenu->currentHighlighted;
 }

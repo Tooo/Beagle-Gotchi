@@ -8,12 +8,13 @@ CROSS_COMPILE = arm-linux-gnueabihf-
 CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
-CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c joystick.c digitDisplay.c
+CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c
+CFILES += joystick.c digitDisplay.c led.c zenLed.c
 LIBS = -pthread
 
 all: beagle_gotchi test
 
-TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen
+TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed
 test: $(TESTS)
 
 beagle_gotchi:
@@ -40,7 +41,7 @@ TEST_WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
 test_waterSensor:
 	$(CC_C) $(CFLAGS) $(TEST_WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
 
-TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c tests/test_menu.c
+TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c led.c tests/test_menu.c
 test_menu:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu
 
@@ -55,6 +56,14 @@ test_digitDisplay:
 TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c
 test_petScreen:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen
+
+TEST_LED_FILES = utils.c led.c tests/test_led.c
+test_led:
+	$(CC_C) $(CFLAGS) $(TEST_LED_FILES) -o $(OUTDIR)/test_led
+
+TEST_ZEN_LED_FILES = utils.c zenLed.c tests/test_zenLed.c
+test_zenLed:
+	$(CC_C) $(CFLAGS) $(TEST_ZEN_LED_FILES) -o $(OUTDIR)/test_zenLed
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)
