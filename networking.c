@@ -8,6 +8,7 @@
 
 #include "networking.h"
 #include "pet.h"
+#include "utils.h"
 
 #define MSG_MAX_LEN 1024
 #define MAX_MESSAGE_STATE_LEN 50
@@ -45,6 +46,9 @@ static void udp_get_status_command(int sockDescriptor, struct sockaddr_in sinRem
 	int hunger = Pet_getHungerNum();
 	int weight = Pet_getWeight();
 
+	// Replace name spaces with underscore 
+	name = replace_char(name, ' ', '_');
+
 	// status {name} {age} {mood} {friendship} {hunger} {weight}
  	sprintf(msg, "status %s %d %d %d %d %d", name, age, mood, friendship, hunger, weight);
 	printf("%s\n", msg);
@@ -73,7 +77,7 @@ static void udp_feed_command(int sockDescriptor, struct sockaddr_in sinRemote, c
 static void udp_get_pet_screen_command(int sockDescriptor, struct sockaddr_in sinRemote)
 {
 	// TODO: Get the current pet screen
-	int currentStage = 0; 
+	int currentStage = Pet_getStage();
 
 	char *msg = (char*)malloc(MAX_MESSAGE_STATE_LEN  * sizeof(char));
 
