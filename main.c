@@ -8,6 +8,7 @@
 #include "petMenu.h"
 #include "led.h"
 #include "zenLed.h"
+#include "buzzer.h"
 #include "ledMatrix/ledMatrix.h"
 
 #include "menuReader.h"
@@ -45,11 +46,13 @@ static void main_init(int argc, char *argv[])
 
     Led_init();
     ZenLed_init();
+    Buzzer_init();
 }
 
 static void main_cleanup(void)
 {
     ledMatrix_cleanup();
+    Buzzer_cleanup();
     ZenLed_cleanup();
     Led_cleanup();
     
