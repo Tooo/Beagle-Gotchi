@@ -210,30 +210,41 @@ function initMenus() {
     var feedButton = document.createElement('button');
 
     // TODO: Interact menu 
+    var petButton = document.createElement('button');
+    var slapButton = document.createElement('button');
 
     // Feed menu
     var backButton = document.createElement('button');
-    var waterButton = document.createElement('button');
+    var snackButton = document.createElement('button');
     var foodButton = document.createElement('button');
 
     backButton.innerHTML = 'Back';
-    waterButton.innerHTML = 'Water';
-    foodButton.innerHTML = 'Food';
+    snackButton.innerHTML = 'Snack';
+    foodButton.innerHTML = 'Meal';
+
+    petButton.innerHTML = 'Pet';
+    slapButton.innerHTML = 'Slap';
 
     interactButton.innerHTML = 'Interact';
     feedButton.innerHTML = 'Feed';
 
     interactButton.addEventListener('click', () => {
-        console.log("Interact")
+        setMenuItems(interactMenu);
     });
     feedButton.addEventListener('click', () => {
         setMenuItems(feedMenu);
     });
     foodButton.addEventListener('click', () => {
-        sendCommandViaUDP("feed food");
+        sendCommandViaUDP("feed meal");
     });
-    waterButton.addEventListener('click', () => {
-        sendCommandViaUDP("feed water");
+    snackButton.addEventListener('click', () => {
+        sendCommandViaUDP("feed snack");
+    });
+    petButton.addEventListener('click', () => {
+        sendCommandViaUDP("interact pet");
+    });
+    slapButton.addEventListener('click', () => {
+        sendCommandViaUDP("interact slap");
     });
     backButton.addEventListener('click', () => {
         setMenuItems(mainMenu);
@@ -242,9 +253,11 @@ function initMenus() {
     mainMenu.push(interactButton);
     mainMenu.push(feedButton);
 
-    feedMenu.push(waterButton);
+    feedMenu.push(snackButton);
     feedMenu.push(foodButton);
     feedMenu.push(backButton);
+
+    interactMenu.push(petButton, slapButton, backButton);
 
     setMenuItems(mainMenu);
 }

@@ -6,6 +6,7 @@
 #include <pthread.h>
 #include <time.h>
 
+#include "petInteract.h"
 #include "networking.h"
 #include "pet.h"
 #include "utils.h"
@@ -51,7 +52,7 @@ static void udp_get_status_command(int sockDescriptor, struct sockaddr_in sinRem
 
 	// status {name} {age} {mood} {friendship} {hunger} {weight}
  	sprintf(msg, "status %s %d %d %d %d %d", name, age, mood, friendship, hunger, weight);
-	printf("%s\n", msg);
+	// printf("%s\n", msg);
 
 	send_dgram(sockDescriptor, sinRemote, msg);
 
@@ -62,11 +63,11 @@ static void udp_get_status_command(int sockDescriptor, struct sockaddr_in sinRem
 static void udp_feed_command(int sockDescriptor, struct sockaddr_in sinRemote, char* feed) {
 	// Confirm feed
 	char * reply = "feedSuccess";
-	if (strncmp(feed, "food", strlen("food")) == 0) {
-		printf("Feed food command.\n");
+	if (strncmp(feed, "meal", strlen("meal")) == 0) {
+		PetInteract_feedMeal();
 	}
-	else if (strncmp(feed, "water", strlen("water")) == 0) {
-		printf("Feed water command.\n");
+	else if (strncmp(feed, "snack", strlen("snack")) == 0) {
+		PetInteract_feedSnack();
 	}
 	else {
 		printf("Invalid feed command from udp\n");
@@ -74,15 +75,29 @@ static void udp_feed_command(int sockDescriptor, struct sockaddr_in sinRemote, c
 	send_dgram(sockDescriptor, sinRemote, reply);
 }
 
+static void udp_interact_command(int sockDescriptor, struct sockaddr_in sinRemote, char* interaction) {
+	// Confirm interact
+	char * reply = "interactSuccess";
+	if (strncmp(interaction, "pet", strlen("pet")) == 0) {
+		PetInteract_pet();
+	}
+	else if (strncmp(interaction, "slap", strlen("slap")) == 0) {
+		PetInteract_slap();
+	}
+	else {
+		printf("Invalid interaction command from udp\n");
+	}
+	send_dgram(sockDescriptor, sinRemote, reply);
+}
+
 static void udp_get_pet_screen_command(int sockDescriptor, struct sockaddr_in sinRemote)
 {
-	// TODO: Get the current pet screen
 	int currentStage = Pet_getStage();
 
 	char *msg = (char*)malloc(MAX_MESSAGE_STATE_LEN  * sizeof(char));
 
 	sprintf(msg, "screen %d", currentStage);
-	printf("%s\n", msg);
+	// printf("%s\n", msg);
 
 	send_dgram(sockDescriptor, sinRemote, msg);
 
@@ -135,6 +150,12 @@ static void *udp_listen_thread()
 			memcpy(feedString, &messageRx[5], 5);
 
 			udp_feed_command(socketDescriptor, sinRemote, feedString);
+		}
+		else if (strncmp(messageRx, "interact", strlen("interact")) == 0) {
+			char interactString[6];
+			memcpy(interactString, &messageRx[9], 5);
+
+			udp_interact_command(socketDescriptor, sinRemote, interactString);
 		}
 		else if (strncmp(messageRx, "get-status", strlen("get-status")) == 0) {
 			udp_get_status_command(socketDescriptor, sinRemote);
