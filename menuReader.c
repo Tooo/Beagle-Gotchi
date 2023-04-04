@@ -18,7 +18,7 @@ static void* menuReaderThreadFunction(void* arg);
 static pthread_t menuReaderThread;
 
 static bool stopping;
-atomic_bool terminalIODisabled = false; // if true, all printing from this thread will be disabled (debugging reasons)
+atomic_bool terminalIODisabled = true; // if true, all printing from this thread will be disabled (debugging reasons)
 
 void MenuReader_allowTerminalIO(bool enabled) {
     terminalIODisabled = !enabled;
@@ -64,8 +64,9 @@ void ledMenu(void)
 
 // update 
 void updateMenu() {
-    if (!terminalIODisabled)
+    if (!terminalIODisabled) {
         Menu_printOptions();
+    }
 
     ledMenu();
 

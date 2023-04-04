@@ -29,7 +29,6 @@ void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptio
 void Menu_init(void)
 {
     curMenu = &menuOptions[0];
-    Menu_printOptions();
 }
 
 void Menu_cleanup(void)
