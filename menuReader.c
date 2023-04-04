@@ -1,5 +1,6 @@
 #include <pthread.h>
-#include <stdbool.h>
+#include <sched.h>
+#include <stdatomic.h>
 
 #include "menuReader.h"
 #include "menu.h"
@@ -7,7 +8,9 @@
 #include "joystick.h"
 #include "led.h"
 
-static const int joystickSleepMs = 10;
+#include "ledMatrix/ledMatrix.h" // for colours
+
+static const int joystickSleepMs = 100;
 static const int joystickPushSleepMS = 250;
 static const int joystickDirectionSleepMS = 200;
 
@@ -18,6 +21,11 @@ static void* menuReaderThreadFunction(void* arg);
 static pthread_t menuReaderThread;
 
 static bool stopping;
+atomic_bool terminalIODisabled = false; // if true, all printing from this thread will be disabled (debugging reasons)
+
+void MenuReader_allowTerminalIO(bool enabled) {
+    terminalIODisabled = !enabled;
+}
 
 void MenuReader_init(void)
 {
@@ -43,7 +51,6 @@ void ledMenu(void)
     }
 
     Led_turnOffAll();
-    
 
     if (higlighted < LED_COUNT) {
         Led_turnOn(higlighted);
@@ -58,30 +65,45 @@ void ledMenu(void)
     }
 }
 
+// update 
+void updateMenu() {
+    if (!terminalIODisabled)
+        Menu_printOptions();
+
+    ledMenu();
+
+    // TODO: Move this into a function in Menu_
+    ledMatrix_fillScreen(BLACK);
+    for (int i = 0; i < 4; i++) {
+        if (Menu_getCurrentHiglighted()+i >= Menu_getMenuSize()) 
+            continue;
+
+        const char* curr = Menu_getMenuName(Menu_getCurrentHiglighted()+i);
+        if (Menu_getCurrentHiglighted()+i == Menu_getCurrentHiglighted()) {
+            ledMatrix_drawString(curr, 0, i * 4, GREEN); // YELLOW
+        } else {
+            ledMatrix_drawString(curr, 0, i * 4, WHITE);
+        }
+    }
+}
+
 void* menuReaderThreadFunction(void* arg)
 {
     (void)arg;
+
     while(!stopping) {
-        Menu_printOptions();
-        ledMenu();
+        updateMenu();
         JoystickDirection direction = Joystick_getDirection();
 
         if (direction == JOYSTICK_NO_DIRECTION) {
             sleepForMs(joystickSleepMs);
-            continue;
-        }
-
-        if (direction == JOYSTICK_PUSH) {
+        } else if (direction == JOYSTICK_PUSH) {
             Menu_selectOption();
-            Menu_printOptions();
             sleepForMs(joystickPushSleepMS);
-            continue;
+        } else {
+            Menu_moveHighlighted(direction);
+            sleepForMs(joystickDirectionSleepMS);
         }
-
-        Menu_moveHighlighted(direction);
-        Menu_printOptions();
-
-        sleepForMs(joystickDirectionSleepMS);
     }
     return NULL;
 }

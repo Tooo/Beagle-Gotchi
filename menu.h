@@ -3,7 +3,7 @@
 #ifndef _MENU_H_
 #define _MENU_H_
 
-#define MAX_OPTIONS_PER_ROW 2
+#define MAX_OPTIONS_PER_ROW 1
 #define MAX_MENU_FUNC_COUNT 6
 #define MAX_MENU_COUNT 6
 
@@ -40,5 +40,9 @@ void Menu_changeMenu(int menuNum);
 void Menu_clickedPrint(void);
 
 int Menu_getCurrentHiglighted(void);
+
+const char* Menu_getMenuName(int i);
+
+int Menu_getMenuSize(void);
 
 #endif

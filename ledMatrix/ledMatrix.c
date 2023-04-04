@@ -2,8 +2,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
+#include <ctype.h>
+#include <sched.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include <stdbool.h>
 #include <string.h>
@@ -12,7 +14,10 @@
 #include <fcntl.h>
 #include <time.h>
 
-#include "utils.h"
+#include <sys/mman.h>
+
+#include "../utils.h"
+#include "sprites.h"
 
 // ------------------------------------ //
 // globals:
@@ -43,7 +48,7 @@ static int fileDesc_a;
 static int fileDesc_b;
 static int fileDesc_c;
 
-#define SCREEN_REFRESH_DELAY_IN_US 500
+#define SCREEN_REFRESH_DELAY_IN_NS 50000
 
 static int screen[32][16];
 
@@ -136,6 +141,16 @@ void setupPins() {
 }
 
 void* screenRefreshLoop() {
+    // give this thread the most priority
+    pthread_t this_thread = pthread_self();
+    struct sched_param params;
+    params.sched_priority = sched_get_priority_max(SCHED_OTHER);
+    int ret = pthread_setschedparam(this_thread, SCHED_OTHER, &params);
+    if (ret != 0) {
+        printf("ERROR: failed to set thread priority\n");
+        return NULL;
+    }
+
     while (!stopScreenRefreshLoop) {
         ledMatrix_refresh(); // NOTE: this function sleeps for as long as neccesary
     }
@@ -242,12 +257,22 @@ void setBottomColor(int color) {
 // ---------------------------------- //
 // public
 
+void ledMatrix_drawTestPage() {
+    ledMatrix_fillScreen(BLACK);
+
+    for (int i = 0; i < 26; i++) {
+        int x = (i * 4) % 32;
+        int y = ((i * 4) / 32) * 4;
+        ledMatrix_drawImage(LETTER_SPRITE_LIST[i], LETTER_WIDTH, LETTER_HEIGHT, x, y);
+    }
+}
+
 void ledMatrix_fillScreen(int color) {
     memset(screen, color, sizeof(screen));
 }
 
 // NOTE: don't make any of the values go out of bounds. thanks!
-void ledMatrix_drawImage(int* colorData, int width, int height, int xoff, int yoff) {
+void ledMatrix_drawImage(const int* colorData, int width, int height, int xoff, int yoff) {
     int i = 0;
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
@@ -259,7 +284,7 @@ void ledMatrix_drawImage(int* colorData, int width, int height, int xoff, int yo
     }
 }
 
-void ledMatrix_drawImageHFlipped(int* colorData, int width, int height, int xoff, int yoff) {
+void ledMatrix_drawImageHFlipped(const int* colorData, int width, int height, int xoff, int yoff) {
     int i = 0;
     for (int y = 0; y < height; y++) {
         for (int x = width-1; x >= 0; x--) {
@@ -294,6 +319,24 @@ void ledMatrix_drawRect(int color, int xpoint, int ypoint, int xlength, int ylen
     }
 }
 
+// draw the characters in the string, invalid ascii is a space
+void ledMatrix_drawString(const char* text, int xpoint, int ypoint, int color) {
+    int len = min(8, strlen(text)); // cutoff strings larger than 8 chars
+    for (int i = 0; i < len; i++) {
+        char ch = tolower(text[i]);
+
+        // make a copy of the letter
+        int ch_colorData[9];
+        memcpy(ch_colorData, isalpha(ch) ? LETTER_SPRITE_LIST[ch-'a'] : LETTER_SPACE, 9 * sizeof(int));
+        for (int j = 0; j < LETTER_WIDTH * LETTER_HEIGHT; j++) {
+            // make the letter a custom colour
+            ch_colorData[j] = (ch_colorData[j] == 8 ? 8 : color);
+        }
+
+        ledMatrix_drawImage(ch_colorData, LETTER_WIDTH, LETTER_HEIGHT, xpoint + i * 4, ypoint);
+    }
+}
+
 // Set the pixel at x,y with colour
 // NOTE: x is the short side, y is the tall side
 void ledMatrix_setPixel(int color, int x, int y) {
@@ -319,13 +362,15 @@ void ledMatrix_refresh() {
         write(fileDesc_oe, "0", 1);
 
         // sleep a few us each 2 rows
-        struct timespec reqDelay = {0, SCREEN_REFRESH_DELAY_IN_US};
-    	nanosleep(&reqDelay, (struct timespec *) NULL);
+        struct timespec reqDelay = {0, SCREEN_REFRESH_DELAY_IN_NS};
+        nanosleep(&reqDelay, (struct timespec *) NULL);
     }
 }
 
 void ledMatrix_enable() {
     memset(screen, 0, sizeof(screen));
+    ledMatrix_refresh();
+
     pthread_create(&screenRefreshLoopThreadID, NULL, screenRefreshLoop, NULL);
 }
 void ledMatrix_setup() {
@@ -334,7 +379,7 @@ void ledMatrix_setup() {
 }
 void ledMatrix_disable() {
     memset(screen, 0, sizeof(screen));
-    sleepForMs(1);
+    sleepForMs(3);
     stopScreenRefreshLoop = true;
     pthread_join(screenRefreshLoopThreadID, NULL);
 }

@@ -25,6 +25,7 @@ void PetScreen_cleanup()
 static void* petScreenThreadFunction(void* arg)
 {
     (void)arg;
+
     while (!stopping) {
         Terminal_printPet();
         printf("\n");

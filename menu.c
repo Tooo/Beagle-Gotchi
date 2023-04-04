@@ -90,10 +90,10 @@ void Menu_printOptions(void)
     fflush(stdout);
 }
 
-void Menu_moveHighlighted (int direction)
+void Menu_moveHighlighted(int direction)
 {
     switch (direction) {
-        case 0:/// Up
+        case 0: /// Up
             if (curMenu->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
                 curMenu->currentHighlighted -= MAX_OPTIONS_PER_ROW;
             }
@@ -133,4 +133,13 @@ void Menu_clickedPrint(void)
 int Menu_getCurrentHiglighted(void)
 {
     return curMenu->currentHighlighted;
+}
+
+const char* Menu_getMenuName(int i)
+{
+    return curMenu->menuNames[i];
+}
+
+int Menu_getMenuSize(void) {
+    return curMenu->numOptions;
 }
