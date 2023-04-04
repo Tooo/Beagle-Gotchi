@@ -8,10 +8,13 @@
 #include "digitDisplay.h"
 #include "zenLed.h"
 
+#include "utils.h"
+#include "ledMatrix/ledMatrix.h"
+
 typedef enum {
     PET_MENU_MAIN = 0,
     PET_MENU_INTERACT,
-    PET_MENU_GAMES,
+    PET_MENU_PLAY,
     PET_MENU_FEED,
     PET_MENU_STATUS,
     PET_MENU_COUNT
@@ -25,32 +28,47 @@ static void printOption(void)
 // Main Menu Functions
 static void goToInteract(void)
 {
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
     Menu_changeMenu(PET_MENU_INTERACT);
 }
 
-static void goToGames(void) 
+static void goToPlay(void) 
 {
-    Menu_changeMenu(PET_MENU_GAMES);
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
+    Menu_changeMenu(PET_MENU_PLAY);
 }
 
 static void goToFood(void) 
 {
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
     Menu_changeMenu(PET_MENU_FEED);
 }
 
 static void goToStatus(void)
 {
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
     DigitDisplay_init();
     Menu_changeMenu(PET_MENU_STATUS);
 }
 
+static void quit(void)
+{
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+    ledMatrix_drawExitPage();
+    sleepForMs(800);
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+    Shutdown_trigger();
+}
+
 static void returnToMain(void)
 {
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
     Menu_changeMenu(0);
 }
 
 static void moodOption(void)
 {
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
     int mood = Pet_getMoodNum();
     ZenLed_turnOn(ZEN_LED_BLUE);
     DigitDisplay_setDigit(mood/10);
@@ -58,6 +76,7 @@ static void moodOption(void)
 
 static void friendshipOption(void)
 {
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
     int friendship = Pet_getFriendshipNum();
     ZenLed_turnOn(ZEN_LED_RED);
     DigitDisplay_setDigit(friendship/10);
@@ -65,14 +84,15 @@ static void friendshipOption(void)
 
 static void hungerOption(void)
 {
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
     int hunger = Pet_getHungerNum();
     ZenLed_turnOn(ZEN_LED_GREEN);
     DigitDisplay_setDigit(hunger/10);
 }
 
-
 static void returnToMainDigit(void)
 {
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
     ZenLed_turnOffAll();
     DigitDisplay_cleanup();
     Menu_changeMenu(0);
@@ -80,7 +100,7 @@ static void returnToMainDigit(void)
 
 // Menu Names and Functions
 static char *mainNames[] = {"Interact", "Play", "Food", "Status", "Quit"};
-static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&goToInteract, &goToGames, &goToFood, &goToStatus, &Shutdown_trigger};
+static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&goToInteract, &goToPlay, &goToFood, &goToStatus, &quit};
 
 static char *interactNames[] = {"Pet", "Slap", "Go Back"};
 static void (*interactFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_pet, &PetInteract_slap, &returnToMain};

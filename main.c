@@ -9,6 +9,8 @@
 
 #include "menuReader.h"
 
+#include "utils.h"
+
 // Initialize/cleanup the module's data structures.
 static void main_init(void);
 static void main_cleanup(void);
@@ -24,10 +26,14 @@ int main(void)
 static void main_init(void)
 {
     ledMatrix_setup();
-    ledMatrix_drawTestPage();
-    MenuReader_allowTerminalIO(false);
+    ledMatrix_drawIntroPage();
+    sleepForMs(100);
 
+    MenuReader_allowTerminalIO(false);
     Pet_init();
+
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED * 2);
+
     PetMenu_init();
 
     Led_init();

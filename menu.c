@@ -4,6 +4,8 @@
 #include <sys/ioctl.h>
 #include "menu.h"
 
+#include "ledMatrix/ledMatrix.h"
+
 // The current menu printed
 static MenuOptions* curMenu;
 
@@ -56,7 +58,6 @@ static void tc_move_cursor(int x, int y)
 {
     printf("\033[%d;%df", y, x);
 }
-
 
 void Menu_selectOption(void) 
 {

@@ -1,204 +1,64 @@
-// -----------------------------------------
-// font:
+#ifndef SPRITES_H
+#define SPRITES_H
 
-// derived from https://upload.wikimedia.org/wikipedia/commons/6/67/3x3_typeface.svg
-const int LETTER_WIDTH = 3;
-const int LETTER_HEIGHT = 3;
-const int LETTER_SPRITE_LIST[6*4+2][3*3] = {
-    {   8,7,8,
-        7,7,7,
-        7,8,7,  }, //A
+extern const int LETTER_WIDTH;
+extern const int LETTER_HEIGHT;
+extern const int LETTER_SPRITE_LIST[6*4+2][3*3];
+extern const int LETTER_SPACE[9];
 
-    {   7,7,8,
-        7,7,7,
-        7,7,7,  }, //B
+extern const int BANGBANGBANG_WIDTH;
+extern const int BANGBANGBANG_HEIGHT;
+extern const int BANGBANGBANG_SPRITE[5 * 5];
 
-    {   7,7,7,
-        7,8,8,
-        7,7,7,  }, //C
+extern const int HEART_WIDTH;
+extern const int HEART_HEIGHT;
+extern const int HEART_SPRITE[5 * 5];
 
-    {   7,7,8,
-        7,8,7,
-        7,7,8,  }, //D
+extern const int HEART_SMALL_WIDTH;
+extern const int HEART_SMALL_HEIGHT;
+extern const int HEART_SMALL_SPRITE[3 * 2];
 
-    {   7,7,7,
-        7,7,8,
-        7,7,7,  }, //E
+extern const int HAND_WIDTH;
+extern const int HAND_HEIGHT;
+extern const int HAND_SPRITE[9 * 7];
 
-    {   7,7,7,
-        7,7,8,
-        7,8,8,  }, //F
+extern const int SKULL_WIDTH;
+extern const int SKULL_HEIGHT;
+extern const int SKULL_SPRITE[5*6];
 
-    {   7,7,8,
-        7,8,7,
-        7,7,7,  }, //G
+extern const int BERRY_WIDTH;
+extern const int BERRY_HEIGHT;
+extern const int BERRY_SPRITE[5*5];
 
-    {   7,8,7,
-        7,7,7,
-        7,8,7,  }, //H
+extern const int MEAT_WIDTH;
+extern const int MEAT_HEIGHT;
+extern const int MEAT_SPRITE[9*5];
 
-    {   7,7,7,
-        8,7,8,
-        7,7,7,  }, //I
+extern const int PLUS_WIDTH;
+extern const int PLUS_HEIGHT;
+extern const int PLUS_SPRITE[3*3];
 
-    {   8,8,7,
-        7,8,7,
-        7,7,7,  }, //J
+extern const int MINUS_WIDTH;
+extern const int MINUS_HEIGHT;
+extern const int MINUS_SPRITE[3*3];
 
-    {   7,8,7,
-        7,7,8,
-        7,8,7,  }, //K
+extern const int HAPPY_WIDTH;
+extern const int HAPPY_HEIGHT;
+extern const int HAPPY_SPRITE[10*10];
 
-    {   7,8,8,
-        7,8,8,
-        7,7,7,  }, //L
+extern const int BORED_WIDTH;
+extern const int BORED_HEIGHT;
+extern const int BORED_SPRITE[10*10];
 
-    {   7,7,7,
-        7,7,7,
-        7,8,7,  }, //M
+extern const int SAD_WIDTH;
+extern const int SAD_HEIGHT;
+extern const int SAD_SPRITE[10*10];
 
-    {   7,7,8,
-        7,8,7,
-        7,8,7,  }, //N
+extern const int DOG_WIDTH;
+extern const int DOG_HEIGHT;
+extern const int DOG_FRAME_1[15 * 9];
+extern const int DOG_FRAME_2[15 * 9];
+extern const int DOG_FRAME_3[15 * 9];
+extern const int DOG_TAIL_FRAME[15 * 9];
 
-    {   7,7,7,
-        7,8,7,
-        7,7,7,  }, //O
-
-    {   7,7,7,
-        7,7,7,
-        7,8,8,  }, //P
-
-    {   7,7,7,
-        7,7,7,
-        8,8,7,  }, //q
-
-    {   7,7,7,
-        7,8,8,
-        7,8,8,  }, //r
-
-    {   8,7,7,
-        8,7,8,
-        7,7,8,  }, //s
-
-    {   7,7,7,
-        8,7,8,
-        8,7,8,  }, //t
-
-    {   7,8,7,
-        7,8,7,
-        7,7,7,  }, //u
-
-    {   7,8,7,
-        7,8,7,
-        8,7,8,  }, //v
-
-    {   7,8,7,
-        7,7,7,
-        7,7,7,  }, //w
-
-    {   7,8,7,
-        8,7,8,
-        7,8,7,  }, //x
-        
-    {   7,8,7,
-        8,7,8,
-        8,7,8,  }, //y
-
-    {   7,7,8,
-        8,7,8,
-        8,7,7,  }, //z
-};
-
-const int LETTER_SPACE[9] = {
-    8,8,8,
-    8,8,8,
-    8,8,8,
-};
-
-// -----------------------------------------
-// sprites:
-
-const int BANGBANGBANG_WIDTH = 5;
-const int BANGBANGBANG_HEIGHT = 5;
-int BANGBANGBANG_SPRITE[5 * 5] = {
-    1,8,1,8, 1,
-    1,8,1,8, 1,
-    1,8,1,8, 1,
-    8,8,8,8, 8,
-
-    1,8,1,8, 1,
-};
-
-const int HEART_WIDTH = 5;
-const int HEART_HEIGHT = 5;
-int HEART_SPRITE[5 * 5] = {
-    8,1,8,1, 8,
-    1,1,1,1, 1,
-    1,1,1,1, 1,
-    8,1,1,1, 8,
-
-    8,8,1,8, 8,
-};
-
-const int HEART_SMALL_WIDTH = 3;
-const int HEART_SMALL_HEIGHT = 2;
-int HEART_SMALL_SPRITE[3 * 2] = {
-    1,8,1,
-    8,1,8,
-};
-
-const int DOG_WIDTH = 15;
-const int DOG_HEIGHT = 9;
-int DOG_FRAME_1[15 * 9] = {
-    8,8,8,8, 8,8,8,8, 4,8,8,8, 4,8,8,
-    8,8,8,8, 8,8,8,8, 4,4,4,4, 4,8,8,
-    4,4,8,4, 4,4,4,4, 4,4,7,4, 7,8,8,
-    8,4,4,4, 4,4,4,4, 4,4,4,4, 4,4,8,
-    
-    8,8,4,4, 4,4,4,4, 4,4,4,4, 7,7,4,
-    8,8,4,4, 4,4,4,4, 4,7,4,4, 4,4,8,
-    8,8,7,4, 4,7,7,7, 4,4,7,7, 7,8,8,
-    8,8,4,4, 7,4,8,8, 4,4,8,4, 4,8,8,
-    
-    8,8,7,8, 8,7,8,8, 7,8,8,8, 7,8,8
-};
-int DOG_FRAME_2[15 * 9] = {
-    8,8,8,8, 8,8,8,8, 4,8,8,8, 4,8,8,
-    4,8,8,8, 8,8,8,8, 4,4,4,4, 4,8,8,
-    8,4,8,4, 4,4,4,4, 4,4,7,4, 7,8,8,
-    8,4,4,4, 4,4,4,4, 4,4,4,4, 4,4,8,
-    
-    8,8,4,4, 4,4,4,4, 4,4,4,4, 7,7,4,
-    8,8,4,4, 4,4,4,4, 4,7,4,4, 4,4,8,
-    8,8,7,4, 4,7,7,7, 4,4,7,7, 8,8,8,
-    8,8,4,7, 4,4,8,4, 7,4,4,8, 8,8,8,
-    
-    8,8,7,8, 8,7,8,7, 8,8,7,8, 8,8,8
-};
-int DOG_FRAME_3[15 * 9] = {
-    8,8,8,8, 8,8,8,8, 4,8,8,8, 4,8,8,
-    8,8,8,8, 8,8,8,8, 4,4,4,4, 4,8,8,
-    4,4,8,4, 4,4,4,4, 4,4,7,4, 7,8,8,
-    8,4,4,4, 4,4,4,4, 4,4,4,4, 4,4,8,
-    
-    8,8,4,4, 4,4,4,4, 4,4,4,4, 7,7,4,
-    8,8,4,4, 4,4,4,4, 4,7,7,4, 4,4,8,
-    8,8,8,4, 4,7,7,7, 7,4,4,7, 4,8,8,
-    8,8,8,4, 7,4,8,8, 8,4,7,4, 8,8,8,
-    
-    8,8,8,4, 7,4,8,8, 8,4,7,4, 8,8,8
-};
-int DOG_TAIL_FRAME[15 * 9] = {
-    8,8,8,8, 8,8,8,8, 4,8,8,8, 4,8,8,
-    4,8,8,8, 8,8,8,8, 4,4,4,4, 4,8,8,
-    8,4,8,8, 4,4,4,4, 4,4,7,4, 7,8,8,
-    8,4,4,4, 4,4,4,4, 4,4,4,4, 4,4,8,
-    
-    8,8,4,4, 4,4,4,4, 4,4,4,4, 7,7,4,
-    8,8,4,4, 4,4,4,4, 4,7,4,4, 4,4,8,
-    8,8,7,4, 4,7,7,7, 4,4,7,7, 7,8,8,
-    8,8,4,4, 7,4,8,8, 4,4,8,4, 4,8,8,
-    
-    8,8,7,8, 8,7,8,8, 7,8,8,8, 7,8,8
-};
+#endif // !SPRITES_H

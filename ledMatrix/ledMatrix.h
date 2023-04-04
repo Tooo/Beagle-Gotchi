@@ -19,11 +19,16 @@ extern const int PURPLE;
 extern const int CYAN;
 extern const int WHITE;
 
-void ledMatrix_drawTestPage();
+extern const int DEFAULT_WIPE_SPEED;
 
-void ledMatrix_fillScreen(int colour);
+void ledMatrix_animateLeftWipe(int rateInMs); // this function sleeps the current thread to run the animation
+void ledMatrix_animateRightWipe(int rateInMs);
+
+void ledMatrix_drawIntroPage();
+void ledMatrix_drawExitPage();
 
 // drawing functions
+void ledMatrix_fillScreen(int colour);
 void ledMatrix_drawImage(const int* colorData, int width, int height, int xoff, int yoff);
 void ledMatrix_drawImageHFlipped(const int* colorData, int width, int height, int xoff, int yoff);
 void ledMatrix_drawHLine(int color, int xpoint, int ypoint, int xlength);

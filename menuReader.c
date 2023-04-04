@@ -80,7 +80,7 @@ void updateMenu() {
 
         const char* curr = Menu_getMenuName(Menu_getCurrentHiglighted()+i);
         if (Menu_getCurrentHiglighted()+i == Menu_getCurrentHiglighted()) {
-            ledMatrix_drawString(curr, 0, i * 4, GREEN); // YELLOW
+            ledMatrix_drawString(curr, 0, i * 4, GREEN);
         } else {
             ledMatrix_drawString(curr, 0, i * 4, WHITE);
         }
@@ -90,7 +90,6 @@ void updateMenu() {
 void* menuReaderThreadFunction(void* arg)
 {
     (void)arg;
-
     while(!stopping) {
         updateMenu();
         JoystickDirection direction = Joystick_getDirection();

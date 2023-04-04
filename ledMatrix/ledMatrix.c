@@ -62,6 +62,8 @@ const int CYAN   = 6;
 const int WHITE  = 7;
 const int TRANSPARENT = 8;
 
+const int DEFAULT_WIPE_SPEED = 10;
+
 pthread_t screenRefreshLoopThreadID = -1;
 atomic_bool stopScreenRefreshLoop = false;
 
@@ -257,14 +259,57 @@ void setBottomColor(int color) {
 // ---------------------------------- //
 // public
 
-void ledMatrix_drawTestPage() {
+void ledMatrix_animateLeftWipe(int rateInMs) {
+    for (int t = 31; t >= 0; t--) {
+        for (int y = 0; y < 16; y++) {
+            screen[t][y] = BLACK;
+            for (int x = 0; x < t; x++) {
+                screen[x][y] = screen[x+1][y]; 
+            }
+        }
+        sleepForMs(rateInMs);
+    }
+}
+
+void ledMatrix_animateRightWipe(int rateInMs) {
+    for (int t = 0; t < 32; t++) {
+        for (int y = 0; y < 16; y++) {
+            screen[0][y] = BLACK;
+            for (int x = 31; x > t; x--) {
+                screen[x][y] = screen[x-1][y]; 
+            }
+        }
+        sleepForMs(rateInMs);
+    }
+}
+
+void ledMatrix_drawIntroPage() {
     ledMatrix_fillScreen(BLACK);
 
     for (int i = 0; i < 26; i++) {
         int x = (i * 4) % 32;
         int y = ((i * 4) / 32) * 4;
-        ledMatrix_drawImage(LETTER_SPRITE_LIST[i], LETTER_WIDTH, LETTER_HEIGHT, x, y);
+        char str[2] = { 'a'+i, '\0' };
+        ledMatrix_drawString(str, x, y, (i % 7) + 1);
+        sleepForMs(25);
     }
+
+    sleepForMs(700);
+
+    ledMatrix_fillScreen(BLACK);
+
+    ledMatrix_drawString("beagle", 2, 2, YELLOW);
+    sleepForMs(150);
+    ledMatrix_drawString("gotchi", 6, 6, YELLOW);
+    sleepForMs(150);
+
+}
+
+void ledMatrix_drawExitPage() {
+    ledMatrix_fillScreen(BLACK);
+
+    ledMatrix_drawString("see ya", 2, 2, CYAN);
+    ledMatrix_drawString("later", 6, 6, CYAN);
 }
 
 void ledMatrix_fillScreen(int color) {
