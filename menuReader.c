@@ -8,8 +8,6 @@
 #include "joystick.h"
 #include "led.h"
 
-#include "ledMatrix/ledMatrix.h" // for colours
-
 static const int joystickSleepMs = 100;
 static const int joystickPushSleepMS = 250;
 static const int joystickDirectionSleepMS = 200;
@@ -72,19 +70,7 @@ void updateMenu() {
 
     ledMenu();
 
-    // TODO: Move this into a function in Menu_
-    ledMatrix_fillScreen(BLACK);
-    for (int i = 0; i < 4; i++) {
-        if (Menu_getCurrentHiglighted()+i >= Menu_getMenuSize()) 
-            continue;
-
-        const char* curr = Menu_getMenuName(Menu_getCurrentHiglighted()+i);
-        if (Menu_getCurrentHiglighted()+i == Menu_getCurrentHiglighted()) {
-            ledMatrix_drawString(curr, 0, i * 4, GREEN);
-        } else {
-            ledMatrix_drawString(curr, 0, i * 4, WHITE);
-        }
-    }
+    Menu_renderMenu();
 }
 
 void* menuReaderThreadFunction(void* arg)

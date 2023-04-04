@@ -33,6 +33,7 @@ void Menu_printOptions(void);
 // Change the currentHighlighted in a direction 
 // 0: up, 1, down, left: 2, right: 3
 void Menu_moveHighlighted(int direction);
+void Menu_moveCursorToTop(void);
 
 // Reverts back to the main menu
 void Menu_changeMenu(int menuNum);
@@ -41,8 +42,7 @@ void Menu_clickedPrint(void);
 
 int Menu_getCurrentHiglighted(void);
 
-const char* Menu_getMenuName(int i);
-
-int Menu_getMenuSize(void);
+// displays the menu using the led matrix
+void Menu_renderMenu(void);
 
 #endif

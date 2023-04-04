@@ -117,6 +117,10 @@ void Menu_moveHighlighted(int direction)
             break;
     }
 }
+void Menu_moveCursorToTop(void) 
+{
+    curMenu->currentHighlighted = 0;
+}
 
 void Menu_changeMenu(int menuNum)
 {
@@ -136,11 +140,18 @@ int Menu_getCurrentHiglighted(void)
     return curMenu->currentHighlighted;
 }
 
-const char* Menu_getMenuName(int i)
+void Menu_renderMenu(void) 
 {
-    return curMenu->menuNames[i];
-}
+    ledMatrix_fillScreen(BLACK);
+    for (int i = 0; i < 4; i++) {
+        if (curMenu->currentHighlighted+i >= curMenu->numOptions) 
+            continue;
 
-int Menu_getMenuSize(void) {
-    return curMenu->numOptions;
+        const char* curr = curMenu->menuNames[curMenu->currentHighlighted+i];
+        if (i == 0) {
+            ledMatrix_drawString(curr, 0, i * 4, GREEN);
+        } else {
+            ledMatrix_drawString(curr, 0, i * 4, WHITE);
+        }
+    }
 }

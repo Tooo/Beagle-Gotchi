@@ -10,12 +10,13 @@
 
 #include "utils.h"
 #include "ledMatrix/ledMatrix.h"
+#include "ledMatrix/animations.h"
 
 typedef enum {
     PET_MENU_MAIN = 0,
     PET_MENU_INTERACT,
     PET_MENU_PLAY,
-    PET_MENU_FEED,
+    PET_MENU_FOOD,
     PET_MENU_STATUS,
     PET_MENU_COUNT
 } PetMenuOptions;
@@ -29,26 +30,34 @@ static void printOption(void)
 static void goToInteract(void)
 {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
+
     Menu_changeMenu(PET_MENU_INTERACT);
+    Menu_moveCursorToTop();
 }
 
 static void goToPlay(void) 
 {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
+
     Menu_changeMenu(PET_MENU_PLAY);
+    Menu_moveCursorToTop();
 }
 
 static void goToFood(void) 
 {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
-    Menu_changeMenu(PET_MENU_FEED);
+
+    Menu_changeMenu(PET_MENU_FOOD);
+    Menu_moveCursorToTop();
 }
 
 static void goToStatus(void)
 {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
     DigitDisplay_init();
+
     Menu_changeMenu(PET_MENU_STATUS);
+    Menu_moveCursorToTop();
 }
 
 static void quit(void)
@@ -56,6 +65,7 @@ static void quit(void)
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
     ledMatrix_drawExitPage();
     sleepForMs(800);
+    
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
     Shutdown_trigger();
 }
@@ -63,23 +73,30 @@ static void quit(void)
 static void returnToMain(void)
 {
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+
     Menu_changeMenu(0);
 }
 
 static void moodOption(void)
 {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
+
     int mood = Pet_getMoodNum();
     ZenLed_turnOn(ZEN_LED_BLUE);
     DigitDisplay_setDigit(mood/10);
+
+    animations_playMoodAnimation(DEFAULT_FRAME_SPEED);
 }
 
 static void friendshipOption(void)
 {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
+
     int friendship = Pet_getFriendshipNum();
     ZenLed_turnOn(ZEN_LED_RED);
     DigitDisplay_setDigit(friendship/10);
+
+    animations_playFriendshipAnimation(DEFAULT_FRAME_SPEED);
 }
 
 static void hungerOption(void)
@@ -88,6 +105,8 @@ static void hungerOption(void)
     int hunger = Pet_getHungerNum();
     ZenLed_turnOn(ZEN_LED_GREEN);
     DigitDisplay_setDigit(hunger/10);
+
+    animations_playHungerAnimation(DEFAULT_FRAME_SPEED);
 }
 
 static void returnToMainDigit(void)
@@ -95,6 +114,7 @@ static void returnToMainDigit(void)
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
     ZenLed_turnOffAll();
     DigitDisplay_cleanup();
+
     Menu_changeMenu(0);
 }
 

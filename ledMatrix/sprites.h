@@ -57,6 +57,7 @@ extern const int SAD_SPRITE[10*10];
 extern const int DOG_WIDTH;
 extern const int DOG_HEIGHT;
 extern const int DOG_FRAME_1[15 * 9];
+extern const int DOG_FRAME_1_SAD[15 * 9];
 extern const int DOG_FRAME_2[15 * 9];
 extern const int DOG_FRAME_3[15 * 9];
 extern const int DOG_TAIL_FRAME[15 * 9];

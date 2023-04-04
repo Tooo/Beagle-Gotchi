@@ -56,7 +56,6 @@ void dogIdleRight(int speed, int frame, int dogX, int dogY) {
 // public
 
 void animations_playPettingAnimation(int frameTimeInMs) {
-    
     int dogX = 1;
     int dogY = 5;
 
@@ -66,7 +65,7 @@ void animations_playPettingAnimation(int frameTimeInMs) {
     int heartX = 13;
     int heartY = 8;
 
-    const int NUM_FRAMES = 28 * 4 + 3;
+    const int NUM_FRAMES = 28 * 4 + 6;
     for (int frame = 0; frame < NUM_FRAMES; frame++) {
         ledMatrix_fillScreen(BLACK);
         drawBackground();
@@ -125,28 +124,139 @@ void animations_playPettingAnimation(int frameTimeInMs) {
             }
         } else if (frame < 12 + 16 * 3 + 8) {
             handX += 1;
-
         } else if (frame < 12 + 16 * 3 + 8 + 4) {
             // pause
-            
         } else if (frame < 12 + 16 * 3 + 8 + 4 + 8) {
             ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX, heartY);
             heartY -= 1;
-            
         } else if (frame < 12 + 16 * 3 + 8 + 4 + 8 + 1) {
             ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX, heartY);
-            
         } else if (frame < 12 + 16 * 3 + 8 + 4 + 8 + 1 + 1) {
             ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX, heartY);
             heartY += 1;
-            
         } else {
             ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX, heartY);
-
         }
         
         sleepForMs(frameTimeInMs);
     }
 
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+}
+
+void animations_playSlappingAnimation(int frameTimeInMs) {
+    int dogX = 1;
+    int dogY = 5;
+
+    int handX = 22;
+    int handY = 1;
+
+    int sadX = 15;
+    int sadY = 6;
+
+    const int NUM_FRAMES = 28 * 3 + 12;
+    for (int frame = 0; frame < NUM_FRAMES; frame++) {
+        ledMatrix_fillScreen(BLACK);
+        drawBackground();
+
+        if (frame < 27) {
+            dogIdleRight(5, frame, dogX, dogY);
+        } else {
+            ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY);
+        }
+
+        ledMatrix_drawImage(HAND_SPRITE, HAND_WIDTH, HAND_HEIGHT, handX, handY);
+
+        if (frame == 18) {
+            dogX -= 1;
+        } else if (frame == 25) {
+            dogX += 1;
+        } 
+
+        if (frame < 5) {
+
+        } else if (frame < 10) {
+            handY += 1;
+        } else if (frame < 11) {
+            handX += 1;
+        } else if (frame < 12) {
+            handX -= 4;
+        } else if (frame < 10 + 7) {
+            handX -= 3;
+        } else if (frame < 10 + 7 + 5) {
+            handX += 3;
+        } else if (frame < 10 + 7 + 6) {
+            handX += 2;
+        } else if (frame < 10 + 7 + 7) {
+            handX += 1;
+        } else if (frame < 10 + 7 + 7 + 8 + 4) {
+            // pause
+        } else if (frame < 10 + 7 + 7 + 8 + 4 + 6) {
+            ledMatrix_drawImage(SAD_SPRITE, SAD_WIDTH, SAD_HEIGHT, sadX, sadY);
+            sadY -= 1;
+        } else if (frame < 10 + 7 + 7 + 8 + 4 + 6 + 1) {
+            ledMatrix_drawImage(SAD_SPRITE, SAD_WIDTH, SAD_HEIGHT, sadX, sadY);
+        } else if (frame < 10 + 7 + 7 + 8 + 4 + 6 + 1 + 1) {
+            ledMatrix_drawImage(SAD_SPRITE, SAD_WIDTH, SAD_HEIGHT, sadX, sadY);
+            sadY += 1;
+        } else {
+            ledMatrix_drawImage(SAD_SPRITE, SAD_WIDTH, SAD_HEIGHT, sadX, sadY);
+        }
+        
+        sleepForMs(frameTimeInMs);
+    }
+
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+}
+
+void animations_playMealAnimation(int frameTimeInMs) {
+    const int NUM_FRAMES = 28 * 1;
+    for (int frame = 0; frame < NUM_FRAMES; frame++) {
+        ledMatrix_fillScreen(BLACK);
+        drawBackground();
+
+        sleepForMs(frameTimeInMs);
+    }
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+}
+void animations_playSnackAnimation(int frameTimeInMs) {
+    const int NUM_FRAMES = 28 * 1;
+    for (int frame = 0; frame < NUM_FRAMES; frame++) {
+        ledMatrix_fillScreen(BLACK);
+        drawBackground();
+        sleepForMs(frameTimeInMs);
+
+    }
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+}
+
+void animations_playMoodAnimation(int frameTimeInMs) {
+    const int NUM_FRAMES = 28 * 1;
+    for (int frame = 0; frame < NUM_FRAMES; frame++) {
+        ledMatrix_fillScreen(BLACK);
+        drawBackground();
+        sleepForMs(frameTimeInMs);
+
+    }
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+}
+void animations_playFriendshipAnimation(int frameTimeInMs) {
+    const int NUM_FRAMES = 28 * 1;
+    for (int frame = 0; frame < NUM_FRAMES; frame++) {
+        ledMatrix_fillScreen(BLACK);
+        drawBackground();
+        sleepForMs(frameTimeInMs);
+
+    }
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+}
+void animations_playHungerAnimation(int frameTimeInMs) {
+    const int NUM_FRAMES = 28 * 1;
+    for (int frame = 0; frame < NUM_FRAMES; frame++) {
+        ledMatrix_fillScreen(BLACK);
+        drawBackground();
+        sleepForMs(frameTimeInMs);
+
+    }
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
 }

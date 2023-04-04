@@ -100,9 +100,6 @@ void setupPins() {
         nanosleep(&reqDelay, (struct timespec *) NULL);
     }
 
-    // TODO: do we need to config pins?
-    //runCommand("config-pin p8.14 gpio");
-
     // !Upper led
     setGpioDirection(RED1_PIN,   "out");
     setGpioDirection(GREEN1_PIN, "out");
@@ -216,7 +213,6 @@ void setTopColor(int color) {
     int arr[3] = {0, 0, 0};
     to3Bits(color, arr);
 
-    // TODO: make this a lil generic
     // Write on the colour pins
     char red1_val[2];
     sprintf(red1_val, "%d", arr[0]);
