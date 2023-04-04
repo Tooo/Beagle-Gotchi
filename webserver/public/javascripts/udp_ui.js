@@ -176,7 +176,7 @@ function sendCommandViaUDP(message) {
 			$('#error-box').hide();
 			$('#error-text').text('');
 		}
-	}, 1000);
+	}, 10000);
 };
 
 // Pass in a 16x16 array to display on pet screen 
@@ -209,7 +209,7 @@ function initMenus() {
     var interactButton = document.createElement('button');
     var feedButton = document.createElement('button');
 
-    // TODO: Interact menu 
+    // Interact menu 
     var petButton = document.createElement('button');
     var slapButton = document.createElement('button');
 
