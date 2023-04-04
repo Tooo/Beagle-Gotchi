@@ -4,8 +4,8 @@
 #define _MENU_H_
 
 #define MAX_OPTIONS_PER_ROW 1
-#define MAX_MENU_FUNC_COUNT 6
-#define MAX_MENU_COUNT 6
+#define MAX_MENU_FUNC_COUNT 7
+#define MAX_MENU_COUNT 7
 
 // inspired by https://blog.mozilla.org/nnethercote/2012/03/07/n-ary-trees-in-c/
 typedef struct {

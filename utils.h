@@ -31,8 +31,10 @@ void runCommand(const char* command);
 // custom utils:
 
 int readIntFromFile(const char* path);
+void readLineFromFile(const char* path, char* line, int lineSize);
 void writeIntToFilePointer(FILE* fp, int val);
 void writeIntToFile(const char* path, int val);
+void writeLineToFile(const char* path, const char* line);
 void silentTryWriteIntToFile(const char* path, int val);
 void writeBufferToFile(const char* path, const char* buffer);
 

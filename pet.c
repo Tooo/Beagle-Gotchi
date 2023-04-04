@@ -1,11 +1,15 @@
 #include <pthread.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "pet.h"
 #include "utils.h"
 #include "terminal.h"
 #include "stateSaver.h"
 #include "shutdown.h"
+
+#include "joystick.h"
+#include "ledMatrix/ledMatrix.h"
 
 typedef struct {
     char name[PET_NAME_MAX];
@@ -32,13 +36,142 @@ static void* petThreadFunction(void* arg);
 static pthread_t petThread;
 static bool stopping;
 
-void Pet_init()
+bool applyJoystick(int* index, char* shortName) {
+    bool doneNaming = false;
+    int i = *index;
+
+    JoystickDirection dir = Joystick_getDirection();
+    if (dir == JOYSTICK_UP) {
+        if (shortName[i] == ' ') {
+            shortName[i] = 'a';
+        } if (shortName[i] == 'z') {
+            shortName[i] = ' ';
+        } else {
+            shortName[i] = shortName[i] + 1;
+        }
+        
+        ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
+        sleepForMs(200);
+
+    } else if (dir == JOYSTICK_DOWN) {
+        if (shortName[i] == ' ') {
+            shortName[i] = 'z';
+        } if (shortName[i] == 'a') {
+            shortName[i] = ' ';
+        } else {
+            shortName[i] = shortName[i] - 1;
+        }
+        
+        ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
+        sleepForMs(200);
+
+    } else if (dir == JOYSTICK_LEFT) {
+        ledMatrix_drawVLine(BLACK, i * 4, 6, 3);
+
+        *index -= 1;
+        i = *index;
+        if (i < 0) { 
+            *index = 0;
+            i = 0;
+        }
+        
+        ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
+        sleepForMs(200);
+
+    } else if (dir == JOYSTICK_RIGHT) {
+        ledMatrix_drawVLine(BLACK, i * 4, 6, 3);
+
+        *index += 1;
+        i = *index;
+        if (i >= 8) { 
+            *index = 7;
+            i = 7;
+            if (strcmp(shortName, "        ") == 0) {
+                ledMatrix_drawString("bad name", 0, 12, RED);
+                sleepForMs(400);
+
+            } else {
+                doneNaming = true;
+            }
+        }
+        
+        ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
+        sleepForMs(200);
+    }
+
+    return doneNaming;
+}
+
+void Pet_init(bool isDebug)
 {
     char name[PET_NAME_MAX];
-    Terminal_inputPetName(name);
-
     char fileName[FILENAME_MAX];
-    snprintf(fileName, FILENAME_MAX, petFileHeader, name);
+    memset(name, 0, sizeof(name));
+    memset(fileName, 0, sizeof(fileName));
+
+    if (isDebug) {
+        // get input from terminal
+        Terminal_inputPetName(name);
+        snprintf(fileName, FILENAME_MAX, petFileHeader, name);
+        
+    } else {
+        sleepForMs(400);
+        ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
+
+        const char* meta_filename = "beagle-gotchi-states/meta.txt";
+
+        // check if meta.txt exists
+        if (access(meta_filename, F_OK) == 0) {
+            readLineFromFile("beagle-gotchi-states/meta.txt", name, PET_NAME_MAX);
+            snprintf(fileName, FILENAME_MAX, petFileHeader, name);
+
+            ledMatrix_drawString("loading", 0, 0, GREEN);
+            sleepForMs(200);
+            ledMatrix_drawString("pet", 0, 4, GREEN);
+            sleepForMs(200);
+            ledMatrix_drawString(name, 0, 8, WHITE);
+            sleepForMs(900);
+
+        } else {
+            unsigned long long frame = 0;
+            int i = 0;
+            char shortName[9] = "        ";
+
+            const int POLL_SPEED_MS = 50;
+            bool doneNaming = false;
+            while (!doneNaming) {
+                ledMatrix_fillScreen(BLACK);
+
+                // ask user to input name using joystick
+                ledMatrix_drawString("name pet", 0, 0, GREEN);
+                ledMatrix_drawHLine(GREEN, 1, 4, 29);
+                ledMatrix_drawString(shortName, 1, 6, YELLOW);
+
+                // render cursor
+                if (between(frame % 10, 0, 4)) {
+                    ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
+                }
+
+                doneNaming = applyJoystick(&i, shortName);
+
+                sleepForMs(POLL_SPEED_MS);
+                frame += 1;
+            }
+
+            // convert trailing spaces into NULLs when moving shortName to name
+            bool hitLetter = false;
+            for (; i >= 0; i--) {
+                if (hitLetter == false && shortName[i] == ' ') {
+                    name[i] = '\0';
+                } else {
+                    hitLetter = true;
+                    name[i] = shortName[i];
+                }
+            }
+
+            writeLineToFile("beagle-gotchi-states/meta.txt", name);
+        }
+    }
 
     if (StateSaver_stateExist(fileName)) {
         Terminal_printLoadedPetMsg(name);
@@ -59,7 +192,7 @@ void Pet_cleanup()
     Pet_unloadPet();
 }
 
-void Pet_createPet(char* name)
+void Pet_createPet(const char* name)
 {
     strncpy(pet.name, name, PET_NAME_MAX);
     pet.age = 0;
@@ -69,7 +202,12 @@ void Pet_createPet(char* name)
     pet.weight = 10;
 }
 
-void Pet_loadPet(char* name)
+void Pet_loadDefault()
+{
+    Pet_loadPet("default");
+}
+
+void Pet_loadPet(const char* name)
 {
     char fileName[PET_NAME_MAX];
     snprintf(fileName, PET_NAME_MAX, petFileHeader, name);

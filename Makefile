@@ -54,7 +54,7 @@ TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
 
-TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c
+TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c
 test_petScreen:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen
 

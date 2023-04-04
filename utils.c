@@ -90,6 +90,15 @@ int readIntFromFile(const char* path)
     return atoi(fileBuf);  
 }
 
+void readLineFromFile(const char* path, char* line, int lineSize) 
+{
+    FILE* fp = fopen(path, "r");
+    if (fp == NULL) { printf("Error reading file %s\n", path); exit(-1); }
+
+    fgets(line, lineSize, fp);
+    fclose(fp);
+}
+
 void writeIntToFilePointer(FILE* fp, int val) 
 {
     const int MAX_LINE_LEN = 20; // fits 9,223,372,036,854,775,807
@@ -106,6 +115,14 @@ void writeIntToFile(const char* path, int val)
 
     // write int
     writeIntToFilePointer(fp, val);
+    fclose(fp);
+}
+
+void writeLineToFile(const char* path, const char* line) {
+    FILE* fp = fopen(path, "w");
+    if (fp == NULL) { printf("Error writing file %s\n", path); exit(-1); }
+
+    fwrite(line, 1, strlen(line), fp);
     fclose(fp);
 }
 
