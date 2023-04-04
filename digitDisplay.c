@@ -52,6 +52,8 @@ void DigitDisplay_init(void)
     writeI2cReg(i2cFileDesc, REG_DIRA, 0x00);
     writeI2cReg(i2cFileDesc, REG_DIRB, 0x00);
 
+    displayDigit = 0;
+
     stopping = false;
     pthread_create(&displayThread, NULL, &DigitDisplay_threadFunction, NULL);
 }

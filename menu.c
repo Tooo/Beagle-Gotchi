@@ -4,49 +4,42 @@
 #include <sys/ioctl.h>
 #include "menu.h"
 
-#define MAX_OPTIONS_PER_ROW 2
-#define MAX_NUM_MENU_FUNCTIONS 4
-
 // The current menu printed
-MenuOptionNode * curMenuNode;
-
-// Main menu node
-MenuOptionNode mainMenu;
-MenuOptions mainMenuOptions;
-// Sub menu
-MenuOptionNode subMenuNode;
-MenuOptions subMenuOptions;
+static MenuOptions* curMenu;
 
 // Our functions and menu names
-char * mainMenuNames[] = {"Interact", "Games", "Status", "Feed"};
+static MenuOptions menuOptions[MAX_MENU_COUNT];
+static int menuCount = 0;
 
-char * subMenuNames[] = {"Food", "Back"};
+void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions)
+{
+    if (menuCount > MAX_MENU_COUNT ) {
+        return;
+    }
 
-// Test functions for menu 
-static void print1(void)
-{
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked1";
-}
-static void print2(void)
-{
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked2";
-}
-static void print3(void)
-{
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked3";
-}
-static void print4(void) // Test function for deeper menu
-{
-    curMenuNode = &subMenuNode;
+    menuOptions[menuCount].func = functions;
+    menuOptions[menuCount].menuNames = menuNames;
+    menuOptions[menuCount].numOptions = numOptions;
+    menuOptions[menuCount].currentHighlighted = 0;
+    menuCount++;
 }
 
-static void print5(void)
+void Menu_init(void)
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-    currentMenuOptions->menuNames[currentMenuOptions->currentHighlighted] = "Clicked5";
+    curMenu = &menuOptions[0];
+    Menu_printOptions();
+}
+
+void Menu_cleanup(void)
+{
+    for (int i = 0; i < MAX_MENU_COUNT; i++) {
+        menuOptions[i].func = NULL;
+        menuOptions[i].menuNames = NULL;
+        menuOptions[i].numOptions = 0;
+        menuOptions[i].currentHighlighted = 0;
+    }
+    menuCount = 0;
+    printf("\n");
 }
 
 // Gets the terminal window size in columns and rows
@@ -65,14 +58,12 @@ static void tc_move_cursor(int x, int y)
 }
 
 
-void Menu_selectOption() 
+void Menu_selectOption(void) 
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-
-    currentMenuOptions->func[currentMenuOptions->currentHighlighted]();
+    curMenu->func[curMenu->currentHighlighted]();
 }
 
-void Menu_printOptions()
+void Menu_printOptions(void)
 {
     // Clear screen
     printf("\033c");
@@ -83,19 +74,17 @@ void Menu_printOptions()
     tc_get_cols_rows(&xScreen, &yScreen);
     tc_move_cursor(xScreen/2, yScreen/2);
 
-    MenuOptions * currentMenuOptions = curMenuNode->options;
-
     // Print each menu option
-    for (int i=0; i<currentMenuOptions->numOptions; i++) {
+    for (int i=0; i<curMenu->numOptions; i++) {
         if (i > 0 && i % MAX_OPTIONS_PER_ROW == 0) {
             // Go to the next line
             tc_move_cursor(xScreen/2, (yScreen/2) + (i/MAX_OPTIONS_PER_ROW));
         }
-        if (i == currentMenuOptions->currentHighlighted) {
-            printf("[ %-10s ]", currentMenuOptions->menuNames[i]);
+        if (i == curMenu->currentHighlighted) {
+            printf("[ %-10s ]", curMenu->menuNames[i]);
         }
         else {
-            printf("  %-10s  ", currentMenuOptions->menuNames[i]);
+            printf("  %-10s  ", curMenu->menuNames[i]);
         }
     }
     fflush(stdout);
@@ -103,77 +92,45 @@ void Menu_printOptions()
 
 void Menu_moveHighlighted (int direction)
 {
-    MenuOptions * currentMenuOptions = curMenuNode->options;
     switch (direction) {
         case 0:/// Up
-            if (currentMenuOptions->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
-                currentMenuOptions->currentHighlighted -= MAX_OPTIONS_PER_ROW;
+            if (curMenu->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
+                curMenu->currentHighlighted -= MAX_OPTIONS_PER_ROW;
             }
             break;
         case 1: // Down
-            if (currentMenuOptions->currentHighlighted + MAX_OPTIONS_PER_ROW < currentMenuOptions->numOptions) {
-                currentMenuOptions->currentHighlighted += MAX_OPTIONS_PER_ROW;
+            if (curMenu->currentHighlighted + MAX_OPTIONS_PER_ROW < curMenu->numOptions) {
+                curMenu->currentHighlighted += MAX_OPTIONS_PER_ROW;
             }
             break;
         case 2: // Left
-            if (currentMenuOptions->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted -= 1;
+            if (curMenu->currentHighlighted % MAX_OPTIONS_PER_ROW != 0) {
+                curMenu->currentHighlighted -= 1;
             }
             break;
         case 3:
-            if ((currentMenuOptions->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0) {
-                currentMenuOptions->currentHighlighted += 1;
+            if ((curMenu->currentHighlighted + 1) % MAX_OPTIONS_PER_ROW != 0 
+                && (curMenu->currentHighlighted + 1) < curMenu->numOptions) {
+                curMenu->currentHighlighted += 1;
             }
             break;
     }
 }
 
-void Menu_setBackToMainMenu()
+void Menu_changeMenu(int menuNum)
 {
-    curMenuNode = &mainMenu;
+    if (menuNum > menuCount ) {
+        return;
+    }
+    curMenu = &menuOptions[menuNum];
 }
 
-void Menu_init()
+void Menu_clickedPrint(void)
 {
-    // Init the main menu
-    mainMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
-    mainMenuOptions.func[0] = &print1;
-    mainMenuOptions.func[1] = &print2;
-    mainMenuOptions.func[2] = &print3;
-    mainMenuOptions.func[3] = &print4;
-
-    mainMenuOptions.menuNames = mainMenuNames;
-    mainMenuOptions.numOptions = 4;
-    mainMenuOptions.currentHighlighted = 0;
-
-    mainMenu.options = &mainMenuOptions;
-    mainMenu.numKids = 0;
-
-    // Set the current menu as the mainMenu
-    curMenuNode = &mainMenu;
-
-    // Create Submenu
-    subMenuOptions.func = malloc(sizeof(void(*)(void)) * MAX_NUM_MENU_FUNCTIONS);
-    subMenuOptions.func[0] = &print5;
-    subMenuOptions.func[1] = &Menu_setBackToMainMenu;
-
-    subMenuOptions.menuNames = subMenuNames;
-    subMenuOptions.numOptions = 2;
-    subMenuOptions.currentHighlighted = 0;
-
-    subMenuNode.options = &subMenuOptions;
-    subMenuNode.numKids = 0;
-
-    // Set the current menu as the mainMenu
-    curMenuNode = &mainMenu;
-
-    Menu_printOptions();
+    curMenu->menuNames[curMenu->currentHighlighted] = "Clicked";
 }
 
-void Menu_cleanup()
+int Menu_getCurrentHiglighted(void)
 {
-    void (**menuPtr)(void) = mainMenuOptions.func;
-    free(menuPtr);
-    menuPtr = subMenuOptions.func;
-    free(menuPtr);
+    return curMenu->currentHighlighted;
 }
