@@ -1,7 +1,7 @@
 // test_ledMatrix2.c
 // This file tests writing colours & animations using ledMatrix.h
 
-#include "../ledMatrix.h"
+#include "../ledMatrix/ledMatrix.h"
 
 #include <stdio.h>
 #include <stdlib.h>

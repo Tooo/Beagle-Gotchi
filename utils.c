@@ -252,3 +252,7 @@ void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char*
 		exit(-1);
 	}
 }
+
+bool between(int x, int lower, int upper) {
+    return (x >= lower) && (x <= upper);
+}

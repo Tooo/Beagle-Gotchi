@@ -1,7 +1,7 @@
 // test_ledAnimation.c
 // This file tests reading from files & playing an animation using ledMatrix.h
 
-#include "../ledMatrix.h"
+#include "../ledMatrix/ledMatrix.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -251,7 +251,7 @@ int main() {
         }
 
         // NOTE: printing a frame causes a flicker in the display
-        if (frame % 8 == 0) {
+        if (frame % 8 == 9) {
             printf("frame: %d\n", frame);
 
             char buffer[550];
