@@ -1,5 +1,4 @@
 #include <pthread.h>
-#include <sched.h>
 #include <stdatomic.h>
 
 #include "menuReader.h"

@@ -5,7 +5,6 @@
 #include <ctype.h>
 #include <sched.h>
 #include <unistd.h>
-#include <errno.h>
 
 #include <stdbool.h>
 #include <string.h>

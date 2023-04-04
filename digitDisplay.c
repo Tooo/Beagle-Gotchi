@@ -6,8 +6,6 @@
 #include "digitDisplay.h"
 #include "utils.h"
 
-#include "ledMatrix/ledMatrix.h"
-
 // I2C bus and address
 #define I2CDRV_LINUX_BUS1 "/dev/i2c-1"
 #define I2C_DEVICE_ADDRESS 0x20
