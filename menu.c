@@ -4,6 +4,8 @@
 #include <sys/ioctl.h>
 #include "menu.h"
 
+#include "ledMatrix/ledMatrix.h"
+
 // The current menu printed
 static MenuOptions* curMenu;
 
@@ -27,7 +29,6 @@ void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptio
 void Menu_init(void)
 {
     curMenu = &menuOptions[0];
-    Menu_printOptions();
 }
 
 void Menu_cleanup(void)
@@ -56,7 +57,6 @@ static void tc_move_cursor(int x, int y)
 {
     printf("\033[%d;%df", y, x);
 }
-
 
 void Menu_selectOption(void) 
 {
@@ -90,10 +90,10 @@ void Menu_printOptions(void)
     fflush(stdout);
 }
 
-void Menu_moveHighlighted (int direction)
+void Menu_moveHighlighted(int direction)
 {
     switch (direction) {
-        case 0:/// Up
+        case 0: /// Up
             if (curMenu->currentHighlighted - MAX_OPTIONS_PER_ROW >= 0) {
                 curMenu->currentHighlighted -= MAX_OPTIONS_PER_ROW;
             }
@@ -116,6 +116,10 @@ void Menu_moveHighlighted (int direction)
             break;
     }
 }
+void Menu_moveCursorToTop(void) 
+{
+    curMenu->currentHighlighted = 0;
+}
 
 void Menu_changeMenu(int menuNum)
 {
@@ -133,4 +137,20 @@ void Menu_clickedPrint(void)
 int Menu_getCurrentHiglighted(void)
 {
     return curMenu->currentHighlighted;
+}
+
+void Menu_renderMenu(void) 
+{
+    ledMatrix_fillScreen(BLACK);
+    for (int i = 0; i < 4; i++) {
+        if (curMenu->currentHighlighted+i >= curMenu->numOptions) 
+            continue;
+
+        const char* curr = curMenu->menuNames[curMenu->currentHighlighted+i];
+        if (i == 0) {
+            ledMatrix_drawString(curr, 0, i * 4, GREEN);
+        } else {
+            ledMatrix_drawString(curr, 0, i * 4, WHITE);
+        }
+    }
 }

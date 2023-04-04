@@ -3,7 +3,7 @@
 #ifndef _MENU_H_
 #define _MENU_H_
 
-#define MAX_OPTIONS_PER_ROW 2
+#define MAX_OPTIONS_PER_ROW 1
 #define MAX_MENU_FUNC_COUNT 6
 #define MAX_MENU_COUNT 6
 
@@ -33,6 +33,7 @@ void Menu_printOptions(void);
 // Change the currentHighlighted in a direction 
 // 0: up, 1, down, left: 2, right: 3
 void Menu_moveHighlighted(int direction);
+void Menu_moveCursorToTop(void);
 
 // Reverts back to the main menu
 void Menu_changeMenu(int menuNum);
@@ -40,5 +41,8 @@ void Menu_changeMenu(int menuNum);
 void Menu_clickedPrint(void);
 
 int Menu_getCurrentHiglighted(void);
+
+// displays the menu using the led matrix
+void Menu_renderMenu(void);
 
 #endif
