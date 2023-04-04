@@ -9,7 +9,7 @@ CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
 CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c 
-CFILES += joystick.c digitDisplay.c led.c zenLed.c 
+CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c
 CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
 
@@ -42,7 +42,7 @@ TEST_WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
 test_waterSensor:
 	$(CC_C) $(CFLAGS) $(TEST_WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
 
-TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c led.c ledMatrix/ledMatrix.c ledMatrix/sprites.c tests/test_menu.c
+TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c led.c buzzer.c ledMatrix/ledMatrix.c ledMatrix/sprites.c tests/test_menu.c
 test_menu:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu
 
