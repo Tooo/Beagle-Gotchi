@@ -7,6 +7,7 @@
 #include <time.h>
 
 #include "networking.h"
+#include "pet.h"
 
 #define MSG_MAX_LEN 1024
 #define MAX_MESSAGE_STATE_LEN 50
@@ -30,102 +31,29 @@ static void send_dgram(int sockDescriptor, struct sockaddr_in sinRemote, char* m
 	} 
 }
 
-// static void udp_change_mode_command(int sockDescriptor, struct sockaddr_in sinRemote, int n) {
-// 	char * reply = "modeSuccess";
+// Gets the full status from the pet and send it over udp
+static void udp_get_status_command(int sockDescriptor, struct sockaddr_in sinRemote) 
+{
+	char *msg = (char*)malloc(MAX_MESSAGE_STATE_LEN  * sizeof(char));
 
-// 	State_set_mode(n);
+	char *name = (char*)malloc(10  * sizeof(char));
 	
-// 	send_dgram(sockDescriptor, sinRemote, reply);
-// }
+	Pet_getName(name);
+	int age = Pet_getAge();
+	int mood = Pet_getMoodNum();
+	int friendship = Pet_getFriendshipNum();
+	int hunger = Pet_getHungerNum();
+	int weight = Pet_getWeight();
 
-// static void udp_increase_volume_command(int sockDescriptor, struct sockaddr_in sinRemote) {
-// 	char * reply = "volumeSuccess";
-// 	State_increase_volume();
-// 	send_dgram(sockDescriptor, sinRemote, reply);
-// }
+	// status {name} {age} {mood} {friendship} {hunger} {weight}
+ 	sprintf(msg, "status %s %d %d %d %d %d", name, age, mood, friendship, hunger, weight);
+	printf("%s\n", msg);
 
-// static void udp_decrease_volume_command(int sockDescriptor, struct sockaddr_in sinRemote) {
-// 	char * reply = "volumeSuccess";
-// 	State_decrease_volume();
-// 	send_dgram(sockDescriptor, sinRemote, reply);
-// }
+	send_dgram(sockDescriptor, sinRemote, msg);
 
-// static void udp_increase_tempo_command(int sockDescriptor, struct sockaddr_in sinRemote) {
-// 	char * reply = "tempoSuccess";
-// 	State_increase_tempo();
-// 	send_dgram(sockDescriptor, sinRemote, reply);
-// }
-
-// static void udp_decrease_tempo_command(int sockDescriptor, struct sockaddr_in sinRemote) {
-// 	char * reply = "tempoSuccess";
-// 	State_decrease_tempo();
-// 	send_dgram(sockDescriptor, sinRemote, reply);
-// }
-
-// static void udp_play_sound_command(int sockDescriptor, struct sockaddr_in sinRemote, char* note) {
-// 	// Confirm playing sound
-// 	char * reply = "soundSuccess";
-// 	if (strncmp(note, "hihat", strlen("hihat")) == 0) {
-// 		State_play_sound(0);
-// 	}
-// 	else if (strncmp(note, "snare", strlen("snare")) == 0) {
-// 		State_play_sound(1);
-// 	}
-// 	else if (strncmp(note, "bass", strlen("bass")) == 0) {
-// 		State_play_sound(2);
-// 	}
-// 	else {
-// 		printf("Invalid sound to play from udp\n");
-// 	}
-// 	send_dgram(sockDescriptor, sinRemote, reply);
-// }
-
-// static void udp_get_mode_command(int sockDescriptor, struct sockaddr_in sinRemote)
-// {
-// 	int mode = State_get_mode();
-	
-// 	char *modeMsg = (char*)malloc(MAX_MESSAGE_STATE_LEN * sizeof(char));
-// 	sprintf(modeMsg, "state mode %i", mode);
-
-// 	send_dgram(socketDescriptor, sinRemote, modeMsg);
-
-// 	free(modeMsg);
-// }
-
-// static void udp_get_volume_command(int sockDescriptor, struct sockaddr_in sinRemote)
-// {
-// 	int volume = State_get_volume();
-	
-// 	char *msg = (char*)malloc(MAX_MESSAGE_STATE_LEN * sizeof(char));
-// 	sprintf(msg, "state volume %i", volume);
-
-// 	send_dgram(socketDescriptor, sinRemote, msg);
-
-// 	free(msg);
-// }
-
-// static void udp_get_tempo_command(int sockDescriptor, struct sockaddr_in sinRemote)
-// {
-// 	int tempo = State_get_tempo();
-	
-// 	char *msg = (char*)malloc(MAX_MESSAGE_STATE_LEN * sizeof(char));
-// 	sprintf(msg, "state tempo %i", tempo);
-
-// 	send_dgram(socketDescriptor, sinRemote, msg);
-
-// 	free(msg);
-// }
-
-// static void udp_get_uptime_command(int sockDescriptor, struct sockaddr_in sinRemote)
-// {
-// 	int uptime = get_device_uptime();
-	
-// 	char *msg = (char*)malloc(MAX_MESSAGE_STATE_LEN * sizeof(char));
-// 	sprintf(msg, "state uptime %i", uptime);
-
-// 	send_dgram(socketDescriptor, sinRemote, msg);
-// 	free(msg);
-// }
+	free(msg);
+	free(name);
+}
 
 static void udp_feed_command(int sockDescriptor, struct sockaddr_in sinRemote, char* feed) {
 	// Confirm feed
@@ -203,6 +131,9 @@ static void *udp_listen_thread()
 			memcpy(feedString, &messageRx[5], 5);
 
 			udp_feed_command(socketDescriptor, sinRemote, feedString);
+		}
+		else if (strncmp(messageRx, "get-status", strlen("get-status")) == 0) {
+			udp_get_status_command(socketDescriptor, sinRemote);
 		}
 		else {
 			printf("INVALID COMMAND\n");

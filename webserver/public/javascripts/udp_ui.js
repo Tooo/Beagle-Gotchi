@@ -126,6 +126,21 @@ $(document).ready(function() {
             let pixels = petStages[stage];
             setPetScreen(pixels);
 		}
+        else if (slicedResult[0] == "status") {
+            let name = slicedResult[1];
+            let age = slicedResult[2];
+            let mood = slicedResult[3];
+            let friendship = slicedResult[4];
+            let hunger = slicedResult[5];
+            let weight = slicedResult[6];
+
+            $('#pet-name').html(name);
+            $('#pet-age').html(age);
+            $('#pet-mood').html(mood);
+            $('#pet-friendship').html(friendship);
+            $('#pet-hunger').html(hunger);
+            $('#pet-weight').html(weight);
+        }
 		else {
 			console.log(`MSG: ${result}`);
 		}
@@ -134,7 +149,8 @@ $(document).ready(function() {
 	// 
 	https://stackoverflow.com/questions/7188145/call-a-javascript-function-every-5-seconds-continuously
 	var intervalId = window.setInterval(function () {
-		sendCommandViaUDP("get-pet-screen")
+		sendCommandViaUDP("get-pet-screen");
+        sendCommandViaUDP("get-status");
 	}, 1000);
 });
 

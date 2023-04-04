@@ -19,7 +19,7 @@ DEPLOY_PATH= $(OUTDIR)/$(PROJECT_NAME)-copy
 
 all: beagle_gotchi test deploy node_install
 
-TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed
+TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed test_website
 test: $(TESTS)
 
 beagle_gotchi:
@@ -58,7 +58,7 @@ TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
 
-TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c
+TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSaver.c terminal.c 
 test_website: node
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_WEBSITE_FILES) -o $(OUTDIR)/test_website
 
