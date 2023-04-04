@@ -185,6 +185,7 @@ void Pet_addWeight(int value)
 static void* petThreadFunction(void* arg)
 {
     (void)arg;
+
     while (!stopping) {
         if (pet.hunger > 0) {
             pet.hunger--;

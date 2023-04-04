@@ -263,3 +263,7 @@ char* replace_char(char* str, char find, char replace){
     }
     return str;
 }
+
+bool between(int x, int lower, int upper) {
+    return (x >= lower) && (x <= upper);
+}
