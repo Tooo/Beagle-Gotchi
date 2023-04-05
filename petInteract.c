@@ -1,8 +1,14 @@
 #include "petInteract.h"
 #include "pet.h"
+#include "audio.h"
 
 #include "ledMatrix/ledMatrix.h"
 #include "ledMatrix/animations.h"
+
+static char* sounds[2] = {
+    "beagle-gotchi-waves/mixkit-dog-barking-twice-1.wav",
+    "beagle-gotchi-waves/mixkit-little-pug-dog-heavy-breathing-57.wav",
+};
 
 void PetInteract_feedSnack(void)
 {
@@ -12,6 +18,7 @@ void PetInteract_feedSnack(void)
     Pet_addHunger(100);
     Pet_addMood(200);
     Pet_addWeight(5);
+    Pet_addFriendship(10);
 }
 
 void PetInteract_feedMeal(void)
@@ -22,6 +29,7 @@ void PetInteract_feedMeal(void)
     Pet_addHunger(200);
     Pet_addMood(100);
     Pet_addWeight(10);
+    Pet_addFriendship(5);
 }
 
 void PetInteract_pet(void)
@@ -30,6 +38,7 @@ void PetInteract_pet(void)
     animations_playPettingAnimation(DEFAULT_FRAME_SPEED);
     
     Pet_addMood(50);
+    Pet_addFriendship(5);
 }
 
 void PetInteract_slap(void)
@@ -38,4 +47,11 @@ void PetInteract_slap(void)
     animations_playSlappingAnimation(DEFAULT_FRAME_SPEED);
 
     Pet_addMood(-50);
+    Pet_addFriendship(-5);
+}
+
+void PetInteract_bark(void)
+{
+    Audio_playSoundWithThread(sounds[0]);
+    Audio_joinThread();
 }

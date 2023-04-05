@@ -9,19 +9,22 @@ CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
 CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c 
-CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c
+CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c audio.c
 CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
 LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
-all: beagle_gotchi test wav
+all: beagle_gotchi test states wav
 
 TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed test_buzzer test_audio
 test: $(TESTS)
 
 beagle_gotchi:
 	cd $(OUTDIR) && mkdir -p beagle-gotchi-states
-	$(CC_C) $(CFLAGS) $(LIBS) $(CFILES) -o $(OUTDIR)/$(OUTFILE)
+	$(CC_C) $(CFLAGS) $(LIBS) $(CFILES) -o $(OUTDIR)/$(OUTFILE) $(LFLAGS) -lasound
+
+states:
+	mkdir -p $(OUTDIR)/beagle-gotchi-states
 
 wav:
 	mkdir -p $(OUTDIR)/beagle-gotchi-waves/ 

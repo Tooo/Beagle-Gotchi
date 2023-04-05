@@ -15,6 +15,8 @@ int main(void)
     Audio_playSoundWithThread(sounds[0]);
     Audio_joinThread();
 
+    Audio_playSoundWithThread(sounds[1]);
+    Audio_joinThread();
 
     Audio_cleanup();
 }
