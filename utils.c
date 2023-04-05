@@ -186,6 +186,21 @@ bool exportGpio(int pinNum)
     }
 }
 
+bool exportGpioUnchecked(int pinNum)
+{
+    // Export the gpio pins
+    FILE *gpioExP = fopen(GPIO_PATH "export", "w");
+    if (gpioExP == NULL) {
+        printf("ERROR: Unable to open export file.\n");
+        return false;
+    } else {
+        fprintf(gpioExP, "%d", pinNum);
+        fclose(gpioExP);
+    
+        return true;
+    }
+}
+
 void setGpioDirection(int pinNum, const char* direction)
 {
     // Change the direction gpio file

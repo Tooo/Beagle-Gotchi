@@ -95,7 +95,7 @@ void setupPins() {
     didExport = didExport | exportGpio(C_PIN);
 
     if (didExport) {
-        struct timespec reqDelay = {5, 0};
+        struct timespec reqDelay = {5+15+20, 0};
         nanosleep(&reqDelay, (struct timespec *) NULL);
     }
 
@@ -422,6 +422,30 @@ void ledMatrix_disable() {
     stopScreenRefreshLoop = true;
     pthread_join(screenRefreshLoopThreadID, NULL);
 }
+
+void ledMatrix_cleanup_extra() {
+    // NOTE: this should unexport all the pins so they don't accidentally fire? also so there's an extra wait at startup
+    bool didExport;
+    didExport = exportGpioUnchecked(RED1_PIN);
+    didExport = didExport | exportGpioUnchecked(GREEN1_PIN);
+    didExport = didExport | exportGpioUnchecked(BLUE1_PIN);
+
+    // Lower led
+    didExport = didExport | exportGpioUnchecked(RED2_PIN);
+    didExport = didExport | exportGpioUnchecked(GREEN2_PIN);
+    didExport = didExport | exportGpioUnchecked(BLUE2_PIN);
+
+    // Timing
+    didExport = didExport | exportGpioUnchecked(CLK_PIN);
+    didExport = didExport | exportGpioUnchecked(LATCH_PIN);
+    didExport = didExport | exportGpioUnchecked(OE_PIN);
+
+    // Row Select
+    didExport = didExport | exportGpioUnchecked(A_PIN);
+    didExport = didExport | exportGpioUnchecked(B_PIN);
+    didExport = didExport | exportGpioUnchecked(C_PIN);
+}
+
 void ledMatrix_cleanup() {
     ledMatrix_disable();
 
@@ -452,28 +476,6 @@ void ledMatrix_cleanup() {
     //setGpioDirection(A_PIN,      "in");
     //setGpioDirection(B_PIN,      "in");
     //setGpioDirection(C_PIN,      "in");
-
-    // NOTE: this should unexport all the pins so they don't accidentally fire? also so there's an extra wait at startup
-
-    bool didExport;
-    didExport = exportGpio(RED1_PIN);
-    didExport = didExport | exportGpio(GREEN1_PIN);
-    didExport = didExport | exportGpio(BLUE1_PIN);
-
-    // Lower led
-    didExport = didExport | exportGpio(RED2_PIN);
-    didExport = didExport | exportGpio(GREEN2_PIN);
-    didExport = didExport | exportGpio(BLUE2_PIN);
-
-    // Timing
-    didExport = didExport | exportGpio(CLK_PIN);
-    didExport = didExport | exportGpio(LATCH_PIN);
-    didExport = didExport | exportGpio(OE_PIN);
-
-    // Row Select
-    didExport = didExport | exportGpio(A_PIN);
-    didExport = didExport | exportGpio(B_PIN);
-    didExport = didExport | exportGpio(C_PIN);
 }
 
 // fills outstr with the level data. Make sure outstr is large enough to fit it! (size must be >= 17 * 32 + 1)

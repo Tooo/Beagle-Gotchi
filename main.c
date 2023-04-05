@@ -47,10 +47,6 @@ int main(int argc, char *argv[])
     main_init(argc, argv);
     Shutdown_wait();
     main_cleanup();
-    
-    if (isFullShutdown()) {
-        runCommand("sudo shutdown -h now");
-    }
     return 0;
 }
 
@@ -93,4 +89,9 @@ static void main_cleanup(void)
     
     PetMenu_cleanup();
     Pet_cleanup();
+
+    if (isFullShutdown()) {
+        ledMatrix_cleanup_extra();
+        runCommand("sudo shutdown -h now");
+    }
 }

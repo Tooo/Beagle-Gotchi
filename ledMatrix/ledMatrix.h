@@ -40,8 +40,7 @@ void ledMatrix_setPixel(int color, int x, int y);
 void ledMatrix_refresh();
 
 void ledMatrix_setup();
-//void ledMatrix_enable();
-//void ledMatrix_disable();
+void ledMatrix_cleanup_extra();
 void ledMatrix_cleanup();
 
 void ledMatrix_toString(char* outstr, bool visibility_mode);

@@ -41,6 +41,7 @@ void writeBufferToFile(const char* path, const char* buffer);
 bool startswith(const char* prefix, const char* str);
 
 bool exportGpio(int pinNum);
+bool exportGpioUnchecked(int pinNum);
 void setGpioDirection(int pinNum, const char* direction);
 void setGpioValue(int pinNum, const char* value);
 

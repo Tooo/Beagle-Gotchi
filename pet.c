@@ -164,6 +164,8 @@ void Pet_init()
             }
 
             writeLineToFile("beagle-gotchi-states/meta.txt", name);
+            snprintf(fileName, FILENAME_MAX, petFileHeader, name);
+            ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
         }
     }
 

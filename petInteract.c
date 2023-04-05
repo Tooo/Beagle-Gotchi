@@ -24,6 +24,17 @@ void PetInteract_feedMeal(void)
     Pet_addWeight(10);
 }
 
+void PetInteract_drink(void) {
+    ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
+    bool success = animations_playDrinkAnimation(DEFAULT_FRAME_SPEED); // NOTE: this is an interactive animation
+
+    if (success) {
+        Pet_addHunger(50);
+        Pet_addMood(150);
+        Pet_addWeight(2);
+    }
+}
+
 void PetInteract_pet(void)
 {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);

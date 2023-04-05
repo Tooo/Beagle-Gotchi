@@ -4,13 +4,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <stdbool.h>
 #include <string.h>
 #include <time.h>
 
 #include "../utils.h"
+#include "../waterSensor.h"
+
 #include "ledMatrix.h"
 #include "sprites.h"
+
 
 const int DEFAULT_FRAME_SPEED = 35; // ~28fps
 
@@ -82,11 +84,9 @@ void animations_playPettingAnimation(int frameTimeInMs) {
             dogY += 1;
         }
 
-        if (frame < 5) {
-
-        } else if (frame < 12) {
-            handX -= 1;
-        } else if (frame < 12 + 16 * 3) {
+        if (frame < 5) { } 
+        else if (frame < 12) { handX -= 1; } 
+        else if (frame < 12 + 16 * 3) {
             if (frame < 12+3) {
                 handX -= 1;
             } else if (frame < 12+3+5) {
@@ -143,7 +143,6 @@ void animations_playPettingAnimation(int frameTimeInMs) {
 
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
 }
-
 void animations_playSlappingAnimation(int frameTimeInMs) {
     int dogX = 1;
     int dogY = 5;
@@ -228,6 +227,60 @@ void animations_playSnackAnimation(int frameTimeInMs) {
 
     }
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+}
+bool animations_playDrinkAnimation(int frameTimeInMs) {
+    int dogX = 1;
+    int dogY = 5;
+
+    bool didSubmerge = false;
+    const int WAIT_TIME = 28 * 5;
+    for (int frame = 0; frame < WAIT_TIME; frame++) {
+        ledMatrix_fillScreen(BLACK);
+        drawBackground();
+        dogIdleRight(5, frame, dogX, dogY);
+
+        ledMatrix_drawHLine(RED, 0, 0, (frame * 32)/(28*5));
+        
+        if (waterSensor_isSubmerged()) {
+            didSubmerge = true;
+            break;
+        }
+
+        sleepForMs(frameTimeInMs);
+    }
+
+    if (didSubmerge) {
+        // play actual drinking animation
+        const int NUM_FRAMES = 28 * 2 + 14;
+        for (int frame = 0; frame < NUM_FRAMES; frame++) {
+            ledMatrix_fillScreen(BLACK);
+            drawBackground();
+
+            ledMatrix_drawRect(CYAN, 20, 0, 4, min((frame*14)/20, 14));
+
+            if (frame < 20) { dogIdleRight(5, frame, dogX, dogY); }
+            else if (frame < 25) { dogWalkRight(8, frame, dogX, dogY); dogX += 1; }
+            else if (frame < 35) { dogIdleRight(5, frame, dogX, dogY); }
+            else if (frame < 40) { dogWalkRight(8, frame, dogX, dogY); dogX -= 1; }
+            else if (frame < 40+4) { dogIdleRight(5, frame, dogX, dogY); dogY -= 1; }
+            else if (frame < 40+8) { dogIdleRight(5, frame, dogX, dogY); dogY += 1; }
+            else { dogIdleRight(5, frame, dogX, dogY); }
+
+            sleepForMs(frameTimeInMs);
+        }
+    } else {
+        const int NUM_FRAMES = 16;
+        for (int frame = 0; frame < NUM_FRAMES; frame++) {
+            ledMatrix_fillScreen(BLACK);
+            drawBackground();
+            ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY);
+
+            sleepForMs(frameTimeInMs);
+        }
+    }
+
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+    return didSubmerge;
 }
 
 void animations_playMoodAnimation(int frameTimeInMs) {

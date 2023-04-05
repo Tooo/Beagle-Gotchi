@@ -9,7 +9,7 @@ CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
 CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c 
-CFILES += joystick.c digitDisplay.c led.c zenLed.c 
+CFILES += joystick.c digitDisplay.c led.c zenLed.c waterSensor.c a2d.c
 CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
 
