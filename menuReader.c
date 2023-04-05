@@ -6,6 +6,7 @@
 #include "utils.h"
 #include "joystick.h"
 #include "led.h"
+#include "buzzer.h"
 
 static const int joystickSleepMs = 100;
 static const int joystickPushSleepMS = 250;
@@ -84,9 +85,11 @@ void* menuReaderThreadFunction(void* arg)
             sleepForMs(joystickSleepMs);
         } else if (direction == JOYSTICK_PUSH) {
             Menu_selectOption();
+            Buzzer_playNote(BUZZER_NOTE_C, 100);
             sleepForMs(joystickPushSleepMS);
         } else {
             Menu_moveHighlighted(direction);
+            Buzzer_playNote(BUZZER_NOTE_A, 100);
             sleepForMs(joystickDirectionSleepMS);
         }
     }
