@@ -60,7 +60,7 @@ static void main_init(int argc, char *argv[])
 
     ledMatrix_setup();
     ledMatrix_drawIntroPage();
-    sleepForMs(400);
+    sleepForMs(800);
 
     // running the program with the -d flag turns on debug mode 
     // (for setting current pet & restarting)
