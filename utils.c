@@ -90,6 +90,15 @@ int readIntFromFile(const char* path)
     return atoi(fileBuf);  
 }
 
+void readLineFromFile(const char* path, char* line, int lineSize) 
+{
+    FILE* fp = fopen(path, "r");
+    if (fp == NULL) { printf("Error reading file %s\n", path); exit(-1); }
+
+    fgets(line, lineSize, fp);
+    fclose(fp);
+}
+
 void writeIntToFilePointer(FILE* fp, int val) 
 {
     const int MAX_LINE_LEN = 20; // fits 9,223,372,036,854,775,807
@@ -109,6 +118,14 @@ void writeIntToFile(const char* path, int val)
     fclose(fp);
 }
 
+void writeLineToFile(const char* path, const char* line) {
+    FILE* fp = fopen(path, "w");
+    if (fp == NULL) { printf("Error writing file %s\n", path); exit(-1); }
+
+    fwrite(line, 1, strlen(line), fp);
+    fclose(fp);
+}
+
 void silentTryWriteIntToFile(const char* path, int val)
 {
     FILE* fp = fopen(path, "w");
@@ -116,6 +133,23 @@ void silentTryWriteIntToFile(const char* path, int val)
         writeIntToFilePointer(fp, val);
         fclose(fp);
     }
+}
+
+void writeBufferToFile(const char* path, const char* buffer)
+{
+    FILE *pFile = fopen(path, "w");
+    if (pFile == NULL) {
+        printf("ERROR: Unable to open %s.\n", path);
+        exit(1);
+    }
+
+    int charWritten = fprintf(pFile, buffer);
+    if (charWritten <= 0) {
+        printf("ERROR: Cannot write %s.\n", path);
+        exit(1);
+    }
+
+    fclose(pFile);
 }
 
 // helpful oneliner derived from: 
@@ -128,7 +162,7 @@ bool startswith(const char* prefix, const char* str)
 // returns true if the pin was changed, and false if otherwise
 bool exportGpio(int pinNum)
 {
-    char fileNameBuf[256];
+    char fileNameBuf[MAX_BUFFER_SIZE];
     sprintf(fileNameBuf, GPIO_PATH "gpio%d", pinNum);
     if (access(fileNameBuf, F_OK) == 0) {
         printf("%s exists\n", fileNameBuf);
@@ -152,7 +186,7 @@ bool exportGpio(int pinNum)
 void setGpioDirection(int pinNum, const char* direction)
 {
     // Change the direction gpio file
-    char fileNameBuffer[256];
+    char fileNameBuffer[MAX_BUFFER_SIZE];
     sprintf(fileNameBuffer, GPIO_PATH "gpio%d/direction", pinNum);
         
     FILE *gpioDirP = fopen(fileNameBuffer, "w");
@@ -163,7 +197,7 @@ void setGpioDirection(int pinNum, const char* direction)
 void setGpioValue(int pinNum, const char* value) 
 {
     // Change the value gpio file
-    char fileNameBuffer[256];
+    char fileNameBuffer[MAX_BUFFER_SIZE];
     sprintf(fileNameBuffer, GPIO_PATH "gpio%d/value", pinNum);
         
     FILE *gpioValP = fopen(fileNameBuffer, "w");
@@ -234,4 +268,19 @@ void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char*
 		perror("Unable to read i2c register");
 		exit(-1);
 	}
+}
+
+// Takes a string, character, and a replacement character returns a new string 
+// With that character replaced
+char* replace_char(char* str, char find, char replace){
+    char *current_pos = strchr(str,find);
+    while (current_pos) {
+        *current_pos = replace;
+        current_pos = strchr(current_pos,find);
+    }
+    return str;
+}
+
+bool between(int x, int lower, int upper) {
+    return (x >= lower) && (x <= upper);
 }

@@ -7,7 +7,7 @@
 static char* folderPath = "beagle-gotchi-states/%s.dat";
 static const int PATH_BUFFER_LENGTH = 100;
 
-void StateSaver_loadModule(char* fileName, void* module, size_t size)
+void StateSaver_loadModule(const char* fileName, void* module, size_t size)
 {
     char filePath[PATH_BUFFER_LENGTH];
     snprintf(filePath, PATH_BUFFER_LENGTH, folderPath, fileName);
@@ -24,20 +24,20 @@ void StateSaver_loadModule(char* fileName, void* module, size_t size)
     return;
 }
 
-void StateSaver_unloadModule(char* fileName, void* module, size_t size)
+void StateSaver_unloadModule(const char* fileName, void* module, size_t size)
 {
     char filePath[PATH_BUFFER_LENGTH];
     snprintf(filePath, PATH_BUFFER_LENGTH, folderPath, fileName);
     FILE *pFile = fopen(filePath, "w");
 
-    if (!pFile) {
-        printf("ERROR: Unable to open %s.\n", filePath);
+    if (pFile == NULL) {
+        printf("ERROR: Unable to open %s\n", filePath);
         exit(1);
     }
 
     int charWritten = fwrite(module, size, 1, pFile);
     if (charWritten <= 0) {
-        printf("ERROR: Cannot write %s.\n", filePath);
+        printf("ERROR: Cannot write %s\n", filePath);
         exit(1);
     }
 
@@ -45,7 +45,7 @@ void StateSaver_unloadModule(char* fileName, void* module, size_t size)
     return;
 }
 
-bool StateSaver_stateExist(char* fileName)
+bool StateSaver_stateExist(const char* fileName)
 {
     char filePath[PATH_BUFFER_LENGTH];
     snprintf(filePath, PATH_BUFFER_LENGTH, folderPath, fileName);

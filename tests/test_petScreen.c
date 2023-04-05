@@ -6,7 +6,7 @@ static int sleepTimeMs = 10000;
 
 int main(void)
 {
-    Pet_init();
+    Pet_init(true);
     PetScreen_init();
 
     sleepForMs(sleepTimeMs);

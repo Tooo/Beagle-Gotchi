@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define MAX_BUFFER_SIZE 256
+
 // ------------------------------- //
 // provided utils:
 
@@ -29,9 +31,13 @@ void runCommand(const char* command);
 // custom utils:
 
 int readIntFromFile(const char* path);
+void readLineFromFile(const char* path, char* line, int lineSize);
 void writeIntToFilePointer(FILE* fp, int val);
 void writeIntToFile(const char* path, int val);
+void writeLineToFile(const char* path, const char* line);
 void silentTryWriteIntToFile(const char* path, int val);
+void writeBufferToFile(const char* path, const char* buffer);
+
 bool startswith(const char* prefix, const char* str);
 
 bool exportGpio(int pinNum);
@@ -42,5 +48,7 @@ int initI2cBus(char* bus, int address);
 void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value);
 unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr);
 void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char* buffer, int size);
+char* replace_char(char* str, char find, char replace);
+bool between(int x, int lower, int upper);
 
 #endif
