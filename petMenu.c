@@ -130,7 +130,7 @@ static void hungerOption(void)
     ZenLed_turnOn(ZEN_LED_GREEN);
     DigitDisplay_setDigit(hunger/10);
 
-    animations_playHungerAnimation(DEFAULT_FRAME_SPEED);
+    animations_playHungerAnimation(DEFAULT_FRAME_SPEED, hunger);
 }
 
 static void returnToMainDigit(void)

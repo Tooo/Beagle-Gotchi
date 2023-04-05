@@ -8,6 +8,8 @@
 #include "led.h"
 #include "buzzer.h"
 
+#include "networking.h"
+
 static const int joystickSleepMs = 100;
 static const int joystickPushSleepMS = 250;
 static const int joystickDirectionSleepMS = 200;
@@ -20,6 +22,8 @@ static pthread_t menuReaderThread;
 
 static bool stopping;
 atomic_bool terminalIODisabled = true; // if true, all printing from this thread will be disabled (debugging reasons)
+//pthread_mutex_t ledMatrix;
+// pthread_mutex_lock()
 
 void MenuReader_allowTerminalIO(bool enabled) {
     terminalIODisabled = !enabled;
@@ -71,7 +75,9 @@ void updateMenu() {
 
     ledMenu();
 
-    Menu_renderMenu();
+	if (!udp_usingLEDMatrix()) {
+        Menu_renderMenu();
+    }
 }
 
 void* menuReaderThreadFunction(void* arg)

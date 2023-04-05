@@ -17,6 +17,6 @@ bool animations_playDrinkAnimation(int frameTimeInMs);
 
 void animations_playMoodAnimation(int frameTimeInMs, int mood);
 void animations_playFriendshipAnimation(int frameTimeInMs, int friendship);
-void animations_playHungerAnimation(int frameTimeInMs);
+void animations_playHungerAnimation(int frameTimeInMs, int hunger);
 
 #endif //!ANIMATIONS_H

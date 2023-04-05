@@ -372,7 +372,6 @@ void animations_playMoodAnimation(int frameTimeInMs, int mood) {
         else if (frame < 14) { faceY -= 1;  } 
         else if (frame < 15) { } 
         else if (frame < 17) { faceY += 1; } 
-        else { }
 
         sleepForMs(frameTimeInMs);
     }
@@ -398,7 +397,7 @@ void animations_playFriendshipAnimation(int frameTimeInMs, int friendship) {
                 ledMatrix_drawImage(HEART_SMALL_SPRITE, HEART_SMALL_WIDTH, HEART_SMALL_HEIGHT, heartX, heartY);
             } else {
                 ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX, heartY);
-                ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX+2, heartY+2);
+                ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX+6, heartY+1);
             }
         }
 
@@ -421,19 +420,57 @@ void animations_playFriendshipAnimation(int frameTimeInMs, int friendship) {
         else if (frame < 16) { heartY -= 1;  } 
         else if (frame < 17) { } 
         else if (frame < 19) { heartY += 1; } 
-        else { }
 
         sleepForMs(frameTimeInMs);
     }
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
 }
-void animations_playHungerAnimation(int frameTimeInMs) {
-    const int NUM_FRAMES = 28 * 1;
+void animations_playHungerAnimation(int frameTimeInMs, int hunger) {
+    int dogX = 1;
+    int dogY = 5;
+
+    bool foodVisible = false;
+    int foodX = 16;
+    int foodY = 10;
+
+    const int NUM_FRAMES = 28 * 1 + 18;
     for (int frame = 0; frame < NUM_FRAMES; frame++) {
         ledMatrix_fillScreen(BLACK);
         drawBackground();
-        sleepForMs(frameTimeInMs);
 
+        if (foodVisible) {
+            if (hunger/10 <= 33) {
+                ledMatrix_drawImage(SKULL_SPRITE, SKULL_WIDTH, SKULL_HEIGHT, foodX, foodY);
+            } else if (hunger/10 <= 66) {
+                ledMatrix_drawImage(MEAT_SPRITE, MEAT_WIDTH, MEAT_HEIGHT, foodX, foodY);
+            } else {
+                ledMatrix_drawImage(MEAT_SPRITE, MEAT_WIDTH, MEAT_HEIGHT, foodX-1, foodY-1);
+                ledMatrix_drawImage(PLUS_SPRITE, PLUS_WIDTH, PLUS_HEIGHT, foodX+9, foodY);
+                ledMatrix_drawImage(PLUS_SPRITE, PLUS_WIDTH, PLUS_HEIGHT, foodX+13, foodY);
+            }
+        }
+        
+        if (hunger/10 <= 33) {
+            ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY);
+        } else if (hunger/10 <= 66) {
+            if (frame < 30) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); }
+            else if (frame < 30+4) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); dogY -= 1; }
+            else if (frame < 30+8) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); dogY += 1; }
+            else { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); }
+        } else {
+            if (frame < 30) { dogIdleRight(5, frame, dogX, dogY); }
+            else if (frame < 30+4) { dogIdleRight(5, frame, dogX, dogY); dogY -= 1; }
+            else if (frame < 30+8) { dogIdleRight(5, frame, dogX, dogY); dogY += 1; }
+            else { dogIdleRight(5, frame, dogX, dogY); }
+        }
+
+        if (frame < 6) {  } 
+        else if (frame < 7) { foodVisible = true; } 
+        else if (frame < 16) { foodY -= 1;  } 
+        else if (frame < 17) { } 
+        else if (frame < 19) { foodY += 1; } 
+
+        sleepForMs(frameTimeInMs);
     }
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
 }

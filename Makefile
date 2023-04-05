@@ -61,9 +61,9 @@ TEST_WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
 test_waterSensor:
 	$(CC_C) $(CFLAGS) $(TEST_WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
 
-TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c led.c buzzer.c ledMatrix/ledMatrix.c ledMatrix/sprites.c tests/test_menu.c
+TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c led.c buzzer.c ledMatrix/ledMatrix.c ledMatrix/sprites.c tests/test_menu.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/animations.c audio.c waterSensor.c a2d.c
 test_menu:
-	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu $(LFLAGS) -lasound
 
 TEST_JOYSTICK_FILES = utils.c joystick.c tests/test_joystick.c
 test_joystick:
@@ -77,9 +77,9 @@ TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSav
 test_website: node
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_WEBSITE_FILES) -o $(OUTDIR)/test_website $(LFLAGS) -lasound
 
-TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c joystick.c buzzer.c
+TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c joystick.c buzzer.c networking.c petInteract.c ledMatrix/animations.c audio.c waterSensor.c a2d.c
 test_petScreen:
-	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen $(LFLAGS) -lasound
 
 TEST_LED_FILES = utils.c led.c tests/test_led.c
 test_led:

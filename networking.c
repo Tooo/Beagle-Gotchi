@@ -10,6 +10,7 @@
 #include "networking.h"
 #include "pet.h"
 #include "utils.h"
+#include "ledMatrix/ledMatrix.h"
 
 #define MSG_MAX_LEN 1024
 #define MAX_MESSAGE_STATE_LEN 50
@@ -18,6 +19,8 @@
 struct sockaddr_in;
 static pthread_t listenThread;
 static int socketDescriptor;
+
+bool _usingLEDMatrix = false;
 
 bool stopping;
 
@@ -66,10 +69,18 @@ static void udp_feed_command(int sockDescriptor, struct sockaddr_in sinRemote, c
 	// Confirm feed
 	char * reply = "feedSuccess";
 	if (strncmp(feed, "meal", strlen("meal")) == 0) {
+		_usingLEDMatrix = true;
+		sleepForMs(1);
 		PetInteract_feedMeal();
+		ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+		_usingLEDMatrix = false;
 	}
 	else if (strncmp(feed, "snack", strlen("snack")) == 0) {
+		_usingLEDMatrix = true;
+		sleepForMs(1);
 		PetInteract_feedSnack();
+		ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+		_usingLEDMatrix = false;
 	}
 	else {
 		printf("Invalid feed command from udp\n");
@@ -81,10 +92,18 @@ static void udp_interact_command(int sockDescriptor, struct sockaddr_in sinRemot
 	// Confirm interact
 	char * reply = "interactSuccess";
 	if (strncmp(interaction, "pet", strlen("pet")) == 0) {
+		_usingLEDMatrix = true;
+		sleepForMs(1);
 		PetInteract_pet();
+		ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+		_usingLEDMatrix = false;
 	}
 	else if (strncmp(interaction, "slap", strlen("slap")) == 0) {
+		_usingLEDMatrix = true;
+		sleepForMs(1);
 		PetInteract_slap();
+		ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+		_usingLEDMatrix = false;
 	}
 	else {
 		printf("Invalid interaction command from udp\n");
@@ -185,4 +204,8 @@ void udp_clean_up(void) {
 	pthread_join(listenThread, NULL);
 	// Close
 	close(socketDescriptor);
+}
+
+bool udp_usingLEDMatrix(void) {
+	return _usingLEDMatrix;
 }
