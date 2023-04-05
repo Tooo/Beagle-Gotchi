@@ -1,0 +1,94 @@
+
+#petContainer {
+	height: 400px;
+	overflow: auto;
+	background-color: #eee;
+	margin-bottom: 1em;
+	margin-right: 10px;
+	background-color: black;
+	border-radius: 10px;
+}
+
+#menuContainer {
+	align-items: center;
+}
+
+body {
+	font-family: 'Courier New', Courier, monospace;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+h1, h2 {
+	margin-bottom: 1px;
+	padding-bottom: 1px;
+}
+
+#status-box {
+	float: right;
+	width: 250px;
+	min-height: 150pt;
+	border: thin black solid;
+	background-color: #f3f3f3;
+	padding-left: 10pt;
+	padding-right: 10pt;
+}
+
+#content {
+	margin-top: 10pt;
+}
+
+#error-box {
+	border: thin black solid;
+	clear: both;
+	background-color: red;
+	padding-left: 10pt;
+	padding-right: 10pt;
+	min-height: 100pt;
+	margin-top: 20px;
+	display: none;
+}
+
+#petScreen {
+	margin:auto;
+	margin-top: 20px;
+	background-color: black;
+	color: white;
+}
+
+.status-container {
+	display: inline-block;
+}
+/* https://getcssscan.com/css-buttons-examples */
+button {
+  background-color: red;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  margin-right: 10px;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:hover,
+button:focus {
+  background-color: #F082AC;
+}

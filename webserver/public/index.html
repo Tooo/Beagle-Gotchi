@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<title>BeagleGotchi Website</title>
+	<link rel='stylesheet' href='./stylesheets/style.css'></link>
+</head>
+
+<body>
+	<div id='content'>
+		<h1>Beagle-Gotchi</h1>
+		<div id='status-box'>
+			<h2>Status</h2>
+			<div id='pet-name-container'>
+				Pet name: <div id='pet-name' class='status-container'>???</div>
+			</div>
+			<div id='pet-age-container'>
+				Pet age: <div id='pet-age' class='status-container'>???</div>
+			</div>
+			<div id='pet-mood-container'>
+				Pet mood: <div id='pet-mood' class='status-container'>???</div>
+			</div>
+			<div id='pet-friendship-container'>
+				Pet friendship: <div id='pet-friendship' class='status-container'>???</div>
+			</div>
+			<div id='pet-hunger-container'>
+				Pet hunger: <div id='pet-hunger' class='status-container'>???</div>
+			</div>
+			<div id='pet-weight-container'>
+				Pet weight: <div id='pet-weight' class='status-container'>???</div>
+			</div>
+		</div>
+		<div id='petContainer'>
+			<table id='petScreen'></table>
+		</div>
+	</div>
+	<div id='menuContainer'>
+
+	</div>
+	<div id='error-box'>
+		<h2>Server Error</h2>
+		<p>Server error detected. Please resolve error before continuing.</p>
+		<div><code id='error-text'>No error yet... did you hide this div correctly via Javascript? :)</code></div>
+	</div>
+	
+	<script src='/socket.io/socket.io.js' type='text/javascript'></script>
+	<script src='http://code.jquery.com/jquery-1.8.0.min.js' type='text/javascript'></script>
+	<script src='javascripts/udp_ui.js' type='text/javascript'></script>
+</body>
+</html>
