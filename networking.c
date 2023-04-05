@@ -162,6 +162,9 @@ static void *udp_listen_thread()
 		else if (strncmp(messageRx, "get-status", strlen("get-status")) == 0) {
 			udp_get_status_command(socketDescriptor, sinRemote);
 		}
+		else if (bytesRx == 0) { // Close
+			break;
+		}
 		else {
 			printf("INVALID COMMAND\n");
 		}
@@ -178,6 +181,7 @@ void udp_init(void) {
 
 void udp_clean_up(void) {
 	stopping = true;
+	shutdown(socketDescriptor, SHUT_RDWR);
 	pthread_join(listenThread, NULL);
 	// Close
 	close(socketDescriptor);
