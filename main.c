@@ -47,6 +47,10 @@ int main(int argc, char *argv[])
     main_init(argc, argv);
     Shutdown_wait();
     main_cleanup();
+    
+    if (isFullShutdown()) {
+        runCommand("sudo shutdown -h now");
+    }
     return 0;
 }
 
@@ -60,14 +64,18 @@ static void main_init(int argc, char *argv[])
 
     ledMatrix_setup();
     ledMatrix_drawIntroPage();
+    sleepForMs(400);
 
-    // running the program with the -d flag turns on the debug mode for setting the current pet
+    // running the program with the -d flag turns on debug mode 
+    // (for setting current pet & restarting)
     if ((argc > 1 && strcmp(argv[1], "-d") == 0) || 
         (argc > 2 && strcmp(argv[2], "-d") == 0)) {
-        Pet_init(true);
+        setDebugMode(true);
     } else {
-        Pet_init(false);
+        setDebugMode(false);
     }
+
+    Pet_init();
 
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
 

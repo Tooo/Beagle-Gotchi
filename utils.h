@@ -50,4 +50,10 @@ unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr);
 void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char* buffer, int size);
 bool between(int x, int lower, int upper);
 
+void setDebugMode(bool mode);
+bool isDebugMode();
+
+void setFullShutdown(bool mode);
+bool isFullShutdown();
+
 #endif

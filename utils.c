@@ -17,6 +17,9 @@
 
 #define GPIO_PATH "/sys/class/gpio/"
 
+bool _isDebugMode = false;
+bool _isFullShutdown = false;
+
 // ------------------------------- //
 // provided utils:
 
@@ -270,6 +273,25 @@ void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char*
 	}
 }
 
-bool between(int x, int lower, int upper) {
+bool between(int x, int lower, int upper) 
+{
     return (x >= lower) && (x <= upper);
+}
+
+void setDebugMode(bool mode) 
+{
+    _isDebugMode = mode;
+}
+bool isDebugMode() 
+{
+    return _isDebugMode;
+}
+
+void setFullShutdown(bool mode) 
+{
+    _isFullShutdown = mode;
+}
+bool isFullShutdown() 
+{
+    return _isFullShutdown;
 }

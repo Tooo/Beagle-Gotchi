@@ -67,6 +67,11 @@ static void quit(void)
     sleepForMs(800);
     
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+    if (isDebugMode()) {
+        setFullShutdown(false);
+    } else {
+        setFullShutdown(true);
+    }
     Shutdown_trigger();
 }
 

@@ -36,7 +36,8 @@ static void* petThreadFunction(void* arg);
 static pthread_t petThread;
 static bool stopping;
 
-bool applyJoystick(int* index, char* shortName) {
+bool applyJoystick(int* index, char* shortName) 
+{
     bool doneNaming = false;
     int i = *index;
 
@@ -44,7 +45,7 @@ bool applyJoystick(int* index, char* shortName) {
     if (dir == JOYSTICK_UP) {
         if (shortName[i] == ' ') {
             shortName[i] = 'a';
-        } if (shortName[i] == 'z') {
+        } else if (shortName[i] == 'z') {
             shortName[i] = ' ';
         } else {
             shortName[i] = shortName[i] + 1;
@@ -56,7 +57,7 @@ bool applyJoystick(int* index, char* shortName) {
     } else if (dir == JOYSTICK_DOWN) {
         if (shortName[i] == ' ') {
             shortName[i] = 'z';
-        } if (shortName[i] == 'a') {
+        } else if (shortName[i] == 'a') {
             shortName[i] = ' ';
         } else {
             shortName[i] = shortName[i] - 1;
@@ -102,14 +103,14 @@ bool applyJoystick(int* index, char* shortName) {
     return doneNaming;
 }
 
-void Pet_init(bool isDebug)
+void Pet_init()
 {
     char name[PET_NAME_MAX];
     char fileName[FILENAME_MAX];
     memset(name, 0, sizeof(name));
     memset(fileName, 0, sizeof(fileName));
 
-    if (isDebug) {
+    if (isDebugMode()) {
         // get input from terminal
         Terminal_inputPetName(name);
         snprintf(fileName, FILENAME_MAX, petFileHeader, name);
@@ -124,13 +125,6 @@ void Pet_init(bool isDebug)
         if (access(meta_filename, F_OK) == 0) {
             readLineFromFile("beagle-gotchi-states/meta.txt", name, PET_NAME_MAX);
             snprintf(fileName, FILENAME_MAX, petFileHeader, name);
-
-            ledMatrix_drawString("loading", 0, 0, GREEN);
-            sleepForMs(200);
-            ledMatrix_drawString("pet", 0, 4, GREEN);
-            sleepForMs(200);
-            ledMatrix_drawString(name, 0, 8, WHITE);
-            sleepForMs(900);
 
         } else {
             unsigned long long frame = 0;
@@ -174,9 +168,23 @@ void Pet_init(bool isDebug)
     }
 
     if (StateSaver_stateExist(fileName)) {
+        ledMatrix_drawString("loading", 0, 0, GREEN);
+        sleepForMs(200);
+        ledMatrix_drawString("pet", 0, 4, GREEN);
+        sleepForMs(200);
+        ledMatrix_drawString(name, 0, 8, WHITE);
+        sleepForMs(900);
+
         Terminal_printLoadedPetMsg(name);
         Pet_loadPet(name);
     } else {
+        ledMatrix_drawString("creating", 0, 0, GREEN);
+        sleepForMs(200);
+        ledMatrix_drawString("pet", 0, 4, GREEN);
+        sleepForMs(200);
+        ledMatrix_drawString(name, 0, 8, WHITE);
+        sleepForMs(900);
+
         Terminal_printNewPetMsg(name);
         Pet_createPet(name);
     }
