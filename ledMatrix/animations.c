@@ -153,7 +153,7 @@ void animations_playSlappingAnimation(int frameTimeInMs) {
     int sadX = 15;
     int sadY = 6;
 
-    const int NUM_FRAMES = 28 * 3 + 12;
+    const int NUM_FRAMES = 28 * 2 + 10;
     for (int frame = 0; frame < NUM_FRAMES; frame++) {
         ledMatrix_fillScreen(BLACK);
         drawBackground();
@@ -330,23 +330,100 @@ bool animations_playDrinkAnimation(int frameTimeInMs) {
     return didSubmerge;
 }
 
-void animations_playMoodAnimation(int frameTimeInMs) {
-    const int NUM_FRAMES = 28 * 1;
+void animations_playMoodAnimation(int frameTimeInMs, int mood) {
+    int dogX = 1;
+    int dogY = 5;
+
+    bool faceVisible = false;
+    int faceX = 15;
+    int faceY = 6;
+    
+    const int NUM_FRAMES = 28 * 1 + 18;
     for (int frame = 0; frame < NUM_FRAMES; frame++) {
         ledMatrix_fillScreen(BLACK);
         drawBackground();
-        sleepForMs(frameTimeInMs);
 
+        if (faceVisible) {
+            if (mood/10 <= 33) {
+                ledMatrix_drawImage(SAD_SPRITE, SAD_WIDTH, SAD_HEIGHT, faceX, faceY);
+            } else if (mood/10 <= 66) {
+                ledMatrix_drawImage(BORED_SPRITE, BORED_WIDTH, BORED_HEIGHT, faceX, faceY);
+            } else {
+                ledMatrix_drawImage(HAPPY_SPRITE, HAPPY_WIDTH, HAPPY_HEIGHT, faceX, faceY);
+            }
+        }
+
+        if (mood/10 <= 33) {
+            ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY);
+        } else if (mood/10 <= 66) {
+            if (frame < 30) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); }
+            else if (frame < 30+4) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); dogY -= 1; }
+            else if (frame < 30+8) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); dogY += 1; }
+            else { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); }
+        } else {
+            if (frame < 30) { dogIdleRight(5, frame, dogX, dogY); }
+            else if (frame < 30+4) { dogIdleRight(5, frame, dogX, dogY); dogY -= 1; }
+            else if (frame < 30+8) { dogIdleRight(5, frame, dogX, dogY); dogY += 1; }
+            else { dogIdleRight(5, frame, dogX, dogY); }
+        }
+
+        if (frame < 6) {  } 
+        else if (frame < 7) { faceVisible = true; } 
+        else if (frame < 14) { faceY -= 1;  } 
+        else if (frame < 15) { } 
+        else if (frame < 17) { faceY += 1; } 
+        else { }
+
+        sleepForMs(frameTimeInMs);
     }
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
 }
-void animations_playFriendshipAnimation(int frameTimeInMs) {
-    const int NUM_FRAMES = 28 * 1;
+void animations_playFriendshipAnimation(int frameTimeInMs, int friendship) {
+    int dogX = 1;
+    int dogY = 5;
+
+    bool heartVisible = false;
+    int heartX = 15;
+    int heartY = 10;
+    
+    const int NUM_FRAMES = 28 * 1 + 18;
     for (int frame = 0; frame < NUM_FRAMES; frame++) {
         ledMatrix_fillScreen(BLACK);
         drawBackground();
-        sleepForMs(frameTimeInMs);
 
+        if (heartVisible) {
+            if (friendship/10 <= 33) {
+
+            } else if (friendship/10 <= 66) {
+                ledMatrix_drawImage(HEART_SMALL_SPRITE, HEART_SMALL_WIDTH, HEART_SMALL_HEIGHT, heartX, heartY);
+            } else {
+                ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX, heartY);
+                ledMatrix_drawImage(HEART_SPRITE, HEART_WIDTH, HEART_HEIGHT, heartX+2, heartY+2);
+            }
+        }
+
+        if (friendship/10 <= 33) {
+            ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY);
+        } else if (friendship/10 <= 66) {
+            if (frame < 30) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); }
+            else if (frame < 30+4) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); dogY -= 1; }
+            else if (frame < 30+8) { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); dogY += 1; }
+            else { ledMatrix_drawImage(DOG_FRAME_1_SAD, 15, 9, dogX, dogY); }
+        } else {
+            if (frame < 30) { dogIdleRight(5, frame, dogX, dogY); }
+            else if (frame < 30+4) { dogIdleRight(5, frame, dogX, dogY); dogY -= 1; }
+            else if (frame < 30+8) { dogIdleRight(5, frame, dogX, dogY); dogY += 1; }
+            else { dogIdleRight(5, frame, dogX, dogY); }
+        }
+
+        if (frame < 6) {  } 
+        else if (frame < 7) { heartVisible = true; } 
+        else if (frame < 16) { heartY -= 1;  } 
+        else if (frame < 17) { } 
+        else if (frame < 19) { heartY += 1; } 
+        else { }
+
+        sleepForMs(frameTimeInMs);
     }
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
 }

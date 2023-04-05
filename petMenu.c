@@ -102,7 +102,7 @@ static void moodOption(void)
     ZenLed_turnOn(ZEN_LED_BLUE);
     DigitDisplay_setDigit(mood/10);
 
-    animations_playMoodAnimation(DEFAULT_FRAME_SPEED);
+    animations_playMoodAnimation(DEFAULT_FRAME_SPEED, mood);
 }
 
 static void friendshipOption(void)
@@ -113,7 +113,7 @@ static void friendshipOption(void)
     ZenLed_turnOn(ZEN_LED_RED);
     DigitDisplay_setDigit(friendship/10);
 
-    animations_playFriendshipAnimation(DEFAULT_FRAME_SPEED);
+    animations_playFriendshipAnimation(DEFAULT_FRAME_SPEED, friendship);
 }
 
 static void hungerOption(void)

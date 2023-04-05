@@ -41,6 +41,7 @@ void PetInteract_pet(void)
     animations_playPettingAnimation(DEFAULT_FRAME_SPEED);
     
     Pet_addMood(50);
+    Pet_addFriendship(75);
 }
 
 void PetInteract_slap(void)
@@ -49,4 +50,5 @@ void PetInteract_slap(void)
     animations_playSlappingAnimation(DEFAULT_FRAME_SPEED);
 
     Pet_addMood(-50);
+    Pet_addFriendship(-125);
 }
