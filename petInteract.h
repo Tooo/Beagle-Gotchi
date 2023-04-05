@@ -11,4 +11,6 @@ void PetInteract_pet(void);
 
 void PetInteract_slap(void);
 
+void PetInteract_bark(void);
+
 #endif

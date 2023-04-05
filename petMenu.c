@@ -131,8 +131,8 @@ static void returnToMainDigit(void)
 static char *mainNames[] = {"Interact", "Play", "Food", "Status", "Quit", " ", "New Pet"};
 static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&goToInteract, &goToPlay, &goToFood, &goToStatus, &quit, &empty, &newPet};
 
-static char *interactNames[] = {"Pet", "Slap", "Go Back"};
-static void (*interactFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_pet, &PetInteract_slap, &returnToMain};
+static char *interactNames[] = {"Pet", "Slap", "Bark", "Go Back"};
+static void (*interactFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_pet, &PetInteract_slap, &PetInteract_bark, &returnToMain};
 
 static char *gamesNames[] = {"A", "B", "C", "Go Back"};
 static void (*gamesFuncs[MAX_MENU_FUNC_COUNT])(void) = {&printOption, &printOption, &printOption, &returnToMain};
@@ -147,7 +147,7 @@ static void (*statusFuncs[MAX_MENU_FUNC_COUNT])(void) = {&moodOption, &friendshi
 void PetMenu_init()
 {    
     MenuOptions_insert(mainNames, mainFuncs, 7);
-    MenuOptions_insert(interactNames, interactFuncs, 3);
+    MenuOptions_insert(interactNames, interactFuncs, 4);
     MenuOptions_insert(gamesNames, gamesFuncs, 4);
     MenuOptions_insert(feedNames, feedFuncs, 3);
     MenuOptions_insert(statusNames, statusFuncs, 4);
