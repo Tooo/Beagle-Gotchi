@@ -14,7 +14,7 @@ CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
 LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
-all: beagle_gotchi test
+all: beagle_gotchi test wav
 
 TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed test_buzzer test_audio
 test: $(TESTS)
@@ -22,6 +22,10 @@ test: $(TESTS)
 beagle_gotchi:
 	cd $(OUTDIR) && mkdir -p beagle-gotchi-states
 	$(CC_C) $(CFLAGS) $(LIBS) $(CFILES) -o $(OUTDIR)/$(OUTFILE)
+
+wav:
+	mkdir -p $(OUTDIR)/beagle-gotchi-waves/ 
+	cp -R beagle-gotchi-waves/* $(OUTDIR)/beagle-gotchi-waves/ 
 
 TEST_LED_MATRIX_FILES = tests/test_ledMatrix.c
 test_ledMatrix:
