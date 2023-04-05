@@ -19,6 +19,8 @@ struct sockaddr_in;
 static pthread_t listenThread;
 static int socketDescriptor;
 
+bool stopping;
+
 static void send_dgram(int sockDescriptor, struct sockaddr_in sinRemote, char* msg)
 {
 	unsigned int sin_len = sizeof(sinRemote);
@@ -122,7 +124,7 @@ static void *udp_listen_thread()
 
 	// Check for errors (-1)
 
-	while (1) {
+	while (!stopping) {
 		// Get the data (blocking)
 		// Will change sin (the address) to be the address of the client.
 		// Note: sin passes information in and out of call!
@@ -169,11 +171,13 @@ static void *udp_listen_thread()
 
 void udp_init(void) {
 	// Create thread
+	stopping = false;
 	pthread_create(&listenThread, NULL, &udp_listen_thread, NULL);
 	printf("Started UDP...\n");
 }
 
 void udp_clean_up(void) {
+	stopping = true;
 	pthread_join(listenThread, NULL);
 	// Close
 	close(socketDescriptor);
