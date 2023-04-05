@@ -79,6 +79,39 @@ static int pLetterGreen [3 * 3] =  {
     2,8,8,  
 };
 
+static int scissorsPic [8 * 8] = {
+    1,1,1,8,8,8,1,8,
+    1,8,1,8,8,1,8,8,
+    1,1,1,8,1,8,8,8,
+    8,8,8,1,8,8,8,8,
+    8,8,8,1,8,8,8,8,
+    1,1,1,8,1,8,8,8,
+    1,8,1,8,8,1,8,8,
+    1,1,1,8,8,8,1,8,
+};
+
+static int rockPic [8 * 8] = {
+    8,8,8,8,8,8,8,8,
+    8,8,8,8,8,8,8,8,
+    8,8,8,8,8,8,8,8,
+    8,8,8,1,1,8,8,8,
+    8,1,1,1,1,1,8,8,
+    1,1,1,1,1,1,1,8,
+    1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,
+};
+
+static int paperPic [8 * 8] = {
+    1,8,1,8,1,8,1,8,
+    1,1,1,1,1,1,1,8,
+    1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,
+    8,1,1,1,1,1,1,1,
+    8,1,8,1,8,1,8,1,
+};
+
 
 typedef enum {
     ROCK,
@@ -96,11 +129,14 @@ void rpsGame_Start(void)
     long long initTime = getTimeInMs();
     long long endTime = initTime + (6000);
 
-    //TODO Draw rps
+    ledMatrix_drawImage(rockPic, 8, 8, 3, 0);
+    ledMatrix_drawImage(paperPic, 8, 8, 14, 0);
+    ledMatrix_drawImage(scissorsPic, 8, 8, 24, 0);
+
     ledMatrix_drawImage(rLetter, 3, 3, 5, 11);
     ledMatrix_drawImage(pLetterGreen, 3, 3, 16, 11);
     ledMatrix_drawImage(sLetter, 3, 3, 27, 11);
-    ledMatrix_drawHLine(GREEN, 13, 7, 6);
+    ledMatrix_drawHLine(GREEN, 13, 7, 5);
 
     //0 Left 1 Middle 2 Right
     JoystickDirection input;
