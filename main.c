@@ -9,9 +9,12 @@
 #include "petMenu.h"
 #include "led.h"
 #include "zenLed.h"
+#include "buzzer.h"
 #include "ledMatrix/ledMatrix.h"
-
+#include "audio.h"
 #include "menuReader.h"
+
+#include "networking.h"
 
 #include "utils.h"
 
@@ -79,17 +82,28 @@ static void main_init(int argc, char *argv[])
 
     Led_init();
     ZenLed_init();
+
+    udp_init();
+    
+    Buzzer_init();
+    Audio_init();
 }
 
 static void main_cleanup(void)
 {
     ledMatrix_cleanup();
+   
+    Pet_cleanup();
+    PetMenu_cleanup();
+    
     ZenLed_cleanup();
     Led_cleanup();
     
-    PetMenu_cleanup();
-    Pet_cleanup();
-
+    udp_clean_up();
+    
+    Buzzer_cleanup();
+    Audio_cleanup();
+    
     if (isFullShutdown()) {
         ledMatrix_cleanup_extra();
         runCommand("sudo shutdown -h now");

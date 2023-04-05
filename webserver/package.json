@@ -1,0 +1,9 @@
+{
+	"name": "beagle-gotchi",
+	"version": "0.0.1",
+	"description": "CMPT 433 Final Project Beagle Gotchi. A 'tamagotchi'-like program that runs on a beaglebone.",
+	"dependencies": {
+		"socket.io": "~0.9.6",
+		"mime": "~1.2.7"
+	}
+}

@@ -49,6 +49,7 @@ int initI2cBus(char* bus, int address);
 void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value);
 unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr);
 void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char* buffer, int size);
+char* replace_char(char* str, char find, char replace);
 bool between(int x, int lower, int upper);
 
 void setDebugMode(bool mode);
