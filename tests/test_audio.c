@@ -12,10 +12,9 @@ int main(void)
 {
     Audio_init();
 
-    Audio_playSound(sounds[1]);
-    Audio_playSound(sounds[0]);
-    Audio_playSound(sounds[0]);
-    Audio_playSound(sounds[0]);
-    Audio_playSound(sounds[0]);
+    Audio_playSoundWithThread(sounds[0]);
+    Audio_joinThread();
+
+
     Audio_cleanup();
 }

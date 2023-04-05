@@ -73,7 +73,7 @@ test_zenLed:
 
 TEST_AUDIO_FILES = utils.c audio.c tests/test_audio.c
 test_audio:
-	$(CC_C) $(CFLAGS) $(TEST_AUDIO_FILES) -o $(OUTDIR)/test_audio $(LFLAGS) -lasound
+	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_AUDIO_FILES) -o $(OUTDIR)/test_audio $(LFLAGS) -lasound
 
 TEST_BUZZER_FILES = utils.c buzzer.c tests/test_buzzer.c
 test_buzzer:

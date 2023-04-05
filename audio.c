@@ -1,4 +1,5 @@
 #include <alsa/asoundlib.h>
+#include <pthread.h>
 
 #define SAMPLE_RATE   44100
 #define NUM_CHANNELS  1
@@ -12,6 +13,10 @@ typedef struct {
 } wavedata_t;
 
 snd_pcm_t *handle;
+
+static void* audioThreadFunction(void* arg);
+static pthread_t audioThread;
+char* currentFileName;
 
 void Audio_init()
 {
@@ -105,10 +110,24 @@ void Audio_playFile(wavedata_t *pWaveData)
 	}
 }
 
-void Audio_playSound(char *fileName)
+void Audio_playSoundWithThread(char *fileName)
 {
+	currentFileName = fileName;
+	pthread_create(&audioThread, NULL, audioThreadFunction, NULL);
+	
+}
+
+void Audio_joinThread()
+{
+	pthread_join(audioThread, NULL);
+}
+
+static void* audioThreadFunction(void* arg)
+{
+	(void) arg;
 	wavedata_t sampleFile;
-	Audio_readWaveFileIntoMemory(fileName, &sampleFile);
+	Audio_readWaveFileIntoMemory(currentFileName, &sampleFile);
 	Audio_playFile(&sampleFile);
 	free(sampleFile.pData);
+	return NULL;
 }

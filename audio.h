@@ -8,6 +8,7 @@
 void Audio_init();
 void Audio_cleanup();
 
-void Audio_playSound(char *fileName);
+void Audio_playSoundWithThread(char *fileName);
+void Audio_joinThread();
 
 #endif
