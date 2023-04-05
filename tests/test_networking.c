@@ -9,7 +9,7 @@
 // Initialize/cleanup the module's data structures.
 int main(void)
 {
-    Pet_init();
+    Pet_init(false);
     udp_init();
     getchar();
     udp_clean_up();
