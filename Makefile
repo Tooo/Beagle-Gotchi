@@ -73,11 +73,11 @@ TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
 
-TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c joystick.c audio.c waterSensor.c a2d.c
+TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c joystick.c audio.c waterSensor.c a2d.c buzzer.c
 test_website: node
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_WEBSITE_FILES) -o $(OUTDIR)/test_website $(LFLAGS) -lasound
 
-TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c joystick.c
+TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c joystick.c buzzer.c
 test_petScreen:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen
 
