@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+
 #include "../shutdown.h"
 #include "../menu.h"
 #include "../menuReader.h"
@@ -45,8 +47,12 @@ static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print1, &print2, &print3
 static char *subMenuNames[] = {"Meal", "Back"};
 static void (*subFuncs[MAX_MENU_FUNC_COUNT])(void) = {&print6, &print7};
 
-int main(void)
+int main(int argc, char *argv[])
 {
+    // Running this program with the -t flag enables the debug terminal
+    if (argc > 1 && strcmp(argv[1], "-t") == 0) {
+        MenuReader_allowTerminalIO(true);
+    }
     MenuOptions_insert(mainMenuNames, mainFuncs, 5);
     MenuOptions_insert(subMenuNames, subFuncs, 2);
 

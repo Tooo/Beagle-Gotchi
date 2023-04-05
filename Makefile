@@ -16,7 +16,7 @@ LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
 all: beagle_gotchi test
 
-TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed test_audio
+TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed test_buzzer test_audio
 test: $(TESTS)
 
 beagle_gotchi:
@@ -70,6 +70,10 @@ test_zenLed:
 TEST_AUDIO_FILES = utils.c audio.c tests/test_audio.c
 test_audio:
 	$(CC_C) $(CFLAGS) $(TEST_AUDIO_FILES) -o $(OUTDIR)/test_audio $(LFLAGS) -lasound
+
+TEST_BUZZER_FILES = utils.c buzzer.c tests/test_buzzer.c
+test_buzzer:
+	$(CC_C) $(CFLAGS) $(TEST_BUZZER_FILES) -o $(OUTDIR)/test_buzzer
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)
