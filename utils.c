@@ -17,6 +17,9 @@
 
 #define GPIO_PATH "/sys/class/gpio/"
 
+bool _isDebugMode = false;
+bool _isFullShutdown = false;
+
 // ------------------------------- //
 // provided utils:
 
@@ -183,6 +186,21 @@ bool exportGpio(int pinNum)
     }
 }
 
+bool exportGpioUnchecked(int pinNum)
+{
+    // Export the gpio pins
+    FILE *gpioExP = fopen(GPIO_PATH "export", "w");
+    if (gpioExP == NULL) {
+        printf("ERROR: Unable to open export file.\n");
+        return false;
+    } else {
+        fprintf(gpioExP, "%d", pinNum);
+        fclose(gpioExP);
+    
+        return true;
+    }
+}
+
 void setGpioDirection(int pinNum, const char* direction)
 {
     // Change the direction gpio file
@@ -272,7 +290,8 @@ void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char*
 
 // Takes a string, character, and a replacement character returns a new string 
 // With that character replaced
-char* replace_char(char* str, char find, char replace){
+char* replace_char(char* str, char find, char replace)
+{
     char *current_pos = strchr(str,find);
     while (current_pos) {
         *current_pos = replace;
@@ -281,6 +300,25 @@ char* replace_char(char* str, char find, char replace){
     return str;
 }
 
-bool between(int x, int lower, int upper) {
+bool between(int x, int lower, int upper) 
+{
     return (x >= lower) && (x <= upper);
+}
+
+void setDebugMode(bool mode) 
+{
+    _isDebugMode = mode;
+}
+bool isDebugMode() 
+{
+    return _isDebugMode;
+}
+
+void setFullShutdown(bool mode) 
+{
+    _isFullShutdown = mode;
+}
+bool isFullShutdown() 
+{
+    return _isFullShutdown;
 }

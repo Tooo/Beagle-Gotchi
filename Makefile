@@ -9,7 +9,7 @@ CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
 CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c networking.c
-CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c rpsGame.c highLowGame.c audio.c
+CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c rpsGame.c highLowGame.c audio.c waterSensor.c a2d.c
 CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
 LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
@@ -30,7 +30,7 @@ node:
 	cd $(DEPLOY_PATH) && npm install
 
 beagle_gotchi:
-	cd $(OUTDIR) && mkdir -p beagle-gotchi-states
+	cd $(OUTDIR) && mkdir -p beagle-gotchi-states && chmod 777 ./beagle-gotchi-states`
 	$(CC_C) $(CFLAGS) $(LIBS) $(CFILES) -o $(OUTDIR)/$(OUTFILE) $(LFLAGS) -lasound
 
 states:
@@ -76,7 +76,7 @@ TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSav
 test_website: node
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_WEBSITE_FILES) -o $(OUTDIR)/test_website $(LFLAGS) -lasound
 
-TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c joystick.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c
+TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c joystick.c
 test_petScreen:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen
 

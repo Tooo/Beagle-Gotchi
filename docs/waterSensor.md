@@ -3,7 +3,7 @@
 
 # setup
 - make a circuit connecting the water sensor (pin marked with S) to ain6, while also connecting the water sensor to ground and 3.3V of power, using a 10k ohm resistor (resistor between ground & sensor). gpio kinda has infinite resistance (except not really), so we don't need to worry about it.
-- (S) pin -> p9_36 (AIN6)
+- (S) pin -> p9_35 (AIN6)
 - (+) pin -> p9_32
 - (-) pin -> p9_1 (or any other ground) (resistor probably not neccesary, but it works!) 
 

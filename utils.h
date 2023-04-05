@@ -41,6 +41,7 @@ void writeBufferToFile(const char* path, const char* buffer);
 bool startswith(const char* prefix, const char* str);
 
 bool exportGpio(int pinNum);
+bool exportGpioUnchecked(int pinNum);
 void setGpioDirection(int pinNum, const char* direction);
 void setGpioValue(int pinNum, const char* value);
 
@@ -50,5 +51,11 @@ unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr);
 void readMultipleI2cReg(int i2cFileDesc, unsigned char startAddr, unsigned char* buffer, int size);
 char* replace_char(char* str, char find, char replace);
 bool between(int x, int lower, int upper);
+
+void setDebugMode(bool mode);
+bool isDebugMode();
+
+void setFullShutdown(bool mode);
+bool isFullShutdown();
 
 #endif

@@ -8,7 +8,7 @@
 #define PET_NAME_MAX 30
 
 // Start/stop Pet Thread
-void Pet_init(bool isDebug);
+void Pet_init();
 void Pet_cleanup();
 
 // Create New Pet

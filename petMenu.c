@@ -74,16 +74,24 @@ static void quit(void)
     sleepForMs(800);
     
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+    if (isDebugMode()) {
+        setFullShutdown(false);
+    } else {
+        setFullShutdown(true);
+    }
     Shutdown_trigger();
 }
 
 static void empty(void) { }
 
-// TODO: how to make the current service restart without quitting the program?
 static void newPet(void) {
     // this forces the user to pick a new pet next time -> if same name as before, will load the pet
     remove("beagle-gotchi-states/meta.txt");
-    quit();
+    sleepForMs(100);
+    
+    ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
+    setFullShutdown(false);
+    Shutdown_trigger();
 }
 
 static void returnToMain(void)
@@ -101,7 +109,7 @@ static void moodOption(void)
     ZenLed_turnOn(ZEN_LED_BLUE);
     DigitDisplay_setDigit(mood/10);
 
-    animations_playMoodAnimation(DEFAULT_FRAME_SPEED);
+    animations_playMoodAnimation(DEFAULT_FRAME_SPEED, mood);
 }
 
 static void friendshipOption(void)
@@ -112,7 +120,7 @@ static void friendshipOption(void)
     ZenLed_turnOn(ZEN_LED_RED);
     DigitDisplay_setDigit(friendship/10);
 
-    animations_playFriendshipAnimation(DEFAULT_FRAME_SPEED);
+    animations_playFriendshipAnimation(DEFAULT_FRAME_SPEED, friendship);
 }
 
 static void hungerOption(void)
@@ -144,8 +152,8 @@ static void (*interactFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_pet, &Pe
 static char *gamesNames[] = {"Hilow", "Rps", "Go Back"};
 static void (*gamesFuncs[MAX_MENU_FUNC_COUNT])(void) = {&startHilowGame, &startrpsGame, &returnToMain};
 
-static char *feedNames[] = {"Meal", "Snack", "Go Back"};
-static void (*feedFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_feedMeal, &PetInteract_feedSnack, &returnToMain};
+static char *feedNames[] = {"Meal", "Snack", "Drink", "Go Back"};
+static void (*feedFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_feedMeal, &PetInteract_feedSnack, &PetInteract_drink, &returnToMain};
 
 // mood, friendship, hunger
 static char *statusNames[] = {"Mood", "Friend", "Food", "Go Back"};
@@ -156,7 +164,7 @@ void PetMenu_init()
     MenuOptions_insert(mainNames, mainFuncs, 7);
     MenuOptions_insert(interactNames, interactFuncs, 4);
     MenuOptions_insert(gamesNames, gamesFuncs, 3);
-    MenuOptions_insert(feedNames, feedFuncs, 3);
+    MenuOptions_insert(feedNames, feedFuncs, 4);
     MenuOptions_insert(statusNames, statusFuncs, 4);
 
     Menu_init();

@@ -63,14 +63,18 @@ static void main_init(int argc, char *argv[])
 
     ledMatrix_setup();
     ledMatrix_drawIntroPage();
+    sleepForMs(800);
 
-    // running the program with the -d flag turns on the debug mode for setting the current pet
+    // running the program with the -d flag turns on debug mode 
+    // (for setting current pet & restarting)
     if ((argc > 1 && strcmp(argv[1], "-d") == 0) || 
         (argc > 2 && strcmp(argv[2], "-d") == 0)) {
-        Pet_init(true);
+        setDebugMode(true);
     } else {
-        Pet_init(false);
+        setDebugMode(false);
     }
+
+    Pet_init();
 
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
 
@@ -88,12 +92,20 @@ static void main_init(int argc, char *argv[])
 static void main_cleanup(void)
 {
     ledMatrix_cleanup();
-    Buzzer_cleanup();
+   
+    Pet_cleanup();
+    PetMenu_cleanup();
+    
     ZenLed_cleanup();
     Led_cleanup();
+    
+    udp_clean_up();
+    
+    Buzzer_cleanup();
     Audio_cleanup();
     
-    PetMenu_cleanup();
-    Pet_cleanup();
-    udp_clean_up();
+    if (isFullShutdown()) {
+        ledMatrix_cleanup_extra();
+        runCommand("sudo shutdown -h now");
+    }
 }
