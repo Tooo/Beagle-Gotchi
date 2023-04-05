@@ -102,10 +102,14 @@ void Audio_playFile(wavedata_t *pWaveData)
 	// Check for errors
 	if (frames < 0) {
 		frames = snd_pcm_recover(handle, frames, 0);
-	} else if (frames < 0) {
+	} 
+	
+	if (frames < 0) {
 		fprintf(stderr, "ERROR: Failed writing audio with snd_pcm_writei(): %li\n", frames);
 		exit(EXIT_FAILURE);
-	} else if (frames > 0 && frames < pWaveData->numSamples) {
+	} 
+	
+	if (frames > 0 && frames < pWaveData->numSamples) {
 		printf("Short write (expected %d, wrote %li)\n", pWaveData->numSamples, frames);
 	}
 }
