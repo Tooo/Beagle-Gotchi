@@ -142,7 +142,7 @@ $(document).ready(function() {
             $('#pet-weight').html(weight);
         }
 		else {
-			console.log(`MSG: ${result}`);
+			console.log(`Error MSG: ${result}`);
 		}
 	});
 
