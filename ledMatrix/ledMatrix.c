@@ -286,17 +286,16 @@ void ledMatrix_drawIntroPage() {
         int y = ((i * 4) / 32) * 4;
         char str[2] = { 'a'+i, '\0' };
         ledMatrix_drawString(str, x, y, (i % 7) + 1);
-        sleepForMs(25);
+        sleepForMs(24);
     }
 
-    sleepForMs(700);
+    sleepForMs(450);
 
     ledMatrix_fillScreen(BLACK);
 
     ledMatrix_drawString("beagle", 2, 2, YELLOW);
-    sleepForMs(150);
+    sleepForMs(200);
     ledMatrix_drawString("gotchi", 6, 6, YELLOW);
-    sleepForMs(150);
 
 }
 

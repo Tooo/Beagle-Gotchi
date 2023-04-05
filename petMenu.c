@@ -70,6 +70,15 @@ static void quit(void)
     Shutdown_trigger();
 }
 
+static void empty(void) { }
+
+// TODO: how to make the current service restart without quitting the program?
+static void newPet(void) {
+    // this forces the user to pick a new pet next time -> if same name as before, will load the pet
+    remove("beagle-gotchi-states/meta.txt");
+    quit();
+}
+
 static void returnToMain(void)
 {
     ledMatrix_animateRightWipe(DEFAULT_WIPE_SPEED);
@@ -119,8 +128,8 @@ static void returnToMainDigit(void)
 }
 
 // Menu Names and Functions
-static char *mainNames[] = {"Interact", "Play", "Food", "Status", "Quit"};
-static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&goToInteract, &goToPlay, &goToFood, &goToStatus, &quit};
+static char *mainNames[] = {"Interact", "Play", "Food", "Status", "Quit", " ", "New Pet"};
+static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&goToInteract, &goToPlay, &goToFood, &goToStatus, &quit, &empty, &newPet};
 
 static char *interactNames[] = {"Pet", "Slap", "Go Back"};
 static void (*interactFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_pet, &PetInteract_slap, &returnToMain};
@@ -137,7 +146,7 @@ static void (*statusFuncs[MAX_MENU_FUNC_COUNT])(void) = {&moodOption, &friendshi
 
 void PetMenu_init()
 {    
-    MenuOptions_insert(mainNames, mainFuncs, 5);
+    MenuOptions_insert(mainNames, mainFuncs, 7);
     MenuOptions_insert(interactNames, interactFuncs, 3);
     MenuOptions_insert(gamesNames, gamesFuncs, 4);
     MenuOptions_insert(feedNames, feedFuncs, 3);

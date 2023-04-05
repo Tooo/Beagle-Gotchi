@@ -15,7 +15,7 @@ static int menuCount = 0;
 
 void MenuOptions_insert(char** menuNames, void (**functions)(void), int numOptions)
 {
-    if (menuCount > MAX_MENU_COUNT ) {
+    if (menuCount > MAX_MENU_COUNT) {
         return;
     }
 
