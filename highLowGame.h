@@ -4,7 +4,6 @@
 #define HIGH_LOW_GAME_H_
 
 // Begin/end background thread which reads joystick inputs to menu
-void HighLowGame_init(void);
-void HighLowGame_cleanup(void);
+void HighLowGame_Start(void);
 
 #endif
