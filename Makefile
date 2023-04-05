@@ -12,6 +12,7 @@ CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.
 CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c rpsGame.c highLowGame.c audio.c waterSensor.c a2d.c
 CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
+#LFLAGS = -L$(HOME)/github/cmpt433/public/asound_lib_BBG#Gabe S
 LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
 PROJECT_NAME=beagle-gotchi
@@ -30,7 +31,7 @@ node:
 	cd $(DEPLOY_PATH) && npm install
 
 beagle_gotchi:
-	cd $(OUTDIR) && mkdir -p beagle-gotchi-states && chmod 777 ./beagle-gotchi-states`
+	cd $(OUTDIR) && mkdir -p beagle-gotchi-states && chmod 777 ./beagle-gotchi-states
 	$(CC_C) $(CFLAGS) $(LIBS) $(CFILES) -o $(OUTDIR)/$(OUTFILE) $(LFLAGS) -lasound
 
 states:
@@ -72,7 +73,7 @@ TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
 
-TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c joystick.c audio.c
+TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c joystick.c audio.c waterSensor.c a2d.c
 test_website: node
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_WEBSITE_FILES) -o $(OUTDIR)/test_website $(LFLAGS) -lasound
 

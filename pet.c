@@ -8,6 +8,7 @@
 #include "stateSaver.h"
 #include "shutdown.h"
 
+#include "buzzer.h"
 #include "joystick.h"
 #include "ledMatrix/ledMatrix.h"
 
@@ -51,8 +52,9 @@ bool applyJoystick(int* index, char* shortName)
             shortName[i] = shortName[i] + 1;
         }
         
+        Buzzer_playNote(BUZZER_NOTE_D, 80);
         ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
-        sleepForMs(200);
+        sleepForMs(200-80);
 
     } else if (dir == JOYSTICK_DOWN) {
         if (shortName[i] == ' ') {
@@ -63,8 +65,9 @@ bool applyJoystick(int* index, char* shortName)
             shortName[i] = shortName[i] - 1;
         }
         
+        Buzzer_playNote(BUZZER_NOTE_D, 80);
         ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
-        sleepForMs(200);
+        sleepForMs(200-80);
 
     } else if (dir == JOYSTICK_LEFT) {
         ledMatrix_drawVLine(BLACK, i * 4, 6, 3);
@@ -76,8 +79,9 @@ bool applyJoystick(int* index, char* shortName)
             i = 0;
         }
         
+        Buzzer_playNote(BUZZER_NOTE_G, 80);
         ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
-        sleepForMs(200);
+        sleepForMs(200-80);
 
     } else if (dir == JOYSTICK_RIGHT) {
         ledMatrix_drawVLine(BLACK, i * 4, 6, 3);
@@ -96,8 +100,9 @@ bool applyJoystick(int* index, char* shortName)
             }
         }
         
+        Buzzer_playNote(BUZZER_NOTE_G, 80);
         ledMatrix_drawVLine(WHITE, i * 4, 6, 3);
-        sleepForMs(200);
+        sleepForMs(200-80);
     }
 
     return doneNaming;
@@ -165,6 +170,17 @@ void Pet_init()
 
             writeLineToFile("beagle-gotchi-states/meta.txt", name);
             snprintf(fileName, FILENAME_MAX, petFileHeader, name);
+            
+            // the lick
+            Buzzer_playNote(BUZZER_NOTE_D, 100);
+            Buzzer_playNote(BUZZER_NOTE_E, 100);
+            Buzzer_playNote(BUZZER_NOTE_F, 100);
+            Buzzer_playNote(BUZZER_NOTE_G, 100);
+            Buzzer_playNote(BUZZER_NOTE_E, 100);
+            sleepForMs(100);
+            Buzzer_playNote(BUZZER_NOTE_C, 100);
+            Buzzer_playNote(BUZZER_NOTE_D, 100);
+
             ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
         }
     }

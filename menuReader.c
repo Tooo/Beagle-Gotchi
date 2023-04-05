@@ -79,18 +79,20 @@ void* menuReaderThreadFunction(void* arg)
     (void)arg;
     while(!stopping) {
         updateMenu();
-        JoystickDirection direction = Joystick_getDirection();
 
+        JoystickDirection direction = Joystick_getDirection();
         if (direction == JOYSTICK_NO_DIRECTION) {
             sleepForMs(joystickSleepMs);
         } else if (direction == JOYSTICK_PUSH) {
+            Buzzer_playNote(BUZZER_NOTE_C, 60);
+            Buzzer_playNote(BUZZER_NOTE_D, 60);
+            Buzzer_playNote(BUZZER_NOTE_E, 60);
             Menu_selectOption();
-            Buzzer_playNote(BUZZER_NOTE_C, 100);
-            sleepForMs(joystickPushSleepMS);
+            sleepForMs(joystickPushSleepMS-60*3);
         } else {
-            Menu_moveHighlighted(direction);
             Buzzer_playNote(BUZZER_NOTE_A, 100);
-            sleepForMs(joystickDirectionSleepMS);
+            Menu_moveHighlighted(direction);
+            sleepForMs(joystickDirectionSleepMS-100);
         }
     }
     return NULL;

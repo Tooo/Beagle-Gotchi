@@ -96,19 +96,20 @@ void rpsGame_Start(void)
     long long initTime = getTimeInMs();
     long long endTime = initTime + (6000);
 
-    //TODO Draw rps
+    // draw rps
     ledMatrix_drawImage(rLetter, 3, 3, 5, 11);
     ledMatrix_drawImage(pLetterGreen, 3, 3, 16, 11);
     ledMatrix_drawImage(sLetter, 3, 3, 27, 11);
     ledMatrix_drawHLine(GREEN, 13, 7, 6);
 
-    //0 Left 1 Middle 2 Right
+    // 0 Left 1 Middle 2 Right
     JoystickDirection input;
     int timerPosition = 0;
     while (getTimeInMs() <= endTime)
     {
         input = Joystick_getDirection();
-        if ((playerPick == ROCK && input == JOYSTICK_RIGHT) || (playerPick == SCISSORS && input == JOYSTICK_LEFT))
+        if ((playerPick == ROCK && input == JOYSTICK_RIGHT) || 
+            (playerPick == SCISSORS && input == JOYSTICK_LEFT))
         {
             playerPick = PAPER;
             ledMatrix_drawImage(pLetterGreen, 3, 3, 16, 11);
@@ -121,7 +122,6 @@ void rpsGame_Start(void)
             ledMatrix_drawImage(rLetterGreen, 3, 3, 5, 11);
             ledMatrix_drawImage(pLetter, 3, 3, 16, 11);
             ledMatrix_drawImage(sLetter, 3, 3, 27, 11);
-
         }
         else if (playerPick == 1 && input == JOYSTICK_RIGHT)
         {
@@ -129,7 +129,10 @@ void rpsGame_Start(void)
             ledMatrix_drawImage(sLetterGreen, 3, 3, 27, 11);
             ledMatrix_drawImage(rLetter, 3, 3, 5, 11);
             ledMatrix_drawImage(pLetter, 3, 3, 16, 11);
+        } else if (input == JOYSTICK_PUSH) {
+            break;
         }
+        
         ledMatrix_drawHLine(RED, 13, 7, timerPosition);
         timerPosition = (getTimeInMs() - initTime) / 1000;
         sleepForMs(200);
@@ -140,7 +143,6 @@ void rpsGame_Start(void)
     // Win
     if ((cpuPick == ROCK && playerPick == PAPER) || (cpuPick == SCISSORS && playerPick == ROCK) || (cpuPick == PAPER && playerPick == SCISSORS))
     {
-
         ledMatrix_drawImage(winWord, 11, 3, 1, 11);        
         sleepForMs(2000);
         ledMatrix_fillScreen(BLACK);
@@ -162,7 +164,6 @@ void rpsGame_Start(void)
     // Tie
     else if (cpuPick == playerPick)
     {
-
         ledMatrix_drawImage(tieWord, 11, 3, 1, 11);        
         sleepForMs(2000);
         ledMatrix_fillScreen(BLACK);
@@ -195,6 +196,5 @@ void rpsGame_Start(void)
     }
     ledMatrix_fillScreen(BLACK);
     DigitDisplay_cleanup();
-
 }
 
