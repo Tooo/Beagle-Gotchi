@@ -12,10 +12,11 @@ CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.
 CFILES += joystick.c digitDisplay.c led.c zenLed.c 
 CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
+LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
 all: beagle_gotchi test
 
-TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed
+TESTS = test_ledMatrix test_ledMatrix2 test_ledAnimation test_waterSensor test_stateSaver test_menu test_joystick test_digitDisplay test_petScreen test_led test_zenLed test_audio
 test: $(TESTS)
 
 beagle_gotchi:
@@ -54,7 +55,7 @@ TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
 
-TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c
+TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c joystick.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c
 test_petScreen:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen
 
@@ -65,6 +66,10 @@ test_led:
 TEST_ZEN_LED_FILES = utils.c zenLed.c tests/test_zenLed.c
 test_zenLed:
 	$(CC_C) $(CFLAGS) $(TEST_ZEN_LED_FILES) -o $(OUTDIR)/test_zenLed
+
+TEST_AUDIO_FILES = utils.c audio.c tests/test_audio.c
+test_audio:
+	$(CC_C) $(CFLAGS) $(TEST_AUDIO_FILES) -o $(OUTDIR)/test_audio $(LFLAGS) -lasound
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)
