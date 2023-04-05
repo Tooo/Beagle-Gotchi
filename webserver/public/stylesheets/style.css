@@ -1,0 +1,47 @@
+
+#petContainer {
+	height: 300px;
+	overflow: auto;
+	background-color: #eee;
+	margin-bottom: 1em;
+	margin-right: 10px;
+}
+
+body {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+h1, h2 {
+	margin-bottom: 1px;
+	padding-bottom: 1px;
+}
+
+#status-box {
+	float: right;
+	width: 250px;
+	min-height: 200pt;
+	border: thin black solid;
+	background-color: #f3f3f3;
+	padding-left: 10pt;
+	padding-right: 10pt;
+}
+
+#content {
+	margin-top: 10pt;
+}
+
+#error-box {
+	border: thin black solid;
+	clear: both;
+	background-color: red;
+	padding-left: 10pt;
+	padding-right: 10pt;
+	min-height: 100pt;
+	margin-top: 20px;
+	display: none;
+}
+
+.status-container {
+	display: inline-block;
+}

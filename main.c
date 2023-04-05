@@ -14,6 +14,8 @@
 
 #include "menuReader.h"
 
+#include "networking.h"
+
 #include "utils.h"
 
 // Initialize/cleanup the module's data structures.
@@ -76,6 +78,9 @@ static void main_init(int argc, char *argv[])
 
     Led_init();
     ZenLed_init();
+
+    udp_init();
+    
     Buzzer_init();
 }
 
@@ -88,4 +93,5 @@ static void main_cleanup(void)
     
     PetMenu_cleanup();
     Pet_cleanup();
+    udp_clean_up();
 }
