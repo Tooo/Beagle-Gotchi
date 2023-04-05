@@ -7,6 +7,8 @@
 #include "shutdown.h"
 #include "digitDisplay.h"
 #include "zenLed.h"
+#include "highLowGame.h"
+#include "rpsGame.h"
 
 #include "utils.h"
 #include "ledMatrix/ledMatrix.h"
@@ -20,11 +22,6 @@ typedef enum {
     PET_MENU_STATUS,
     PET_MENU_COUNT
 } PetMenuOptions;
-
-static void printOption(void)
-{
-    Menu_clickedPrint();
-}
 
 // Main Menu Functions
 static void goToInteract(void)
@@ -58,6 +55,16 @@ static void goToStatus(void)
 
     Menu_changeMenu(PET_MENU_STATUS);
     Menu_moveCursorToTop();
+}
+
+static void startHilowGame(void) {
+    ledMatrix_fillScreen(BLACK);
+    HighLowGame_Start();
+}
+
+static void startrpsGame(void) {
+    ledMatrix_fillScreen(BLACK);
+    rpsGame_Start();
 }
 
 static void quit(void)
@@ -134,8 +141,8 @@ static void (*mainFuncs[MAX_MENU_FUNC_COUNT])(void) = {&goToInteract, &goToPlay,
 static char *interactNames[] = {"Pet", "Slap", "Bark", "Go Back"};
 static void (*interactFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_pet, &PetInteract_slap, &PetInteract_bark, &returnToMain};
 
-static char *gamesNames[] = {"A", "B", "C", "Go Back"};
-static void (*gamesFuncs[MAX_MENU_FUNC_COUNT])(void) = {&printOption, &printOption, &printOption, &returnToMain};
+static char *gamesNames[] = {"Hilow", "Rps", "Go Back"};
+static void (*gamesFuncs[MAX_MENU_FUNC_COUNT])(void) = {&startHilowGame, &startrpsGame, &returnToMain};
 
 static char *feedNames[] = {"Meal", "Snack", "Go Back"};
 static void (*feedFuncs[MAX_MENU_FUNC_COUNT])(void) = {&PetInteract_feedMeal, &PetInteract_feedSnack, &returnToMain};
@@ -148,7 +155,7 @@ void PetMenu_init()
 {    
     MenuOptions_insert(mainNames, mainFuncs, 7);
     MenuOptions_insert(interactNames, interactFuncs, 4);
-    MenuOptions_insert(gamesNames, gamesFuncs, 4);
+    MenuOptions_insert(gamesNames, gamesFuncs, 3);
     MenuOptions_insert(feedNames, feedFuncs, 3);
     MenuOptions_insert(statusNames, statusFuncs, 4);
 
