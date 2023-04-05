@@ -9,71 +9,71 @@
 #include "joystick.h"
 #include "digitDisplay.h"
 #include "pet.h"
-#include "ledMatrix.h"
+#include "ledMatrix/ledMatrix.h"
 
 // Images 
 
-int moodWord [20 * 3] = {
+static int moodWord [20 * 3] = {
     1,1,1,8,1,1,1,8,1,1,1,8,1,1,8,8,8,8,1,8,
     1,1,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,1,1,1,
     1,8,1,8,1,1,1,8,1,1,1,8,1,1,8,8,8,8,1,8,
 };
 
-int frenWord [20 * 3] = {
+static int frenWord [20 * 3] = {
     1,1,1,8,1,1,1,8,1,1,1,8,1,1,8,8,8,8,1,8,
     1,1,8,8,1,8,8,8,1,1,8,8,1,8,1,8,1,1,1,1,
     1,8,8,8,1,8,8,8,1,1,1,8,1,8,1,8,8,8,1,8,
 };
 
-int winWord [11 * 3] = {
+static int winWord [11 * 3] = {
     1,8,1,8,1,1,1,8,1,1,8,
     1,1,1,8,8,1,8,8,1,8,1,
     1,1,1,8,1,1,1,8,1,8,1,
 };
 
-int tieWord [11 * 3] = {
+static int tieWord [11 * 3] = {
     1,1,1,8,1,1,1,8,1,1,1,
     8,1,8,8,8,1,8,8,1,1,8,
     8,1,8,8,1,1,1,8,1,1,1,
 };
 
-int loseWord[15 * 3] = {
+static int loseWord[15 * 3] = {
     1,8,8,8,1,1,1,8,8,1,1,8,1,1,1,
     1,8,8,8,1,8,1,8,8,1,8,8,1,1,8,
     1,1,1,8,1,1,1,8,1,1,8,8,1,1,1,
 };
 
-int sLetter [3 * 3] = {
+static int sLetter [3 * 3] = {
     8,1,1,
     8,1,8,
     1,1,8,
 };
 
-int sLetterGreen [3 * 3] = {
+static int sLetterGreen [3 * 3] = {
     8,2,2,
     8,2,8,
     2,2,8,
 };
 
-int rLetter [3 * 3] =  {   
+static int rLetter [3 * 3] =  {   
     1,1,1,
     1,8,8,
     1,8,8,  
 };
 
-int rLetterGreen [3 * 3] =  {   
+static int rLetterGreen [3 * 3] =  {   
     2,2,2,
     2,8,8,
     2,8,8,  
 };
 
-int pLetter [3 * 3] =  {   
+static int pLetter [3 * 3] =  {   
     1,1,1,
     1,1,1,
     1,8,8,  
 };
 
-int pLetterGreen [3 * 3] =  {   
+static int pLetterGreen [3 * 3] =  {   
     2,2,2,
     2,2,2,
     2,8,8,  
@@ -85,8 +85,6 @@ typedef enum {
     PAPER,
     SCISSORS
 } RPS_CHOICE;
-
-static bool stopping;
 
 void rpsGame_Start(void)
 {

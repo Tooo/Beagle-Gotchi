@@ -9,49 +9,49 @@
 #include "joystick.h"
 #include "digitDisplay.h"
 #include "pet.h"
-#include "ledMatrix.h"
+#include "ledMatrix/ledMatrix.h"
 
 // Images 
 
-int upArrow [3 * 4] = {
+static int upArrow [3 * 4] = {
     8,1,8,
     1,1,1,
     8,1,8,
     8,1,0,
 };
 
-int downArrow [3 * 4] = {
+static int downArrow [3 * 4] = {
     8,1,8,
     8,1,8,
     1,1,1,
     8,1,0,
 };
 
-int orWord [8 * 3] = {
+static int orWord [8 * 3] = {
     1,1,1,8,8,1,1,1,
     1,8,1,8,8,1,8,8,
     1,1,1,8,8,1,8,8,
 };
 
-int moodWord [20 * 3] = {
+static int moodWord [20 * 3] = {
     1,1,1,8,1,1,1,8,1,1,1,8,1,1,8,8,8,8,1,8,
     1,1,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,1,1,1,
     1,8,1,8,1,1,1,8,1,1,1,8,1,1,8,8,8,8,1,8,
 };
 
-int frenWord [20 * 3] = {
+static int frenWord [20 * 3] = {
     1,1,1,8,1,1,1,8,1,1,1,8,1,1,8,8,8,8,1,8,
     1,1,8,8,1,8,8,8,1,1,8,8,1,8,1,8,1,1,1,1,
     1,8,8,8,1,8,8,8,1,1,1,8,1,8,1,8,8,8,1,8,
 };
 
-int winWord [11 * 3] = {
+static int winWord [11 * 3] = {
     1,8,1,8,1,1,1,8,1,1,8,
     1,1,1,8,8,1,8,8,1,8,1,
     1,1,1,8,1,1,1,8,1,8,1,
 };
 
-int loseWord[15 * 3] = {
+static int loseWord[15 * 3] = {
     1,8,8,8,1,1,1,8,8,1,1,8,1,1,1,
     1,8,8,8,1,8,1,8,8,1,8,8,1,1,8,
     1,1,1,8,1,1,1,8,1,1,8,8,1,1,1,
