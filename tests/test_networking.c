@@ -10,7 +10,7 @@
 int main(void)
 {
     Pet_init();
-    init_udp_listen();
+    udp_init();
     getchar();
     udp_clean_up();
     Pet_cleanup();

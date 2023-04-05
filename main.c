@@ -48,7 +48,7 @@ static void main_init(int argc, char *argv[])
     Led_init();
     ZenLed_init();
 
-    init_udp_listen();
+    udp_init();
     
 }
 

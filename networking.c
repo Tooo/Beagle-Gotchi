@@ -167,7 +167,7 @@ static void *udp_listen_thread()
     return NULL;
 }
 
-void init_udp_listen(void) {
+void udp_init(void) {
 	// Create thread
 	pthread_create(&listenThread, NULL, &udp_listen_thread, NULL);
 	printf("Started UDP...\n");
