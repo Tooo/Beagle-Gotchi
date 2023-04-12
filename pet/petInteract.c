@@ -1,9 +1,9 @@
 #include "petInteract.h"
 #include "pet.h"
-#include "hardware/audio.h"
+#include "../hardware/audio.h"
 
-#include "ledMatrix/ledMatrix.h"
-#include "ledMatrix/animations.h"
+#include "../ledMatrix/ledMatrix.h"
+#include "../ledMatrix/animations.h"
 
 static char* sounds[2] = {
     "beagle-gotchi-waves/mixkit-dog-barking-twice-1.wav",

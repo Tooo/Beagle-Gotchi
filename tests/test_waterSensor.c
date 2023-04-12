@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-#include "../utils.h"
+#include "../utils/utils.h"
 
 int main() {
     for (int i = 0; i < 3 * 40; i++) {

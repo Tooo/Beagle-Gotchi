@@ -7,7 +7,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "../utils.h"
+#include "../utils/utils.h"
 #include "../hardware/waterSensor.h"
 
 #include "ledMatrix.h"

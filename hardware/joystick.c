@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "joystick.h"
-#include "../utils.h"
+#include "../utils/utils.h"
 
 static char* valueFile = "/sys/class/gpio/gpio%d/value";
 

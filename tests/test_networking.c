@@ -4,7 +4,7 @@
 #include "../shutdown.h"
 #include "../networking.h"
 #include "../pet.h"
-#include "../utils.h"
+#include "../utils/utils.h"
 
 // Initialize/cleanup the module's data structures.
 int main(void)

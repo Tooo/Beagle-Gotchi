@@ -3,14 +3,14 @@
 #include <unistd.h>
 
 #include "pet.h"
-#include "utils.h"
-#include "terminal.h"
-#include "stateSaver.h"
-#include "shutdown.h"
+#include "../utils/utils.h"
+#include "../utils/terminal.h"
+#include "../utils/stateSaver.h"
+#include "../utils/shutdown.h"
 
-#include "hardware/buzzer.h"
-#include "hardware/joystick.h"
-#include "ledMatrix/ledMatrix.h"
+#include "../hardware/buzzer.h"
+#include "../hardware/joystick.h"
+#include "../ledMatrix/ledMatrix.h"
 
 typedef struct {
     char name[PET_NAME_MAX];

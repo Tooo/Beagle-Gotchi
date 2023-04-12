@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "../utils.h"
+#include "../utils/utils.h"
 #include "../joystick.h"
 
 

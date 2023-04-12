@@ -4,7 +4,7 @@
 #include <sys/ioctl.h>
 #include "menu.h"
 
-#include "ledMatrix/ledMatrix.h"
+#include "../ledMatrix/ledMatrix.h"
 
 // The current menu printed
 static MenuOptions* curMenu;

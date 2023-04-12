@@ -1,5 +1,5 @@
 #include "buzzer.h"
-#include "../utils.h"
+#include "../utils/utils.h"
 #include <stdio.h>
 
 static char* periodFile = "/dev/bone/pwm/0/a/period";

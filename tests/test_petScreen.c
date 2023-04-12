@@ -1,6 +1,6 @@
 #include "../pet.h"
 #include "../petScreen.h"
-#include "../utils.h"
+#include "../utils/utils.h"
 
 static int sleepTimeMs = 10000;
 

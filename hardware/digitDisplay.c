@@ -4,7 +4,7 @@
 #include <pthread.h>
 
 #include "digitDisplay.h"
-#include "../utils.h"
+#include "../utils/utils.h"
 
 // I2C bus and address
 #define I2CDRV_LINUX_BUS1 "/dev/i2c-1"

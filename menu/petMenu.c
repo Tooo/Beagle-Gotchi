@@ -2,17 +2,17 @@
 
 #include "menu.h"
 #include "menuReader.h"
-#include "pet.h"
-#include "petInteract.h"
-#include "shutdown.h"
-#include "hardware/digitDisplay.h"
-#include "hardware/zenLed.h"
-#include "highLowGame.h"
-#include "rpsGame.h"
+#include "../pet/pet.h"
+#include "../pet/petInteract.h"
+#include "../utils/shutdown.h"
+#include "../hardware/digitDisplay.h"
+#include "../hardware/zenLed.h"
+#include "../games/highLowGame.h"
+#include "../games/rpsGame.h"
 
-#include "utils.h"
-#include "ledMatrix/ledMatrix.h"
-#include "ledMatrix/animations.h"
+#include "../utils/utils.h"
+#include "../ledMatrix/ledMatrix.h"
+#include "../ledMatrix/animations.h"
 
 typedef enum {
     PET_MENU_MAIN = 0,

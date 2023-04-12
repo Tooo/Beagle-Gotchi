@@ -4,19 +4,19 @@
 #include <string.h>
 #include <signal.h>
 
-#include "shutdown.h"
-#include "pet.h"
-#include "petMenu.h"
+#include "utils/shutdown.h"
+#include "pet/pet.h"
+#include "menu/petMenu.h"
 #include "hardware/led.h"
 #include "hardware/zenLed.h"
 #include "hardware/buzzer.h"
 #include "ledMatrix/ledMatrix.h"
 #include "hardware/audio.h"
-#include "menuReader.h"
+#include "menu/menuReader.h"
 
-#include "networking.h"
+#include "utils/networking.h"
 
-#include "utils.h"
+#include "utils/utils.h"
 
 // Initialize/cleanup the module's data structures.
 static void main_init(int argc, char *argv[]);

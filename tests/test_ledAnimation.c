@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include <time.h>
 
-#include "../utils.h"
+#include "../utils/utils.h"
 
 // ------------------------------------ //
 // images:

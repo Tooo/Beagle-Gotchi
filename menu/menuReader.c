@@ -3,12 +3,12 @@
 
 #include "menuReader.h"
 #include "menu.h"
-#include "utils.h"
-#include "hardware/joystick.h"
-#include "hardware/led.h"
-#include "hardware/buzzer.h"
+#include "../utils/utils.h"
+#include "../hardware/joystick.h"
+#include "../hardware/led.h"
+#include "../hardware/buzzer.h"
 
-#include "networking.h"
+#include "../utils/networking.h"
 
 static const int joystickSleepMs = 100;
 static const int joystickPushSleepMS = 250;

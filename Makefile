@@ -9,9 +9,7 @@ CROSS_COMPILE = arm-linux-gnueabihf-
 CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
-CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c networking.c
-CFILES += rpsGame.c highLowGame.c hardware/*.c
-CFILES += ledMatrix/*.c
+CFILES = main.c pet/*.c utils/*.c menu/*.c games/*.c hardware/*.c ledMatrix/*.c
 LIBS = -pthread
 LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 #LFLAGS = -L$(HOME)/github/cmpt433/public/asound_lib_BBG#Gabe S
