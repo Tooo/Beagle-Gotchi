@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "utils.h"
+#include "../utils.h"
 
 // AIN0 is mapped to the potentiometer in the zen cape
 const int VALID_AIN_IDS[] = { 0, 1, 2, 3, 4, 5, 6 };

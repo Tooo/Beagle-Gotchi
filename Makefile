@@ -9,7 +9,7 @@ CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -Wextra
 
 CFILES = main.c shutdown.c menu.c utils.c stateSaver.c pet.c terminal.c petMenu.c menuReader.c petInteract.c networking.c
-CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c rpsGame.c highLowGame.c audio.c waterSensor.c a2d.c
+CFILES += joystick.c digitDisplay.c led.c zenLed.c buzzer.c rpsGame.c highLowGame.c audio.c hardware/waterSensor.c hardware/a2d.c
 CFILES += ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c
 LIBS = -pthread
 #LFLAGS = -L$(HOME)/github/cmpt433/public/asound_lib_BBG#Gabe S
@@ -57,11 +57,11 @@ TEST_STATE_SAVER_FILES = stateSaver.c tests/test_stateSaver.c
 test_stateSaver:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_STATE_SAVER_FILES) -o $(OUTDIR)/test_stateSaver
 
-TEST_WATER_SENSOR_FILES = utils.c a2d.c waterSensor.c tests/test_waterSensor.c
+TEST_WATER_SENSOR_FILES = utils.c hardware/a2d.c hardware/waterSensor.c tests/test_waterSensor.c
 test_waterSensor:
 	$(CC_C) $(CFLAGS) $(TEST_WATER_SENSOR_FILES) -o $(OUTDIR)/test_waterSensor
 
-TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c led.c buzzer.c ledMatrix/ledMatrix.c ledMatrix/sprites.c tests/test_menu.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/animations.c audio.c waterSensor.c a2d.c
+TEST_MENU_FILES = utils.c menu.c menuReader.c joystick.c led.c buzzer.c ledMatrix/ledMatrix.c ledMatrix/sprites.c tests/test_menu.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/animations.c audio.c hardware/waterSensor.c hardware/a2d.c
 test_menu:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_MENU_FILES) -o $(OUTDIR)/test_menu $(LFLAGS) -lasound
 
@@ -73,11 +73,11 @@ TEST_DIGIT_DISPLAY_FILES = utils.c digitDisplay.c tests/test_digitDisplay.c
 test_digitDisplay:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_DIGIT_DISPLAY_FILES) -o $(OUTDIR)/test_digitDisplay
 
-TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c joystick.c audio.c waterSensor.c a2d.c buzzer.c
+TEST_WEBSITE_FILES = utils.c tests/test_networking.c networking.c pet.c stateSaver.c terminal.c petInteract.c ledMatrix/ledMatrix.c ledMatrix/animations.c ledMatrix/sprites.c joystick.c audio.c hardware/waterSensor.c hardware/a2d.c buzzer.c
 test_website: node
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_WEBSITE_FILES) -o $(OUTDIR)/test_website $(LFLAGS) -lasound
 
-TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c joystick.c buzzer.c networking.c petInteract.c ledMatrix/animations.c audio.c waterSensor.c a2d.c
+TEST_PET_SCREEN_FILES = utils.c pet.c petScreen.c stateSaver.c terminal.c tests/test_petScreen.c ledMatrix/ledMatrix.c ledMatrix/sprites.c joystick.c buzzer.c networking.c petInteract.c ledMatrix/animations.c audio.c hardware/waterSensor.c hardware/a2d.c
 test_petScreen:
 	$(CC_C) $(CFLAGS) -pthread -lpthread $(TEST_PET_SCREEN_FILES) -o $(OUTDIR)/test_petScreen $(LFLAGS) -lasound
 
