@@ -6,7 +6,7 @@
 
 #include "utils/shutdown.h"
 #include "pet/pet.h"
-#include "menu/petMenu.h"
+#include "pet/petMenu.h"
 #include "hardware/led.h"
 #include "hardware/zenLed.h"
 #include "hardware/buzzer.h"
