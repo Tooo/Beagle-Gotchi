@@ -4,9 +4,9 @@
 #include "menuReader.h"
 #include "menu.h"
 #include "utils.h"
-#include "joystick.h"
-#include "led.h"
-#include "buzzer.h"
+#include "hardware/joystick.h"
+#include "hardware/led.h"
+#include "hardware/buzzer.h"
 
 #include "networking.h"
 

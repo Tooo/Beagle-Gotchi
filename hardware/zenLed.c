@@ -2,7 +2,7 @@
 
 #include "stdio.h"
 
-#include "utils.h"
+#include "../utils.h"
 
 static char* periodFile = "/dev/bone/pwm/%s/period";
 static char* enableFile = "/dev/bone/pwm/%s/enable";

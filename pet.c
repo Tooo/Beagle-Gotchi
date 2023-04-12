@@ -8,8 +8,8 @@
 #include "stateSaver.h"
 #include "shutdown.h"
 
-#include "buzzer.h"
-#include "joystick.h"
+#include "hardware/buzzer.h"
+#include "hardware/joystick.h"
 #include "ledMatrix/ledMatrix.h"
 
 typedef struct {

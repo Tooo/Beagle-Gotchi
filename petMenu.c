@@ -5,8 +5,8 @@
 #include "pet.h"
 #include "petInteract.h"
 #include "shutdown.h"
-#include "digitDisplay.h"
-#include "zenLed.h"
+#include "hardware/digitDisplay.h"
+#include "hardware/zenLed.h"
 #include "highLowGame.h"
 #include "rpsGame.h"
 

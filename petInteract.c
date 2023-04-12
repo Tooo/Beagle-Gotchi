@@ -1,6 +1,6 @@
 #include "petInteract.h"
 #include "pet.h"
-#include "audio.h"
+#include "hardware/audio.h"
 
 #include "ledMatrix/ledMatrix.h"
 #include "ledMatrix/animations.h"

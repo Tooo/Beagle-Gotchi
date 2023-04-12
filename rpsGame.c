@@ -6,8 +6,8 @@
 
 #include "rpsGame.h"
 #include "utils.h"
-#include "joystick.h"
-#include "digitDisplay.h"
+#include "hardware/joystick.h"
+#include "hardware/digitDisplay.h"
 #include "pet.h"
 #include "ledMatrix/ledMatrix.h"
 

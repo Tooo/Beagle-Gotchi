@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "ledmatrix.h": "c",
+        "animations.h": "c"
+    }
+}
