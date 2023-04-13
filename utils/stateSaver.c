@@ -4,6 +4,7 @@
 
 #include "stateSaver.h"
 
+//Variables 
 static char* folderPath = "beagle-gotchi-states/%s.dat";
 static const int PATH_BUFFER_LENGTH = 100;
 

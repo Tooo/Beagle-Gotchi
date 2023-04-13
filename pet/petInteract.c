@@ -5,6 +5,7 @@
 #include "../ledMatrix/ledMatrix.h"
 #include "../ledMatrix/animations.h"
 
+// Sounds for Bark command 
 static char* sounds[2] = {
     "beagle-gotchi-waves/mixkit-dog-barking-twice-1.wav",
     "beagle-gotchi-waves/mixkit-little-pug-dog-heavy-breathing-57.wav",
@@ -34,7 +35,7 @@ void PetInteract_feedMeal(void)
 
 void PetInteract_drink(void) {
     ledMatrix_animateLeftWipe(DEFAULT_WIPE_SPEED);
-    bool success = animations_playDrinkAnimation(DEFAULT_FRAME_SPEED); // NOTE: this is an interactive animation
+    bool success = animations_playDrinkAnimation(DEFAULT_FRAME_SPEED); // NOTE: this is an interactive animation 
 
     if (success) {
         Pet_addHunger(50);

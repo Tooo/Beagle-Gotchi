@@ -6,6 +6,8 @@
 #include "../utils/utils.h"
 
 #define PET_SCREEN_SLEEP_MS 1000
+
+// Thread Variables 
 static void* petScreenThreadFunction(void* arg);
 static pthread_t petScreenThread;
 static bool stopping;
