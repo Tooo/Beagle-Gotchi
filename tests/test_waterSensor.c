@@ -1,10 +1,9 @@
 // test_waterSensor.c
-// This file tests writing colours & animations using ledMatrix.h
-
-#include "../hardware/waterSensor.h"
-
+// Test water sensor
+// Detects if water sensor is submerged or not
 #include <stdio.h>
 
+#include "../hardware/waterSensor.h"
 #include "../utils/utils.h"
 
 int main() {

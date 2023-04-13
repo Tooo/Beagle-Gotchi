@@ -1,3 +1,6 @@
+// test_zenLed.c
+// Test LEDs on Zen Cape
+// Display Red, Green, and Blue on Zen Cape LED
 #include "../hardware/zenLed.h"
 #include "../utils/utils.h"
 

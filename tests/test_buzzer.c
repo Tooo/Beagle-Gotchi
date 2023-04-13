@@ -1,6 +1,8 @@
+// test_buzzer.c
+// Test buzzer on Zen Cape
+// Play notes A to G on the buzzer
 #include "../hardware/buzzer.h"
 #include "../utils/utils.h"
-
 
 int main(void)
 {

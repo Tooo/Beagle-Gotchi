@@ -1,3 +1,6 @@
+// test_networking.c
+// Test webserver with pet information
+// Displays pet on website
 #include <stdio.h>
 
 #include "../utils/shutdown.h"

@@ -1,8 +1,8 @@
-#include <stdio.h>
-
-#include "../utils/utils.h"
+// test_digitDisplay.c
+// Test 2 digit display on Zen Cape
+// Display number from 0 to 99
 #include "../hardware/digitDisplay.h"
-
+#include "../utils/utils.h"
 
 int main(void)
 {

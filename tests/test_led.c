@@ -1,8 +1,8 @@
-#include <stdio.h>
-
-#include "../utils/utils.h"
+// test_led.c
+// Test LEDs on Beagle Bone
+// Lights each LED and flash LED
 #include "../hardware/led.h"
-
+#include "../utils/utils.h"
 
 int main(void)
 {

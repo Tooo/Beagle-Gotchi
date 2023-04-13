@@ -1,8 +1,11 @@
+// test_joystick.c
+// Test joystick on Zen Cape
+// Prints current direction being pressed
+// Push joystick to exit
 #include <stdio.h>
 
 #include "../utils/utils.h"
 #include "../hardware/joystick.h"
-
 
 int main(void)
 {
