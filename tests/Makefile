@@ -13,7 +13,7 @@ LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 
 PROJECT_NAME = beagle-gotchi
 SERVER_DIR = ../webserver
-WAVES_DIR = ../beagle-gotchi-waves/*
+WAVES_FILES = ../waves/*
 DEPLOY_PATH = $(OUTDIR)/$(PROJECT_NAME)-copy
 
 HARDWARE_PATH = ../hardware
@@ -43,7 +43,7 @@ states:
 
 wav:
 	mkdir -p $(OUTDIR)/beagle-gotchi-waves/ 
-	cp -R $(WAVES_DIR) $(OUTDIR)/beagle-gotchi-waves/ 
+	cp -R $(WAVES_FILES) $(OUTDIR)/beagle-gotchi-waves/ 
 
 TEST_LED_MATRIX_FILES = test_ledMatrix.c
 test_ledMatrix:

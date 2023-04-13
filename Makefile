@@ -14,8 +14,9 @@ LIBS = -pthread
 LFLAGS = -L$(HOME)/cmpt433/public/asound_lib_BBB
 #LFLAGS = -L$(HOME)/github/cmpt433/public/asound_lib_BBG#Gabe S
 
-PROJECT_NAME=beagle-gotchi
-SERVER_DIR=webserver
+PROJECT_NAME = beagle-gotchi
+SERVER_DIR = webserver
+WAVES_FILES = waves/*
 DEPLOY_PATH= $(OUTDIR)/$(PROJECT_NAME)-copy
 
 all: beagle_gotchi wav node #test
@@ -26,7 +27,7 @@ beagle_gotchi:
 
 wav:
 	mkdir -p $(OUTDIR)/beagle-gotchi-waves/ 
-	cp -R beagle-gotchi-waves/* $(OUTDIR)/beagle-gotchi-waves/ 
+	cp -R $(WAVES_FILES) $(OUTDIR)/beagle-gotchi-waves/ 
 
 node:
 	mkdir -p $(DEPLOY_PATH)
