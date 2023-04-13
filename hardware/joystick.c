@@ -4,6 +4,7 @@
 #include "joystick.h"
 #include "../utils/utils.h"
 
+// File containing the gpio output
 static char* valueFile = "/sys/class/gpio/gpio%d/value";
 
 // Up, Down, Left, Right, Push

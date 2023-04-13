@@ -17,7 +17,7 @@ typedef enum {
 void Joystick_init(void);
 void Joystick_cleanup(void);
 
-// Get current direction of joystick
+// Get current direction of joystick state
 JoystickDirection Joystick_getDirection(void);
 
 #endif

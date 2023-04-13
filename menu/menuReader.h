@@ -5,6 +5,7 @@
 
 #include <stdbool.h>
 
+// Set the menu to print or not
 void MenuReader_allowTerminalIO(bool enabled);
 
 // Begin/end background thread which reads joystick inputs to menu

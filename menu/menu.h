@@ -7,12 +7,12 @@
 #define MAX_MENU_FUNC_COUNT 7
 #define MAX_MENU_COUNT 7
 
-// inspired by https://blog.mozilla.org/nnethercote/2012/03/07/n-ary-trees-in-c/
+// Structure for a current menu list 
 typedef struct {
     void (**func)(void); // Pointer to list of functions in menu set
     char **menuNames; // Name of the menu options in the set
-    int numOptions;
-    int currentHighlighted; 
+    int numOptions; // Number of options in the menu set
+    int currentHighlighted; // The currently highlighted menu item 
 } MenuOptions;
 
 // Insert menu options before initing

@@ -10,6 +10,7 @@
 
 #include "../utils/networking.h"
 
+// Default values for the joystick updates
 static const int joystickSleepMs = 100;
 static const int joystickPushSleepMS = 250;
 static const int joystickDirectionSleepMS = 200;
