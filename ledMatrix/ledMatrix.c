@@ -34,6 +34,7 @@
 #define B_PIN 77
 #define C_PIN 70
 
+// GPIO File paths for writing to the screen
 static int fileDesc_red1;
 static int fileDesc_blue1;
 static int fileDesc_green1;
@@ -49,8 +50,10 @@ static int fileDesc_c;
 
 #define SCREEN_REFRESH_DELAY_IN_NS 50000
 
+// 32x16 array to hold the state of the screen
 static int screen[32][16];
 
+// Values to set a pixel to a certain color
 const int BLACK  = 0;
 const int RED    = 1;
 const int GREEN  = 2;
