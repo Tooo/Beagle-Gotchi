@@ -102,5 +102,4 @@ test_buzzer:
 	$(CC_C) $(CFLAGS) $(LIBS) $(TEST_BUZZER_FILES) -o $(OUTDIR)/test_buzzer
 
 clean:
-	rm -f $(OUTDIR)/$(OUTFILE)
 	cd $(OUTDIR) && rm -f $(TESTS)

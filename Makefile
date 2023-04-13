@@ -39,4 +39,4 @@ test:
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)
-	cd $(OUTDIR) && rm -f $(TESTS)
+	@make --directory=tests clean
