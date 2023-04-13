@@ -2,7 +2,7 @@
 
 #include "stdio.h"
 
-#include "utils.h"
+#include "../utils/utils.h"
 
 static char* brightnessFile = "/sys/class/leds/beaglebone:green:usr%d/brightness";
 static char* triggerFile = "/sys/class/leds/beaglebone:green:usr%d/trigger";

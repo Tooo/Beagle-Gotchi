@@ -1,7 +1,6 @@
-#include <stdio.h>
+#include "../hardware/buzzer.h"
+#include "../utils/utils.h"
 
-#include "../utils.h"
-#include "../buzzer.h"
 
 int main(void)
 {

@@ -1,11 +1,11 @@
 // test_waterSensor.c
 // This file tests writing colours & animations using ledMatrix.h
 
-#include "../waterSensor.h"
+#include "../hardware/waterSensor.h"
 
 #include <stdio.h>
 
-#include "../utils.h"
+#include "../utils/utils.h"
 
 int main() {
     for (int i = 0; i < 3 * 40; i++) {

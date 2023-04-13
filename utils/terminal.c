@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "terminal.h"
-#include "pet.h"
+#include "../pet/pet.h"
 
 static char (*currentStage)[16];
 

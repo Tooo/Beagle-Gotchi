@@ -6,11 +6,11 @@
 #include <pthread.h>
 #include <time.h>
 
-#include "petInteract.h"
 #include "networking.h"
-#include "pet.h"
+#include "../pet/petInteract.h"
+#include "../pet/pet.h"
 #include "utils.h"
-#include "ledMatrix/ledMatrix.h"
+#include "../ledMatrix/ledMatrix.h"
 
 #define MSG_MAX_LEN 1024
 #define MAX_MESSAGE_STATE_LEN 50

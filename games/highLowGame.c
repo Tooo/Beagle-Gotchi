@@ -5,11 +5,11 @@
 #include <time.h>
 
 #include "highLowGame.h"
-#include "utils.h"
-#include "joystick.h"
-#include "digitDisplay.h"
-#include "pet.h"
-#include "ledMatrix/ledMatrix.h"
+#include "../utils/utils.h"
+#include "../hardware/joystick.h"
+#include "../hardware/digitDisplay.h"
+#include "../pet/pet.h"
+#include "../ledMatrix/ledMatrix.h"
 
 // Images 
 

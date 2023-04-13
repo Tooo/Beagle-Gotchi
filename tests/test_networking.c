@@ -1,12 +1,10 @@
-// main.c
-// Main Thread of Beagle gotchi
 #include <stdio.h>
-#include "../shutdown.h"
-#include "../networking.h"
-#include "../pet.h"
-#include "../utils.h"
 
-// Initialize/cleanup the module's data structures.
+#include "../utils/shutdown.h"
+#include "../utils/networking.h"
+#include "../pet/pet.h"
+#include "../utils/utils.h"
+
 int main(void)
 {
     Pet_init(false);

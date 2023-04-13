@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "../utils.h"
-#include "../joystick.h"
+#include "../utils/utils.h"
+#include "../hardware/joystick.h"
 
 
 int main(void)

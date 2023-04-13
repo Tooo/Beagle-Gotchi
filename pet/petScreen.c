@@ -2,8 +2,8 @@
 #include <stdbool.h>
 
 #include "petScreen.h"
-#include "terminal.h"
-#include "utils.h"
+#include "../utils/terminal.h"
+#include "../utils/utils.h"
 
 #define PET_SCREEN_SLEEP_MS 1000
 static void* petScreenThreadFunction(void* arg);
