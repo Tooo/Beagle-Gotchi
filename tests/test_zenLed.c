@@ -1,7 +1,5 @@
-#include <stdio.h>
-
+#include "../hardware/zenLed.h"
 #include "../utils/utils.h"
-#include "../zenLed.h"
 
 int main(void)
 {

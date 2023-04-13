@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "../utils/utils.h"
-#include "../audio.h"
+#include "../hardware/audio.h"
 
 static char* sounds[3] = {
     "beagle-gotchi-waves/mixkit-dog-barking-twice-1.wav",

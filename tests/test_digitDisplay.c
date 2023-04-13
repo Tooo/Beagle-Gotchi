@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "../utils/utils.h"
-#include "../digitDisplay.h"
+#include "../hardware/digitDisplay.h"
 
 
 int main(void)

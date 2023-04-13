@@ -18,7 +18,7 @@ PROJECT_NAME=beagle-gotchi
 SERVER_DIR=webserver
 DEPLOY_PATH= $(OUTDIR)/$(PROJECT_NAME)-copy
 
-all: beagle_gotchi wav node
+all: beagle_gotchi wav node #test
 
 beagle_gotchi:
 	cd $(OUTDIR) && mkdir -p beagle-gotchi-states && chmod 777 ./beagle-gotchi-states
@@ -32,6 +32,9 @@ node:
 	mkdir -p $(DEPLOY_PATH)
 	cp -R $(SERVER_DIR)/* $(DEPLOY_PATH)
 	cd $(DEPLOY_PATH) && npm install
+
+test:
+	@make --directory=tests
 
 clean:
 	rm -f $(OUTDIR)/$(OUTFILE)

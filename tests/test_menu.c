@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../shutdown.h"
-#include "../menu.h"
-#include "../menuReader.h"
+#include "../utils/shutdown.h"
+#include "../menu/menu.h"
+#include "../menu/menuReader.h"
 
 // Test functions for menu 
 static void print1(void)

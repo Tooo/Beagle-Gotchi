@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "../utils/utils.h"
-#include "../led.h"
+#include "../hardware/led.h"
 
 
 int main(void)
