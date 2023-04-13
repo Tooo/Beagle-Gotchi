@@ -1,3 +1,6 @@
+// test_petScreen.c
+// Test for pet and pet screen
+// Displays life cycle of pet with terminal view
 #include "../pet/pet.h"
 #include "../pet/petScreen.h"
 #include "../utils/utils.h"

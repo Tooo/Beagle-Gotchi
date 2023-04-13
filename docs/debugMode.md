@@ -1,4 +1,4 @@
-# debug mode
+# Debug Mode
 
 If the program is run with the -d flag, that puts it into debug mode. In this mode, the user must type in which pet they want to load in the terminal & pressing the quit option in the menu will NOT restart the board. Otherwise, it will!
 

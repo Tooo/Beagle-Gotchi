@@ -1,9 +1,12 @@
+// test_menu.c
+// Test for menu interface and joystick
+// Displays menu, joystick to select options
 #include <stdio.h>
 #include <string.h>
 
-#include "../utils/shutdown.h"
 #include "../menu/menu.h"
 #include "../menu/menuReader.h"
+#include "../utils/shutdown.h"
 
 // Test functions for menu 
 static void print1(void)
@@ -19,7 +22,6 @@ static void print3(void)
     Menu_clickedPrint();
 }
 
-// Test function for deeper menu
 static void print4(void) 
 {
     Menu_changeMenu(1);

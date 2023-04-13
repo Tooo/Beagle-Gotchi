@@ -1,20 +1,17 @@
 // test_ledAnimation.c
-// This file tests reading from files & playing an animation using ledMatrix.h
-
-#include "../ledMatrix/ledMatrix.h"
-
+// Test LED Matrix with animation
+// Reads from files & Play an animation
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
-
 #include <stdbool.h>
 #include <string.h>
 #include <stdatomic.h>
-
 #include <fcntl.h>
 #include <time.h>
 
+#include "../ledMatrix/ledMatrix.h"
 #include "../utils/utils.h"
 
 // ------------------------------------ //
