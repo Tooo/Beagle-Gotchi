@@ -59,6 +59,7 @@ static int loseWord[15 * 3] = {
 
 void HighLowGame_Start(void)
 {
+    // Init the rand
     srand(time(NULL));
     DigitDisplay_init();
 
@@ -70,6 +71,7 @@ void HighLowGame_Start(void)
         nextNumber = (rand() % 9) + 1;
     } while (initNumber == nextNumber);
 
+    // Set timer 
     long long initTime = getTimeInMs();
     long long endTime = initTime + 5000;
     DigitDisplay_setDigit(initNumber);

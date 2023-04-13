@@ -1,5 +1,6 @@
 // pet.h
 // Module for pets
+// Has all the stats for each pet 
 #ifndef PET_H_
 #define PET_H_
 

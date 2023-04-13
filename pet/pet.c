@@ -7,11 +7,11 @@
 #include "../utils/terminal.h"
 #include "../utils/stateSaver.h"
 #include "../utils/shutdown.h"
-
 #include "../hardware/buzzer.h"
 #include "../hardware/joystick.h"
 #include "../ledMatrix/ledMatrix.h"
 
+// Pet stat struct 
 typedef struct {
     char name[PET_NAME_MAX];
     int age;
@@ -23,16 +23,16 @@ typedef struct {
     int weight;
 } pet_t;
 
-static pet_t pet;
 
 #define PET_STAT_MAX 1000
-
-static int stageRange[STAGE_COUNT-1] = {10, 50, 100, 200};
-
-static char* petFileHeader = "pet_%s";
-
 #define PET_SLEEP_MS 1000
 
+// Variables 
+static int stageRange[STAGE_COUNT-1] = {10, 50, 100, 200};
+static char* petFileHeader = "pet_%s";
+static pet_t pet;
+
+// Thread Variables 
 static void* petThreadFunction(void* arg);
 static pthread_t petThread;
 static bool stopping;
@@ -42,6 +42,8 @@ bool applyJoystick(int* index, char* shortName)
     bool doneNaming = false;
     int i = *index;
 
+    //Will make a buzzing noise after any press 
+    
     JoystickDirection dir = Joystick_getDirection();
     if (dir == JOYSTICK_UP) {
         if (shortName[i] == ' ') {
@@ -185,6 +187,7 @@ void Pet_init()
         }
     }
 
+    // Saving 
     if (StateSaver_stateExist(fileName)) {
         ledMatrix_drawString("loading", 0, 0, GREEN);
         sleepForMs(200);

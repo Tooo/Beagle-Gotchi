@@ -88,11 +88,13 @@ typedef enum {
 
 void rpsGame_Start(void)
 {
+    // Init rand and cpu pick
     srand(time(NULL));
     DigitDisplay_init();
     RPS_CHOICE cpuPick = rand() % 3;
     RPS_CHOICE playerPick = PAPER;
 
+    // Start timers 
     long long initTime = getTimeInMs();
     long long endTime = initTime + (6000);
 
@@ -105,6 +107,7 @@ void rpsGame_Start(void)
     // 0 Left 1 Middle 2 Right
     JoystickDirection input;
     int timerPosition = 0;
+    // Highlights user choice in green
     while (getTimeInMs() <= endTime)
     {
         input = Joystick_getDirection();

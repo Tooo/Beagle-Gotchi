@@ -16,12 +16,12 @@
 #define MAX_MESSAGE_STATE_LEN 50
 #define PORT        12345
 
+// Thread variables 
 struct sockaddr_in;
 static pthread_t listenThread;
 static int socketDescriptor;
 
 bool _usingLEDMatrix = false;
-
 bool stopping;
 
 static void send_dgram(int sockDescriptor, struct sockaddr_in sinRemote, char* msg)
