@@ -8,6 +8,7 @@
 void Audio_init();
 void Audio_cleanup();
 
+// Takes the filepath of a sound file and creates a thread to play it 
 void Audio_playSoundWithThread(char *fileName);
 void Audio_joinThread();
 

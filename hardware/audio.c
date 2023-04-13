@@ -16,7 +16,9 @@ snd_pcm_t *handle;
 
 static void* audioThreadFunction(void* arg);
 static pthread_t audioThread;
-char* currentFileName;
+
+// Current soundfile to be played
+char* currentFileName; 
 
 void Audio_init()
 {

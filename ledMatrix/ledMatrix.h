@@ -21,9 +21,12 @@ extern const int WHITE;
 
 extern const int DEFAULT_WIPE_SPEED;
 
-void ledMatrix_animateLeftWipe(int rateInMs); // this function sleeps the current thread to run the animation
+// Animations to move wipe screen to the left or right
+// These functions sleeps the current thread to run the animation
+void ledMatrix_animateLeftWipe(int rateInMs); 
 void ledMatrix_animateRightWipe(int rateInMs);
 
+// Animations for Intro and exit pages
 void ledMatrix_drawIntroPage();
 void ledMatrix_drawExitPage();
 
@@ -39,7 +42,9 @@ void ledMatrix_drawString(const char* text, int xpoint, int ypoint, int color);
 void ledMatrix_setPixel(int color, int x, int y);
 void ledMatrix_refresh();
 
+// Functions to setup and exit threads
 void ledMatrix_setup();
+// Extra cleanup for exporting GPIO pins
 void ledMatrix_cleanup_extra();
 void ledMatrix_cleanup();
 

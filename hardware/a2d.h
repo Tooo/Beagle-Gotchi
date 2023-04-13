@@ -1,5 +1,5 @@
 // a2d.h
-// this file enables easily reading from a2d inputs
+// Module for analog to digital reading
 #ifndef A2D_H
 #define A2D_H
 

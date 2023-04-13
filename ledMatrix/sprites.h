@@ -1,5 +1,7 @@
 #ifndef SPRITES_H
 #define SPRITES_H
+// sprites.h
+// Module to save all the sprites needed in the LED Matrix
 
 extern const int LETTER_WIDTH;
 extern const int LETTER_HEIGHT;

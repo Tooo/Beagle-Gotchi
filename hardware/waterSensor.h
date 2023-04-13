@@ -8,6 +8,8 @@
 #include <stdbool.h>
 
 bool waterSensor_isSubmerged();
+
+// Returns the current voltage of the water sensor (max 1.8v)
 double waterSensor_readVoltage();
 
 #endif // !WATER_SENSOR_H
